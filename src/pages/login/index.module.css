@@ -13,28 +13,19 @@
   width: 32rem;
   height: fit-content;
   padding: 3rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    a button {
+      width: 100%;
+    }
+  }
 }
 
-.box form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.wrapper {
-  background-color: red;
-}
-
-.errorIcon {
+.error {
   color: red;
-}
-
-.errorInput {
-  border: 1px solid red;
-}
-
-.errorMessage {
-  color: rgb(234, 71, 71);
-  font-size: 10px;
-  margin: 0px 0px 20px 0px;
+  font-size: 0.75rem;
 }
