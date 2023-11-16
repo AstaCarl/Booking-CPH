@@ -4,10 +4,11 @@ import { TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
 import { Button } from "@mantine/core";
-import styles from "../pages/login/index.module.css";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
+
+import styles from "./index.module.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -72,6 +73,7 @@ const Login = () => {
             onChange={handleEmailChange}
             error={error}
             value={email}
+            leftSection={<IconAt size={16} />}
           />
           <PasswordInput
             type="password"
@@ -82,14 +84,14 @@ const Login = () => {
             value={password}
           />
           {error && (
-            <p className={styles.errorMessage}>Ugyldig Email eller Kodeord</p>
+            <div className={styles.error}>Ugyldig Email eller Kodeord</div>
           )}
           <Button type="submit" variant="filled">
             Log på
           </Button>
-          <Link href="/login/signIn">
-            <Button variant="filled">Opret</Button>
-          </Link>
+          <div>
+            Har du ikke en profil? <Link href="/">Opret bruger</Link>
+          </div>
         </form>
       </div>
     </div>
