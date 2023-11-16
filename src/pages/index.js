@@ -22,10 +22,12 @@ const Login = () => {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    setError("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setError("");
   };
 
   const handleSubmit = (event) => {
@@ -65,29 +67,19 @@ const Login = () => {
         <h2>Log På</h2>
         <form onSubmit={handleSubmit}>
           <TextInput
-            variant="unstyled"
-            type="email"
-            name="email"
-            id="email"
-            value={email}
+            placeholder="E-mail"
+            inputWrapperOrder={["input"]}
             onChange={handleEmailChange}
-            className={`${styles.input} ${error ? styles.errorInput : ""}`}
-            placeholder="  nogen@example.com"
-            rightSection={
-              <IconAt size={16} className={error ? styles.errorIcon : ""} />
-            }
-            error={error ? " " : null}
+            error={error}
+            value={email}
           />
           <PasswordInput
-            variant="unstyled"
-            className={`${styles.input} ${error ? styles.errorInput : ""}`}
             type="password"
-            name="password"
-            id="password"
-            value={password}
             onChange={handlePasswordChange}
-            placeholder="  Kodeord"
-            error={error ? " " : null}
+            inputWrapperOrder={["input"]}
+            placeholder="Kodeord"
+            error={error}
+            value={password}
           />
           {error && (
             <p className={styles.errorMessage}>Ugyldig Email eller Kodeord</p>
