@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
@@ -15,6 +15,16 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [error, setError] = useState();
+
+  useEffect(() => {
+    // Tjekker om brugeren er logget ind allerede
+    const user = JSON.parse(
+      localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]
+    )?.user;
+    if (user) {
+      router.push("./bookroom");
+    }
+  }, []);
 
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -43,9 +53,6 @@ const Login = () => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
-      //   options: {
-      //     redirectTo: 'https//example.com/welcome'
-      //   }
     });
     // setIsLoading(false);
 
@@ -97,4 +104,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

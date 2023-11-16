@@ -7,9 +7,8 @@ export default function App({ Component, pageProps }) {
   return (
     <MantineProvider>
       <DefaultLayout>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
       </DefaultLayout>
     </MantineProvider>
   );
 }
-
