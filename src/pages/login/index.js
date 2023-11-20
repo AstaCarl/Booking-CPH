@@ -18,9 +18,9 @@ const Login = () => {
 
   useEffect(() => {
     // Tjekker om brugeren er logget ind allerede
-    const user = JSON.parse(
+    const user = localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"] ? JSON.parse(
       localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]
-    )?.user;
+    )?.user : undefined;
     if (user) {
       router.push("./bookroom");
     }

@@ -5,15 +5,47 @@ import { DatePicker } from "@mantine/dates";
 import "@mantine/dates/styles.css";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { Container } from "@mantine/core";
+import { createClient } from "@supabase/supabase-js";
 
 
 export default function ChooseDate() {
+
+  const supabase = createClient(
+    "https://ofbgpdhnblfmpijyknvf.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
+  );
+
   const [active, setActive] = useState(1);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
   const [value, setValue] = useState(Date | (null > null));
+
+  const handleCreateBooking = () => {
+    const user = JSON.parse(
+      localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]
+    )?.user
+    const booking = {Email: user.email, Dato: value, rumId: 3, fornavn: "Monique", efternavn: "Fruerlund"}
+    console.log(booking)
+    addNewRow(booking);
+  }
+
+  async function addNewRow(booking) {
+    const { data, error } = await supabase
+      .from('Booking')
+      .insert(
+        booking
+      );
+  
+    if (error) {
+      console.error('Error inserting data:', error);
+      return;
+    }
+  
+    console.log('Data inserted:', data);
+  }
+
 
   return (
     <div>
@@ -65,7 +97,7 @@ export default function ChooseDate() {
             13/11-2023(Placeholder)
             <Button variant="default" color="gray" size="xs">CL 3.04 (placeholder)</Button>
             Vil du bekræfte denne booking? du kan altid afmelde den igen
-            <Button variant="filled">Bekræft</Button>;
+            <Button onClick={handleCreateBooking} variant="filled">Bekræft</Button>;
           </Stack>
         </Grid.Col>
         <Grid.Col span={6}>
