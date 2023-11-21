@@ -3,6 +3,7 @@ import { Container, Group, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderSimple.module.css';
 import {IconUserCircle} from '@tabler/icons-react';
+import Link from "next/link";
 
 {/*Links */}
 const links = [
@@ -38,16 +39,16 @@ export function Header() {
         </div>
 
         <div>
-        
         {/*Dette er links, som er oppe i const links.  */}
         <Group gap={5} visibleFrom="sm" >
           {items}
 
         {/*Dette er ikonet som er ude i højre side af headeren.   */}
+        <Link href="/">
           <IconUserCircle className={classes.icon}/>
+          </Link>
         </Group>
         </div>
-        
         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
       </Container>
     </header>

@@ -15,7 +15,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
 );
 
-const SignIn = (error, setError) => {
+const SignUp = (error, setError) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [phone, setPhone] = useState("");
@@ -163,4 +163,4 @@ const SignIn = (error, setError) => {
   );
 };
 
-export default SignIn;
+export default SignUp;
