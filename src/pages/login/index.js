@@ -9,6 +9,7 @@ import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
 import styles from "./index.module.css";
+import { getUser } from "@/utils";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,10 +19,8 @@ const Login = () => {
 
   useEffect(() => {
     // Tjekker om brugeren er logget ind allerede
-    const user = localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"] ? JSON.parse(
-      localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]
-    )?.user : undefined;
-    if (user) {
+    const user = getUser();
+    if (user.isLoggedIn) {
       router.push("./bookroom");
     }
   }, []);
