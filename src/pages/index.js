@@ -83,12 +83,15 @@ const Home = () => {
             <h2>{booking.length > 0 && booking[0].Dato}</h2>
             <Notification
               withCloseButton={false}
-              title={booking.length > 0 && room[booking[0]?.rumId]?.lokale}
+              title={
+                booking.length > 0 &&
+                room.find((r) => r.id === booking[0]?.rumId)?.lokale
+              }
             >
-              <h2>
+              <p>
                 {booking.length > 0 &&
                   room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
-              </h2>
+              </p>
             </Notification>
             <Button variant="filled" color="red">
               Afmeld
