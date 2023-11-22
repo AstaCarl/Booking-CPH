@@ -38,7 +38,9 @@ export function Header() {
         </div>
 
         <div className="items">
+          <Link href="/">
           <IconUserCircle size={40} />
+          </Link>
         </div>
       </div>
     </header>

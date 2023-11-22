@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Notification } from "@mantine/core";
 import { Button } from "@mantine/core";
-import "./index.module.css";
+import classes from "./index.module.css";
 import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
 import { getUser } from "@/utils";
+import { IconLogout } from "@tabler/icons-react";
+import Link from "next/link";
 
 const Home = () => {
   const [booking, setBooking] = useState([]);
@@ -67,40 +69,59 @@ const Home = () => {
   console.log(room);
   return (
     <>
-      <div className="container">
-        <h1 className="">
-          Hej! {user.firstName} {user.lastName}
-          {/* Hej, {booking.length > 0 && booking[0].fornavn} {booking.length > 0 && booking[0].efternavn}! */}
-        </h1>
-        <h2>
-          {booking.Dato}
-          {activeBooking
-            ? "Du har 1 aktiv booking"
-            : "Du har ingen aktive bookinger"}
-        </h2>
-        {activeBooking ? (
-          <>
-            <h2>{booking.length > 0 && booking[0].Dato}</h2>
-            <Notification
-              withCloseButton={false}
-              title={
-                booking.length > 0 &&
-                room.find((r) => r.id === booking[0]?.rumId)?.lokale
-              }
-            >
-              <p>
-                {booking.length > 0 &&
-                  room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
-              </p>
-            </Notification>
-            <Button variant="filled" color="red">
-              Afmeld
-            </Button>
-            <Button variant="filled">Afslut Tid</Button>
-          </>
-        ) : (
-          <Button variant="filled">Book et lokale</Button>
-        )}
+      <div className={classes.container}>
+        <div className={classes.box}>
+          <h1 className={classes.firstHeading}>
+            Hej! {user.firstName} {user.lastName}
+          </h1>
+          <h2 className={classes.secondHeading}>
+            {booking.Dato}
+            {activeBooking
+              ? "Du har 1 aktiv booking"
+              : "Du har ingen aktive bookinger"}
+          </h2>
+          {activeBooking ? (
+            <>
+              <h3>{booking.length > 0 && booking[0].Dato}</h3>
+              <Notification
+                className={classes.notification}
+                withCloseButton={false}
+                title={
+                  booking.length > 0 &&
+                  room.find((r) => r.id === booking[0]?.rumId)?.lokale
+                }
+              >
+                <p className={classes.notificationText}>
+                  {booking.length > 0 &&
+                    room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
+                </p>
+              </Notification>
+              <Button className={classes.btn} variant="filled" color="red">
+                Afmeld
+              </Button>
+              <Button className={classes.btn} variant="filled">
+                Afslut Tid
+              </Button>
+            </>
+          ) : (
+            <Link href="/bookroom">
+              <Button className={classes.btn} variant="filled">
+                Book et lokale
+              </Button>
+            </Link>
+          )}
+          <Link
+            href="#"
+            style={{
+              textDecoration: "none",
+              color: "black",
+            }}
+          >
+            <div className={classes.logOut}>
+              Log ud <IconLogout size={24} />
+            </div>
+          </Link>
+        </div>
       </div>
     </>
   );
