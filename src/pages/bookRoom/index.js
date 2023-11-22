@@ -144,14 +144,14 @@ export default function ChooseDate() {
            <Stack>
              <h2 pl>Vælg lokale<p> Alle lokaler indeholder whiteboards, stikkontakter, borde og stole.</p></h2>
              {room.map((roomItem) => (
-                <Button
+                <Notification
                   withCloseButton={false}
                   key={roomItem.id}
                   onClick={() => setSelectedRoomId(roomItem.id)}
                   size="xs"
                 >
                   {roomItem.lokale}
-                </Button>
+                </Notification>
               ))}
            </Stack>
             }
@@ -159,7 +159,7 @@ export default function ChooseDate() {
           </div>
        </Grid>
       </div>
-      {/* {showConfirm && active === 3 && */}
+      {showConfirm && active === 3 &&
       <><Grid>
           <Grid.Col span={6}>
             <Stack>
@@ -170,7 +170,7 @@ export default function ChooseDate() {
             </Stack>
           </Grid.Col>
         </Grid><Button variant="outline" size="md">Tilbage</Button></>
-      {/* } */}
+}
     </div>
   );
 }
