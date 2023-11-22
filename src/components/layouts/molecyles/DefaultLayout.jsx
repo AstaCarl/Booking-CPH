@@ -1,11 +1,13 @@
-import React from 'react'
-import { Header } from './Header'
+import React from "react";
+import { Header } from "./Header";
 
-export default function DefaultLayout({children}) {
+export default function DefaultLayout({ children }) {
   return (
     <div>
-      <Header/>
-      {children}
+      <Header />
+      <main>
+        <div>{children}</div>
+      </main>
     </div>
-  )
+  );
 }
