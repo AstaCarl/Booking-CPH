@@ -15,6 +15,6 @@ export default function Error() {
         </Link>
       </Group>
     </div>
-    
   );
+
 }
