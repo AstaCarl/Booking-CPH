@@ -7,27 +7,27 @@ import Link from "next/link";
 
 {/*Links */}
 const links = [
-  { link: '/about', label: 'Book et lokale' },
+  { link: './pages/bookroom/', label: 'Book et lokale' },
 ];
 
 export function Header() {
   const [opened, { toggle }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
 
-  const items = links.map((link) => (
-    <a
-      key={link.label}
-      href={link.link}
-      className={classes.link}
-      data-active={active === link.link || undefined}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(link.link);
-      }}
-    >
-      {link.label}
-    </a>
-  ));
+  // const items = links.map((link) => (
+  //   <a
+  //     key={link.label}
+  //     href={link.link}
+  //     className={classes.link}
+  //     data-active={active === link.link || undefined}
+  //     onClick={(event) => {
+  //       event.preventDefault();
+  //       setActive(link.link);
+  //     }}
+  //   >
+  //     {link.label}
+  //   </a>
+  // ));
 
   return (
     <header className={classes.header}>
@@ -40,8 +40,15 @@ export function Header() {
 
         <div>
         {/*Dette er links, som er oppe i const links.  */}
+
         <Group gap={5} visibleFrom="sm" >
-          {items}
+
+          <Link href="/bookroom" style={{
+            textDecoration: "none",
+          }}>
+            <span className={classes.link}>Book et lokale</span>
+          </Link>
+  
 
         {/*Dette er ikonet som er ude i højre side af headeren.   */}
         <Link href="/">
