@@ -6,11 +6,11 @@ export function CustomModal() {
 
   return (
     <>
-      <Modal size="sm" opened={opened} onClose={close} withCloseButton={false}>
-        Modal without header, press escape or click on overlay to close
+      <Modal opened={opened} onClose={close} title="Authentication" centered>
+        {/* Modal content */}
       </Modal>
 
-      <Button onClick={open}>Open Modal</Button>
+      <Button onClick={open}>Open centered Modal</Button>
     </>
   );
 }
