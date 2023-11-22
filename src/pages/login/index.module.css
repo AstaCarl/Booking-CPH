@@ -13,6 +13,7 @@
   width: 32rem;
   height: fit-content;
   padding: 3rem;
+  gap: 1rem;
 
   form {
     display: flex;
@@ -29,3 +30,4 @@
   color: red;
   font-size: 0.75rem;
 }
+

@@ -92,11 +92,27 @@ const Login = () => {
           {error && (
             <div className={styles.error}>Ugyldig Email eller Kodeord</div>
           )}
-          <Button type="submit" variant="filled">
+          <Button
+            type="submit"
+            variant="filled"
+            style={{
+              width: "80px",
+              marginTop: "1rem",
+            }}
+          >
             Log på
           </Button>
           <div>
-            Har du ikke en profil? <Link href="/">Opret bruger</Link>
+            Har du ikke en profil?{" "}
+            <Link
+              href="/login/signup"
+              style={{
+                color: "#228BE6",
+                textDecoration: "none",
+              }}
+            >
+              Opret bruger
+            </Link>
           </div>
         </form>
       </div>
@@ -105,5 +121,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

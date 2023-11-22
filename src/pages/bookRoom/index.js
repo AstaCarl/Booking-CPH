@@ -1,15 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {
-  Stepper,
-  Button,
-  Group,
-  Stack,
-  Grid,
-  GridCol,
-  Select,
-} from "@mantine/core";
+import { Stepper, Button, Group, Stack, Grid } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
+import classes from "./index.module.css";
 import "@mantine/dates/styles.css";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { Container } from "@mantine/core";
@@ -69,15 +62,22 @@ export default function ChooseDate() {
     getActiveBookings();
   }, []);
 
-  const handleNextStep = () => {
-    nextStep();
-    if (active === 1) {
-      setShowRooms(true);
-      setShowConfirm(true);
-    } else {
-      setShowRooms(false);
-      setShowCalendar(false);
-    }
+  // const handleNextStep = () => {
+  //   nextStep();
+  //   if (active === 1) {
+  //     setShowRooms(true);
+  //     setShowConfirm(true);
+  //   } else {
+  //     setShowRooms(false);
+  //     setShowCalendar(false);
+  //   }
+  // };
+
+  const handleNextClick = () => {
+    setShowConfirm(true);
+    setActive(3);
+    setShowCalendar(false);
+    setShowRooms(false);
   };
 
   const checkAvailableRooms = async () => {
@@ -93,8 +93,6 @@ export default function ChooseDate() {
     const { data, error } = await supabase.from("Booking").select("*");
     setBookings(data);
   };
-
-  // ... (other state variables)
 
   const handleDateChange = async (date) => {
     function formatDate(date) {
@@ -114,17 +112,13 @@ export default function ChooseDate() {
 
     const { data, error } = await supabase
       .from("Booking")
-      .select()
+      .select("*")
       .eq("Dato", formatDate(date));
     setBookings(data.map((b) => b.rumId));
 
-    // Check if the stepper has already been incremented
     if (!stepperIncremented) {
-      // Show rooms and move to the next step
       setShowRooms(true);
       nextStep();
-
-      // Set the flag to true to prevent further increments
       setStepperIncremented(true);
     }
   };
@@ -132,48 +126,60 @@ export default function ChooseDate() {
   return (
     <div>
       <div>
-        <h1>Book et lokale</h1>
+        {showCalender && (
+          <h1 className={classes.firstHeading}>Book et lokale</h1>
+        )}
+        {showConfirm && (
+          <h1 className={classes.firstHeading}>Bekræft din booking</h1>
+        )}
         <Stepper active={active} onStepClick={setActive}>
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step label="Step 2" description="Vælg lokale"></Stepper.Step>
           <Stepper.Step label="Step 3" description="Bekræft"></Stepper.Step>
           <Stepper.Completed></Stepper.Completed>
         </Stepper>
-        <Group justify="center" mt="xl">
+        {/* <Group justify="center" mt="xl">
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
           <Button onClick={handleNextStep}>Next step</Button>
-        </Group>
+        </Group> */}
       </div>
       <div>
-        <Grid>
-          <div>
+        <Grid justify="space-between">
+          <div className={classes.wrapper}>
             {showCalender && (
-              <Grid.Col span={6}>
+              <Grid.Col span={12}>
                 {" "}
-                <h2 pl>Vælg dato</h2>
-                <DatePicker value={value} onChange={handleDateChange} />
-                <IconInfoCircle size={16} />
-                <p>Du kan maks have 1 aktiv booking pr. profil</p>
+                <h2 className={classes.secondHeading}>Vælg dato</h2>
+                <div className={classes.border}>
+                  <DatePicker
+                    value={value}
+                    size="md"
+                    onChange={handleDateChange}
+                  />
+                </div>
+                <p className={classes.infoText}>
+                  <IconInfoCircle size={16} />
+                  Du kan maks have 1 aktiv booking pr. profil
+                </p>
               </Grid.Col>
             )}
           </div>
-          <div>
-            <Grid.Col span={6}>
+          <div className={classes.roomWrapper}>
+            <Grid.Col span={10}>
               {showRooms && (
                 <Stack>
-                  <h2 pl>
-                    Vælg lokale
-                    <p>
-                      {" "}
-                      Alle lokaler indeholder whiteboards, stikkontakter, borde
-                      og stole.
-                    </p>
-                  </h2>
+                  <h2 className={classes.secondHeading}>Vælg lokale</h2>
+                  <p className={classes.roomDescription}>
+                    {" "}
+                    Alle lokaler indeholder whiteboards, stikkontakter, borde og
+                    stole.
+                  </p>
                   {room.map((roomItem) => (
                     <Button
-                      withCloseButton={false}
+                      className={classes.btn}
+                      variant="light"
                       key={roomItem.id}
                       disabled={bookings.includes(roomItem.id)}
                       onClick={() => setSelectedRoomId(roomItem.id)}
@@ -182,33 +188,47 @@ export default function ChooseDate() {
                       {roomItem.lokale}
                     </Button>
                   ))}
+                  <div className={classes.endPlacement}>
+                    <Button
+                      className={classes.nextBtn}
+                      variant="outline"
+                      onClick={handleNextClick}
+                    >
+                      Videre
+                    </Button>
+                  </div>
                 </Stack>
               )}
             </Grid.Col>
           </div>
         </Grid>
       </div>
-      {/* {showConfirm && active === 3 && */}
-      <>
-        <Grid>
-          <Grid.Col span={6}>
-            <Stack>
-              13/11-2023(Placeholder)
-              <Button variant="default" color="gray" size="xs">
-                CL 3.04 (placeholder)
-              </Button>
-              Vil du bekræfte denne booking? du kan altid afmelde den igen
-              <Button onClick={handleCreateBooking} variant="filled">
-                Bekræft
-              </Button>
-            </Stack>
-          </Grid.Col>
-        </Grid>
-        <Button variant="outline" size="md">
-          Tilbage
-        </Button>
-      </>
-      {/* } */}
+      {showConfirm && (
+        <>
+          <Grid>
+            <Grid.Col span={6}>
+              <Stack>
+                <h2 className={classes.thirdHeading}>placeholder</h2>
+                <Notification withCloseButton={false} title="placeholder">
+                  You are now obligated to give a star to Mantine project on
+                  GitHub
+                </Notification>
+                Vil du bekræfte denne booking? du kan altid afmelde den igen
+                <Button
+                  className={classes.nextBtn}
+                  onClick={handleCreateBooking}
+                  variant="filled"
+                >
+                  Bekræft
+                </Button>
+              </Stack>
+            </Grid.Col>
+          </Grid>
+          <Button className={classes.nextBtn} variant="outline" size="md">
+            Tilbage
+          </Button>
+        </>
+      )}
     </div>
   );
 }

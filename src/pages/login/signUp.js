@@ -108,7 +108,6 @@ const SignUp = (error, setError) => {
         <form onSubmit={handleSubmit}>
           <label htmlFor="firstname">Fornavn</label>
           <TextInput
-            variant="unstyled"
             type="firstname"
             name="firstname"
             id="firstname"
@@ -120,7 +119,6 @@ const SignUp = (error, setError) => {
           />
           <label htmlFor="lastname">Efternavn</label>
           <TextInput
-            variant="unstyled"
             type="lastname"
             name="lastname"
             id="lastname"
@@ -132,7 +130,6 @@ const SignUp = (error, setError) => {
           />
           <label htmlFor="email">Email</label>
           <TextInput
-            variant="unstyled"
             type="email"
             name="email"
             id="email"
@@ -144,7 +141,6 @@ const SignUp = (error, setError) => {
           />
           <label htmlFor="phone">Telefon</label>
           <TextInput
-            variant="unstyled"
             type="phone"
             name="phone"
             id="phone"
@@ -156,7 +152,6 @@ const SignUp = (error, setError) => {
           />
           <label htmlFor="password">Adgangskode</label>
           <PasswordInput
-            variant="unstyled"
             type="password"
             name="password"
             id="password"
@@ -165,7 +160,15 @@ const SignUp = (error, setError) => {
             className={styles.input}
             placeholder="Kodeord"
           />
-          <Button type="submit" variant="filled" disabled={isLoading}>
+          <Button
+            type="submit"
+            variant="filled"
+            disabled={isLoading}
+            style={{
+              width: "80px",
+              marginTop: "1rem",
+            }}
+          >
             Opret
           </Button>
         </form>

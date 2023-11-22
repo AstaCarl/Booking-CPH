@@ -38,6 +38,11 @@ export function Header() {
         </div>
 
         <div className="items">
+          <Link href="/bookroom" style={{
+            color: "white",
+            textDecoration: "none",
+            marginRight: "20px",
+          }}>Book et lokale</Link>
           <Link href="/">
           <IconUserCircle size={40} />
           </Link>

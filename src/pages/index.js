@@ -64,6 +64,22 @@ const Home = () => {
     }
   };
 
+  const handleDeleteBooking = async () => {
+    const { data, error } = await supabase
+      .from("Booking")
+      .delete()
+      .eq("Email", userEmail);
+    console.log(data, "delete succesful");
+    if (error) {
+      console.error("error deleting data");
+    }
+  };
+
+  const logoutUser = () => {
+    const authTokenKey = "sb-ofbgpdhnblfmpijyknvf-auth-token";
+    localStorage.removeItem(authTokenKey);
+  };
+
   const activeBooking = booking && booking.length > 0 && booking[0].rumId;
   console.log(user);
   console.log(room);
@@ -96,10 +112,19 @@ const Home = () => {
                     room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
                 </p>
               </Notification>
-              <Button className={classes.btn} variant="filled" color="red">
+              <Button
+                className={classes.btn}
+                variant="filled"
+                color="red"
+                onClick={handleDeleteBooking}
+              >
                 Afmeld
               </Button>
-              <Button className={classes.btn} variant="filled">
+              <Button
+                className={classes.btn}
+                variant="filled"
+                onClick={handleDeleteBooking}
+              >
                 Afslut Tid
               </Button>
             </>
@@ -116,6 +141,7 @@ const Home = () => {
               textDecoration: "none",
               color: "black",
             }}
+            onClick={logoutUser}
           >
             <div className={classes.logOut}>
               Log ud <IconLogout size={24} />
