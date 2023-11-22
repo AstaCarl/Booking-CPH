@@ -175,7 +175,6 @@ export default function ChooseDate() {
                     <Button
                       withCloseButton={false}
                       key={roomItem.id}
-                      disabled={bookings.includes(roomItem.id)}
                       onClick={() => setSelectedRoomId(roomItem.id)}
                       size="xs"
                     >
