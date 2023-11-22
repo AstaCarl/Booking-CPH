@@ -14,5 +14,6 @@ export const getUser = () => {
     userId: user.id,
     firstName: user.user_metadata.first_name ?? "",
     lastName: user.user_metadata.last_name ?? "",
+    email: user.email,
   };
 };
