@@ -9,6 +9,7 @@ import Link from "next/link";
 import { IconUser } from "@tabler/icons-react";
 import { IconPhone } from "@tabler/icons-react";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
 
 const supabase = createClient(
   "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -21,6 +22,9 @@ const SignUp = (error, setError) => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleFirstnameChange = (event) => {
     setFirstname(event.target.value);
@@ -43,28 +47,35 @@ const SignUp = (error, setError) => {
   };
 
   const handleSubmit = (event) => {
-    console.log("hej fra firstname");
     event.preventDefault();
-    // Here you can call your signup API or method
-    console.log("Signing up with", firstname, lastname, email, password);
     signUpNewUser();
   };
 
   async function signUpNewUser() {
+    setIsLoading(true);
     const { data, error } = await supabase.auth.signUp({
-      firstname: firstname,
-      lastname: lastname,
       email: email,
       password: password,
       options: {
-        redirectTo: "http://localhost:3000/login",
+        data: {
+          first_name: firstname,
+          last_name: lastname,
+        },
       },
     });
-    if (data) {
-      console.log("Successful login, email is", data.user.email);
+
+    if (error) {
+      setIsLoading(false);
+      console.error(error);
+      return;
     }
-    console.log("data", data);
-    console.log("Error", error);
+
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    router.push("/");
   }
 
   return (
@@ -154,7 +165,7 @@ const SignUp = (error, setError) => {
             className={styles.input}
             placeholder="Kodeord"
           />
-          <Button type="submit" variant="filled">
+          <Button type="submit" variant="filled" disabled={isLoading}>
             Opret
           </Button>
         </form>
