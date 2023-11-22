@@ -8,7 +8,6 @@ export default function App({ Component, pageProps }) {
   return (
     <MantineProvider>
       <DefaultLayout>
-        <CustomModal/>
         <Component {...pageProps} />
       </DefaultLayout>
     </MantineProvider>
