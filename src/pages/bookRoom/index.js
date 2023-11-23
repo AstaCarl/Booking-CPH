@@ -1,6 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Stepper, Button, Group, Stack, Grid } from "@mantine/core";
+import {
+  Stepper,
+  Button,
+  Group,
+  Stack,
+  Grid,
+  LoadingOverlay,
+} from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
 import "@mantine/dates/styles.css";
@@ -32,6 +39,7 @@ export default function ChooseDate() {
   const [bookings, setBookings] = useState([]);
   const [opened, { open, close }] = useDisclosure(false);
   const [booking, setBooking] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -89,8 +97,7 @@ export default function ChooseDate() {
   }
 
   useEffect(() => {
-    checkAvailableRooms();
-    getActiveBookings();
+    getDataFromSupabase();
   }, []);
 
   const handleNextClick = () => {
@@ -100,17 +107,29 @@ export default function ChooseDate() {
     setShowRooms(false);
   };
 
-  const checkAvailableRooms = async () => {
+  const getDataFromSupabase = async () => {
+    await getAvailableRooms();
+    await getActiveBookings();
+    setIsLoading(false);
+  };
+
+  const getAvailableRooms = async () => {
     const { data, error } = await supabase.from("Rooms").select("*");
-    console.log(data, "Room");
-    setRoom(data);
     if (error) {
       console.error("No data");
+      return;
     }
+
+    setRoom(data);
   };
 
   const getActiveBookings = async () => {
     const { data, error } = await supabase.from("Booking").select("*");
+    if (error) {
+      console.error("No data");
+      return;
+    }
+
     setBookings(data);
   };
 
@@ -144,7 +163,17 @@ export default function ChooseDate() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      <LoadingOverlay
+        visible={isLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+
       <Modal
         size="lg"
         opened={opened}
