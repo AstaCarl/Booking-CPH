@@ -10,7 +10,9 @@ import { createClient } from "@supabase/supabase-js";
 import { Notification } from "@mantine/core";
 import { useRouter } from "next/router";
 import emailjs from "emailjs-com";
-import { useToggle } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal } from "@mantine/core";
+import Link from "next/link";
 
 export default function ChooseDate() {
   const [active, setActive] = useState(1);
@@ -25,8 +27,10 @@ export default function ChooseDate() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showCalender, setShowCalendar] = useState(true);
   const [stepperIncremented, setStepperIncremented] = useState(false);
-  const router = useRouter();
+  //const router = useRouter();
   const [bookings, setBookings] = useState([]);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [booking, setBooking] = useState([]);
 
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -49,6 +53,7 @@ export default function ChooseDate() {
     var emailInfo = {
       name: user.firstname,
       email: user.email,
+      lastname: user.lastname,
     };
 
     console.log(booking);
@@ -79,6 +84,7 @@ export default function ChooseDate() {
           console.log("FAILED...", error);
         }
       );
+    open();
   }
 
   useEffect(() => {
@@ -138,6 +144,28 @@ export default function ChooseDate() {
 
   return (
     <div>
+      <Modal
+        size="lg"
+        opened={opened}
+        onClose={close}
+        withCloseButton={false}
+        centered
+      >
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            padding: "40px",
+          }}
+        >
+          <h1 className={classes.margin}>Tak for din booking!</h1>
+          <Notification></Notification>
+          <p>Du får tilsendt en mail med en bekræftelse</p>
+          <Link href="/">
+            <Button variant="outline">Se booking</Button>
+          </Link>
+        </div>
+      </Modal>
       <div>
         {showCalender && (
           <h1 className={classes.firstHeading}>Book et lokale</h1>
@@ -233,7 +261,17 @@ export default function ChooseDate() {
               </Stack>
             </Grid.Col>
           </Grid>
-          <Button className={classes.nextBtn} variant="outline" size="md">
+          <Button
+            onClick={() => {
+              prevStep();
+              setShowConfirm(false);
+              setShowCalendar(true);
+              setShowRooms(true);
+            }}
+            className={classes.nextBtn}
+            variant="outline"
+            size="md"
+          >
             Tilbage
           </Button>
         </>
