@@ -7,10 +7,12 @@ export function CustomModal() {
   return (
     <>
       <Modal size="sm" opened={opened} onClose={close} withCloseButton={false}>
-        Modal without header, press escape or click on overlay to close
+        <h1>placeholder</h1>
+        <p></p>
+        <Button variant='outline'>Knap</Button>
       </Modal>
 
-      <Button onClick={open}>Open Modal</Button>
+      {/* <Button onClick={open}>Open Modal</Button> */}
     </>
   );
 }

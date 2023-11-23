@@ -3,13 +3,15 @@ import { useState } from "react";
 import { TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
-import { Button } from "@mantine/core";
 import styles from "./index.module.css";
 import Link from "next/link";
 import { IconUser } from "@tabler/icons-react";
 import { IconPhone } from "@tabler/icons-react";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Button } from '@mantine/core';
+import classes from "./index.module.css"
 
 const supabase = createClient(
   "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -23,6 +25,8 @@ const SignUp = (error, setError) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
+
 
   const router = useRouter();
 
@@ -81,6 +85,14 @@ const SignUp = (error, setError) => {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
+        <div></div>
+      <Modal size="lg" opened={opened} onClose={close} withCloseButton={false}>
+        <h1 className={classes.margin}>Velkommen til!</h1>
+        <p className={classes.margin}>Du er nu oprettet som bruger, og kan nu book et lokale.</p>
+        <Link href="/bookroom">
+        <Button variant='outline'>Book et lokale</Button>
+        </Link>
+      </Modal>
         <h1>Opret bruger</h1>
         <div
           style={{
@@ -164,6 +176,7 @@ const SignUp = (error, setError) => {
             type="submit"
             variant="filled"
             disabled={isLoading}
+            onClick={open}
             style={{
               width: "80px",
               marginTop: "1rem",
