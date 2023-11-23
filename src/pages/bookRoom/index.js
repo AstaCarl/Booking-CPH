@@ -158,7 +158,7 @@ export default function ChooseDate() {
             withCloseButton={false}
             title={
               selectedRoomId && room.length > 0
-                ? room[selectedRoomId].lokale
+                ? room.find((r) => r.id == selectedRoomId).lokale
                 : ""
             }
           >
@@ -255,10 +255,14 @@ export default function ChooseDate() {
                 </h2>
                 <Notification
                   withCloseButton={false}
-                  title={selectedRoomId ? room[selectedRoomId].lokale : ""}
+                  title={
+                    selectedRoomId && room.length > 0
+                      ? room.find((r) => r.id == selectedRoomId).lokale
+                      : ""
+                  }
                 >
                   {selectedRoomId && room.length > 0
-                    ? room[selectedRoomId].beskrivelse
+                    ? room.find((r) => r.id == selectedRoomId).beskrivelse
                     : ""}
                 </Notification>
                 Vil du bekræfte denne booking? du kan altid afmelde den igen
