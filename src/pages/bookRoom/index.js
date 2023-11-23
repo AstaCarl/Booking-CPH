@@ -101,7 +101,7 @@ export default function ChooseDate() {
   };
 
   const checkAvailableRooms = async () => {
-    const { data, error } = await supabase.from("Rooms").select("id, lokale");
+    const { data, error } = await supabase.from("Rooms").select("*");
     console.log(data, "Room");
     setRoom(data);
     if (error) {
