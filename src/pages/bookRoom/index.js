@@ -8,6 +8,7 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import { Container } from "@mantine/core";
 import { createClient } from "@supabase/supabase-js";
 import { Notification } from "@mantine/core";
+import { useRouter } from "next/router";
 
 export default function ChooseDate() {
   const [active, setActive] = useState(1);
@@ -22,6 +23,7 @@ export default function ChooseDate() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showCalender, setShowCalendar] = useState(true);
   const [stepperIncremented, setStepperIncremented] = useState(false);
+  const router = useRouter();
 
   const [bookings, setBookings] = useState([]);
 
@@ -46,6 +48,7 @@ export default function ChooseDate() {
     console.log(booking);
     addNewRow(booking);
     console.error("No room selected");
+    router.push("/");
   };
 
   async function addNewRow(booking) {
@@ -61,17 +64,6 @@ export default function ChooseDate() {
     checkAvailableRooms();
     getActiveBookings();
   }, []);
-
-  // const handleNextStep = () => {
-  //   nextStep();
-  //   if (active === 1) {
-  //     setShowRooms(true);
-  //     setShowConfirm(true);
-  //   } else {
-  //     setShowRooms(false);
-  //     setShowCalendar(false);
-  //   }
-  // };
 
   const handleNextClick = () => {
     setShowConfirm(true);
@@ -138,12 +130,6 @@ export default function ChooseDate() {
           <Stepper.Step label="Step 3" description="Bekræft"></Stepper.Step>
           <Stepper.Completed></Stepper.Completed>
         </Stepper>
-        {/* <Group justify="center" mt="xl">
-          <Button variant="default" onClick={prevStep}>
-            Back
-          </Button>
-          <Button onClick={handleNextStep}>Next step</Button>
-        </Group> */}
       </div>
       <div>
         <Grid justify="space-between">

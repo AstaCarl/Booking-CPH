@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import { getUser } from "@/utils";
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal } from "@mantine/core";
 
 const Home = () => {
   const [booking, setBooking] = useState([]);
@@ -14,6 +16,12 @@ const Home = () => {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState("");
   const [user, setUser] = useState({});
+  const [opened, { open, close }] = useDisclosure(false);
+  const [modalContent, setModalContent] = useState({
+    title: "",
+    description: "",
+    action: null,
+  });
 
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -73,11 +81,18 @@ const Home = () => {
     if (error) {
       console.error("error deleting data");
     }
+    close();
+    window.location.reload();
   };
 
   const logoutUser = () => {
     const authTokenKey = "sb-ofbgpdhnblfmpijyknvf-auth-token";
     localStorage.removeItem(authTokenKey);
+  };
+
+  const openModal = (title, description, action) => {
+    setModalContent({ title, description, action });
+    open();
   };
 
   const activeBooking = booking && booking.length > 0 && booking[0].rumId;
@@ -87,8 +102,53 @@ const Home = () => {
     <>
       <div className={classes.container}>
         <div className={classes.box}>
+          <Modal
+            size="lg"
+            opened={opened}
+            onClose={close}
+            withCloseButton={false}
+            centered
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                padding: "40px",
+              }}
+            >
+              <h1 className={classes.margin}>{modalContent.title}</h1>
+              <p className={classes.margin}>
+                Du er ved at afmelde din nuværende tid og frigiver lokalet.
+              </p>
+              <p>Er du sikker på det?</p>
+              <Notification
+                className={classes.notification}
+                withCloseButton={false}
+                title={
+                  booking.length > 0 &&
+                  room.find((r) => r.id === booking[0]?.rumId)?.lokale
+                }
+              >
+                <p className={classes.notificationText}>
+                  {booking.length > 0 &&
+                    room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
+                </p>
+              </Notification>
+              <Button
+                onClick={handleDeleteBooking}
+                style={{ marginRight: "15px" }}
+                color="red"
+              >
+                Ja
+              </Button>
+              <Button onClick={close} variant="outline">
+                Annullér
+              </Button>
+            </div>
+          </Modal>
+
           <h1 className={classes.firstHeading}>
-            Hej! {user.firstName} {user.lastName}
+            Hej, {user.firstName} {user.lastName}!
           </h1>
           <h2 className={classes.secondHeading}>
             {booking.Dato}
@@ -116,14 +176,26 @@ const Home = () => {
                 className={classes.btn}
                 variant="filled"
                 color="red"
-                onClick={handleDeleteBooking}
+                onClick={() =>
+                  openModal(
+                    "Afmeld tid!",
+                    "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
+                    handleDeleteBooking
+                  )
+                }
               >
-                Afmeld
+                Afmeld tid
               </Button>
               <Button
+                onClick={() =>
+                  openModal(
+                    "Afslut tid!",
+                    "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
+                    handleDeleteBooking
+                  )
+                }
                 className={classes.btn}
                 variant="filled"
-                onClick={handleDeleteBooking}
               >
                 Afslut Tid
               </Button>

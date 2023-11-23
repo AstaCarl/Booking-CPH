@@ -10,8 +10,8 @@ import { IconPhone } from "@tabler/icons-react";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button } from '@mantine/core';
-import classes from "./index.module.css"
+import { Modal, Button } from "@mantine/core";
+import classes from "./index.module.css";
 
 const supabase = createClient(
   "https://ofbgpdhnblfmpijyknvf.supabase.co",
@@ -26,7 +26,6 @@ const SignUp = (error, setError) => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-
 
   const router = useRouter();
 
@@ -78,21 +77,35 @@ const SignUp = (error, setError) => {
       email,
       password,
     });
-
-    router.push("/");
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <div></div>
-      <Modal size="lg" opened={opened} onClose={close} withCloseButton={false}>
-        <h1 className={classes.margin}>Velkommen til!</h1>
-        <p className={classes.margin}>Du er nu oprettet som bruger, og kan nu book et lokale.</p>
-        <Link href="/bookroom">
-        <Button variant='outline'>Book et lokale</Button>
-        </Link>
-      </Modal>
+        <Modal
+          size="lg"
+          opened={opened}
+          onClose={close}
+          withCloseButton={false}
+          centered
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              padding: "40px",
+            }}
+          >
+            <h1 className={classes.margin}>Velkommen til!</h1>
+            <p className={classes.margin}>
+              Du er nu oprettet som bruger, og kan nu book et lokale.
+            </p>
+            <Link href="/bookroom">
+              <Button variant="outline">Book et lokale</Button>
+            </Link>
+          </div>
+        </Modal>
+
         <h1>Opret bruger</h1>
         <div
           style={{
