@@ -86,8 +86,7 @@ const Home = () => {
   };
 
   const logoutUser = () => {
-    const authTokenKey = "sb-ofbgpdhnblfmpijyknvf-auth-token";
-    localStorage.removeItem(authTokenKey);
+    localStorage.clear();
   };
 
   const openModal = (title, description, action) => {
@@ -207,18 +206,18 @@ const Home = () => {
               </Button>
             </Link>
           )}
-          <Link
-            href="#"
-            style={{
-              textDecoration: "none",
-              color: "black",
-            }}
-            onClick={logoutUser}
-          >
-            <div className={classes.logOut}>
+          <div className={classes.logOut}>
+            <Link
+              href="#"
+              style={{
+                textDecoration: "none",
+                color: "black",
+              }}
+              onClick={logoutUser}
+            >
               Log ud <IconLogout size={24} />
-            </div>
-          </Link>
+            </Link>
+          </div>
         </div>
       </div>
     </>

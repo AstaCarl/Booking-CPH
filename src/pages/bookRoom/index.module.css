@@ -1,59 +1,65 @@
-.firstHeading{
-    font-size: 32px;
-    margin-bottom: 2rem;
+.firstHeading {
+  font-size: 32px;
+  margin-bottom: 2rem;
 }
 
-.infoText{
-    font-size: 12px;
-    width: max-content;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.infoText {
+  font-size: 12px;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.wrapper{
-    margin-left: 0.5rem;
-    margin-top: 3rem;
+.wrapper {
+  margin-left: 0.5rem;
+  margin-top: 3rem;
 }
 
-.roomWrapper{
-    margin-left: 0.5rem;
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
+.roomWrapper {
+  margin-left: 0.5rem;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
-.border{
-    width: 100%;
-    border: 1px solid #E9ECEF;
-    border-radius: 5px;
-    padding: 15px 0px 15px 0px ;
-    box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.121);
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
+.border {
+  width: 100%;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 15px 0px 15px 0px;
+  box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.121);
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
 }
 
-.btn{
-    width: 448px;
-    height: 40px;
+.btn {
+  width: 448px;
+  height: 40px;
 }
 
-.secondHeading{
-    font-size: 20px;
+.secondHeading {
+  font-size: 20px;
 }
 
-.nextBtn{
-    width: fit-content;
-    height: 40px;
-    margin: 20px 0px 20px 0px;
+.nextBtn {
+  width: fit-content;
+  height: 40px;
+  margin: 20px 0px 20px 0px;
 }
 
-.endPlacement{
-    display: flex;
-    justify-content: end;
+.endPlacement {
+  display: flex;
+  justify-content: end;
 }
 
-.thirdHeading{
-    font-size: 30px;
+.thirdHeading {
+  font-size: 30px;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

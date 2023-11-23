@@ -13,6 +13,7 @@ import emailjs from "emailjs-com";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import Link from "next/link";
+import { formatDateToDDMMYY } from "@/utils";
 
 export default function ChooseDate() {
   const [active, setActive] = useState(1);
@@ -151,19 +152,17 @@ export default function ChooseDate() {
         withCloseButton={false}
         centered
       >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            padding: "40px",
-          }}
-        >
+        <div className={classes.modal}>
           <h1 className={classes.margin}>Tak for din booking!</h1>
           <Notification
             withCloseButton={false}
-            title="Placeholder, her skal der vises det lokale man har booket"
+            title={
+              selectedRoomId && room.length > 0
+                ? room[selectedRoomId].lokale
+                : ""
+            }
           >
-            Placeholder, her skal den dato man har booket stå
+            {value ? formatDateToDDMMYY(value) : ""}
           </Notification>
           <p>Du får tilsendt en mail med en bekræftelse</p>
           <Link href="/">
@@ -197,6 +196,7 @@ export default function ChooseDate() {
                     value={value}
                     size="md"
                     onChange={handleDateChange}
+                    minDate={new Date()}
                   />
                 </div>
                 <p className={classes.infoText}>
@@ -251,14 +251,15 @@ export default function ChooseDate() {
             <Grid.Col span={6}>
               <Stack>
                 <h2 className={classes.thirdHeading}>
-                  Placeholder, her skal der vises den dato man har valgt
+                  {value ? formatDateToDDMMYY(value) : ""}
                 </h2>
                 <Notification
                   withCloseButton={false}
-                  title="Placeholder, her skal der vises det lokale man vil booke"
+                  title={selectedRoomId ? room[selectedRoomId].lokale : ""}
                 >
-                  placeholder, her skal der vises beskrivelsen af det lokale man
-                  vil booke
+                  {selectedRoomId && room.length > 0
+                    ? room[selectedRoomId].beskrivelse
+                    : ""}
                 </Notification>
                 Vil du bekræfte denne booking? du kan altid afmelde den igen
                 <Button

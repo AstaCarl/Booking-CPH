@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Loader, TextInput } from "@mantine/core";
+import { Loader, LoadingOverlay, TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
 import { Button } from "@mantine/core";
@@ -16,13 +16,17 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Tjekker om brugeren er logget ind allerede
     const user = getUser();
     if (user.isLoggedIn) {
       router.push("./bookroom");
+      return;
     }
+
+    setIsLoading(false);
   }, []);
 
   const supabase = createClient(
@@ -49,26 +53,32 @@ const Login = () => {
   };
 
   async function loginNewUser() {
+    setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
-    // setIsLoading(false);
 
     if (data && data.user) {
       // Gemme user info i context.
       console.log("Successful login, email is", data.user.email);
       router.push("./bookroom");
-    } else {
-      setError("Invalid Username or Password");
+      return;
     }
-    console.log("data", data);
-    console.log("Error", error);
+
+    setError("Invalid Username or Password");
+    setIsLoading(false);
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.box}>
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
+
         <h1>EFIF</h1>
         <h2>Log På</h2>
         <form onSubmit={handleSubmit}>

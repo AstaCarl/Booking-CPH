@@ -1,46 +1,49 @@
 .container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  .box {
-    display: flex;
-    flex-direction: column;
-  }
-
-.firstHeading{
-    font-size: 48px;
-    margin-bottom: 3rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
 }
 
-.secondHeading{
-    font-size: 24px;
+.box {
+  display: flex;
+  flex-direction: column;
 }
 
-.notificationText{
-    margin: 0;
-    font-size: 14px;
+.firstHeading {
+  font-size: 48px;
+  margin-bottom: 3rem;
 }
 
-.notification{
-    width: 448px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+.secondHeading {
+  font-size: 24px;
 }
 
-.logOut{
+.notificationText {
+  margin: 0;
+  font-size: 14px;
+}
+
+.notification {
+  width: 448px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.logOut {
+  margin-top: 5rem;
+
+  a {
     display: flex;
     align-items: center;
     font-weight: 600;
     font-size: 24px;
     gap: 10px;
-    margin-top: 5rem;
+  }
 }
 
-.btn{
-    width: fit-content;
-    margin-top: 1rem;
+.btn {
+  width: fit-content;
+  margin-top: 1rem;
 }

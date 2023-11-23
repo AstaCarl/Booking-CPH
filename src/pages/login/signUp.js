@@ -71,7 +71,6 @@ const SignUp = () => {
     }
 
     signUpNewUser();
-    open();
   };
 
   async function signUpNewUser() {
@@ -88,11 +87,12 @@ const SignUp = () => {
     });
 
     if (error) {
+      setError(error.message);
       setIsLoading(false);
-      console.error(error);
       return;
     }
 
+    open();
     await supabase.auth.signInWithPassword({
       email,
       password,
@@ -105,7 +105,7 @@ const SignUp = () => {
         <Modal
           size="lg"
           opened={opened}
-          onClose={close}
+          onClose={() => {}}
           withCloseButton={false}
           centered
         >
@@ -181,6 +181,7 @@ const SignUp = () => {
             name="email"
             id="email"
             value={email}
+            autoComplete="email"
             onChange={handleEmailChange}
             className={styles.input}
             placeholder="nogen@example.com"
