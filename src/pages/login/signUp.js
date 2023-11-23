@@ -18,7 +18,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
 );
 
-const SignUp = (error, setError) => {
+const SignUp = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [phone, setPhone] = useState("");
@@ -26,32 +26,52 @@ const SignUp = (error, setError) => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const [error, setError] = useState();
 
   const router = useRouter();
 
   const handleFirstnameChange = (event) => {
     setFirstname(event.target.value);
+    setError("");
   };
 
   const handleLastnameChange = (event) => {
     setLastname(event.target.value);
+    setError("");
   };
 
   const handlePhoneChange = (event) => {
     setPhone(event.target.value);
+    setError("");
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+    setError("");
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setError("");
   };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   signUpNewUser();
+  //   setError("Invalid Username or Password");
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Check if all fields are filled
+    if (!firstname || !lastname || !phone || !email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
     signUpNewUser();
+    open();
   };
 
   async function signUpNewUser() {
@@ -141,6 +161,7 @@ const SignUp = (error, setError) => {
             className={styles.input}
             placeholder="Nogen.."
             leftSection={<IconUser size={16} />}
+            error={error}
           />
           <label htmlFor="lastname">Efternavn</label>
           <TextInput
@@ -152,6 +173,7 @@ const SignUp = (error, setError) => {
             className={styles.input}
             placeholder="Nogen.."
             leftSection={<IconUser size={16} />}
+            error={error}
           />
           <label htmlFor="email">Email</label>
           <TextInput
@@ -163,6 +185,7 @@ const SignUp = (error, setError) => {
             className={styles.input}
             placeholder="nogen@example.com"
             leftSection={<IconAt size={16} />}
+            error={error}
           />
           <label htmlFor="phone">Telefon</label>
           <TextInput
@@ -174,6 +197,7 @@ const SignUp = (error, setError) => {
             className={styles.input}
             placeholder="12345678"
             leftSection={<IconPhone size={16} />}
+            error={error}
           />
           <label htmlFor="password">Adgangskode</label>
           <PasswordInput
@@ -184,12 +208,12 @@ const SignUp = (error, setError) => {
             onChange={handlePasswordChange}
             className={styles.input}
             placeholder="Kodeord"
+            error={error}
           />
           <Button
             type="submit"
             variant="filled"
             disabled={isLoading}
-            onClick={open}
             style={{
               width: "80px",
               marginTop: "1rem",

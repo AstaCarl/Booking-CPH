@@ -9,6 +9,8 @@ import { Container } from "@mantine/core";
 import { createClient } from "@supabase/supabase-js";
 import { Notification } from "@mantine/core";
 import { useRouter } from "next/router";
+import emailjs from "emailjs-com";
+import { useToggle } from "@mantine/hooks";
 
 export default function ChooseDate() {
   const [active, setActive] = useState(1);
@@ -24,7 +26,6 @@ export default function ChooseDate() {
   const [showCalender, setShowCalendar] = useState(true);
   const [stepperIncremented, setStepperIncremented] = useState(false);
   const router = useRouter();
-
   const [bookings, setBookings] = useState([]);
 
   const supabase = createClient(
@@ -45,19 +46,39 @@ export default function ChooseDate() {
       efternavn: user.lastname,
     };
 
+    var emailInfo = {
+      name: user.firstname,
+      email: user.email,
+    };
+
     console.log(booking);
-    addNewRow(booking);
+    addNewRow(booking, emailInfo);
     console.error("No room selected");
-    router.push("/");
   };
 
-  async function addNewRow(booking) {
+  async function addNewRow(booking, emailInfo) {
     const { data, error } = await supabase.from("Booking").insert(booking);
     if (error) {
       console.error("Error inserting data:", error);
       return;
     }
+
     console.log("Data inserted:", data);
+    emailjs
+      .send(
+        "service_ambw8nr",
+        "template_vle6iha",
+        emailInfo,
+        "DHs-0RPe7FVACEeuX"
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      );
   }
 
   useEffect(() => {
@@ -165,7 +186,9 @@ export default function ChooseDate() {
                   {room.map((roomItem) => (
                     <Button
                       className={classes.btn}
-                      variant="light"
+                      variant={
+                        selectedRoomId === roomItem.id ? "filled" : "light"
+                      }
                       key={roomItem.id}
                       disabled={bookings.includes(roomItem.id)}
                       onClick={() => setSelectedRoomId(roomItem.id)}

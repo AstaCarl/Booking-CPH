@@ -60,7 +60,6 @@ const Login = () => {
       console.log("Successful login, email is", data.user.email);
       router.push("./bookroom");
     } else {
-      console.log("hov");
       setError("Invalid Username or Password");
     }
     console.log("data", data);
@@ -98,6 +97,7 @@ const Login = () => {
             style={{
               width: "80px",
               marginTop: "1rem",
+              width: "fit-content",
             }}
           >
             Log på
