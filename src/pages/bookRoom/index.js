@@ -159,7 +159,12 @@ export default function ChooseDate() {
           }}
         >
           <h1 className={classes.margin}>Tak for din booking!</h1>
-          <Notification></Notification>
+          <Notification
+            withCloseButton={false}
+            title="Placeholder, her skal der vises det lokale man har booket"
+          >
+            Placeholder, her skal den dato man har booket stå
+          </Notification>
           <p>Du får tilsendt en mail med en bekræftelse</p>
           <Link href="/">
             <Button variant="outline">Se booking</Button>
@@ -245,10 +250,15 @@ export default function ChooseDate() {
           <Grid>
             <Grid.Col span={6}>
               <Stack>
-                <h2 className={classes.thirdHeading}>placeholder</h2>
-                <Notification withCloseButton={false} title="placeholder">
-                  You are now obligated to give a star to Mantine project on
-                  GitHub
+                <h2 className={classes.thirdHeading}>
+                  Placeholder, her skal der vises den dato man har valgt
+                </h2>
+                <Notification
+                  withCloseButton={false}
+                  title="Placeholder, her skal der vises det lokale man vil booke"
+                >
+                  placeholder, her skal der vises beskrivelsen af det lokale man
+                  vil booke
                 </Notification>
                 Vil du bekræfte denne booking? du kan altid afmelde den igen
                 <Button
