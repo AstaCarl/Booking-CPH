@@ -13,25 +13,27 @@ export function Header() {
   const [opened, { toggle }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
 
-
   return (
     <header>
       <div>
         {/*Dette er vores logo */}
         <div>
-          <Link href="https://cphbusiness.mrooms.net/">
           <img src="/cphbusiness_payoff_neg-1854815586.png" alt="Logo" />
-          </Link>
         </div>
 
         <div className="items">
-          <Link href="/bookroom" style={{
-            color: "white",
-            textDecoration: "none",
-            marginRight: "20px",
-          }}>Book et lokale</Link>
+          <Link
+            href="/bookroom"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginRight: "20px",
+            }}
+          >
+            Book et lokale
+          </Link>
           <Link href="/">
-          <IconUserCircle size={40} />
+            <IconUserCircle size={40} />
           </Link>
         </div>
       </div>

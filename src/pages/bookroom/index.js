@@ -7,6 +7,7 @@ import {
   Stack,
   Grid,
   LoadingOverlay,
+  Space,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
@@ -35,7 +36,7 @@ export default function ChooseDate() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showCalender, setShowCalendar] = useState(true);
   const [stepperIncremented, setStepperIncremented] = useState(false);
-  //const router = useRouter();
+  const router = useRouter();
   const [bookings, setBookings] = useState([]);
   const [opened, { open, close }] = useDisclosure(false);
   const [booking, setBooking] = useState([]);
@@ -301,6 +302,22 @@ export default function ChooseDate() {
                     : ""}
                 </Notification>
                 Vil du bekræfte denne booking? du kan altid afmelde den igen
+              </Stack>
+              <Group>
+                <Button
+                  onClick={() => {
+                    prevStep();
+                    setShowConfirm(false);
+                    setShowCalendar(true);
+                    setShowRooms(true);
+                  }}
+                  className={classes.nextBtn}
+                  variant="outline"
+                  size="md"
+                >
+                  Tilbage
+                </Button>
+
                 <Button
                   className={classes.nextBtn}
                   onClick={handleCreateBooking}
@@ -308,22 +325,9 @@ export default function ChooseDate() {
                 >
                   Bekræft
                 </Button>
-              </Stack>
+              </Group>
             </Grid.Col>
           </Grid>
-          <Button
-            onClick={() => {
-              prevStep();
-              setShowConfirm(false);
-              setShowCalendar(true);
-              setShowRooms(true);
-            }}
-            className={classes.nextBtn}
-            variant="outline"
-            size="md"
-          >
-            Tilbage
-          </Button>
         </>
       )}
     </div>
