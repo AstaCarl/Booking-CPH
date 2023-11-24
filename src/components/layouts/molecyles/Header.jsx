@@ -19,7 +19,9 @@ export function Header() {
       <div>
         {/*Dette er vores logo */}
         <div>
+          <Link href="https://cphbusiness.mrooms.net/">
           <img src="/cphbusiness_payoff_neg-1854815586.png" alt="Logo" />
+          </Link>
         </div>
 
         <div className="items">
