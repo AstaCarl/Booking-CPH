@@ -20,7 +20,7 @@ import emailjs from "emailjs-com";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import Link from "next/link";
-import { formatDateToDDMMYY } from "@/utils";
+import { formatDateToDDMMYY, getUser } from "@/utils";
 
 export default function ChooseDate() {
   const [active, setActive] = useState(1);
@@ -40,17 +40,14 @@ export default function ChooseDate() {
   const [opened, { open, close }] = useDisclosure(false);
   const [booking, setBooking] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
   );
 
-  const handleCreateBooking = () => {
-    const user = JSON.parse(
-      localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]
-    )?.user;
-    //Indsætte data i booking tabllen
+  const handleCreateBooking = async () => {
     const booking = {
       Email: user.email,
       Dato: value,
@@ -59,18 +56,6 @@ export default function ChooseDate() {
       efternavn: user.lastname,
     };
 
-    var emailInfo = {
-      name: user.firstname,
-      email: user.email,
-      lastname: user.lastname,
-    };
-
-    console.log(booking);
-    addNewRow(booking, emailInfo);
-    console.error("No room selected");
-  };
-
-  async function addNewRow(booking, emailInfo) {
     const { data, error } = await supabase.from("Booking").insert(booking);
     if (error) {
       console.error("Error inserting data:", error);
@@ -82,7 +67,11 @@ export default function ChooseDate() {
       .send(
         "service_ambw8nr",
         "template_vle6iha",
-        emailInfo,
+        {
+          name: user.firstName,
+          lastname: user.lastName,
+          email: user.email,
+        },
         "DHs-0RPe7FVACEeuX"
       )
       .then(
@@ -94,9 +83,17 @@ export default function ChooseDate() {
         }
       );
     open();
-  }
+  };
 
   useEffect(() => {
+    const user = getUser();
+    if (!user.isLoggedIn) {
+      router.push("./login");
+      return;
+    }
+
+    setUser(user);
+
     getDataFromSupabase();
   }, []);
 
@@ -264,6 +261,7 @@ export default function ChooseDate() {
                       className={classes.nextBtn}
                       variant="outline"
                       onClick={handleNextClick}
+                      disabled={selectedRoomId == null}
                     >
                       Videre
                     </Button>
