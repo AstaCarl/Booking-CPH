@@ -7,6 +7,7 @@ import {
   Stack,
   Grid,
   LoadingOverlay,
+  Space,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
@@ -295,17 +296,11 @@ export default function ChooseDate() {
                     : ""}
                 </Notification>
                 Vil du bekræfte denne booking? du kan altid afmelde den igen
+                </Stack>
+                <Group>
+
+                
                 <Button
-                  className={classes.nextBtn}
-                  onClick={handleCreateBooking}
-                  variant="filled"
-                >
-                  Bekræft
-                </Button>
-              </Stack>
-            </Grid.Col>
-          </Grid>
-          <Button
             onClick={() => {
               prevStep();
               setShowConfirm(false);
@@ -318,6 +313,20 @@ export default function ChooseDate() {
           >
             Tilbage
           </Button>
+          
+          <Button
+            className={classes.nextBtn}
+            onClick={handleCreateBooking}
+            variant="filled"
+           >
+             Bekræft
+          </Button>
+                
+                
+            </Group>
+            </Grid.Col>
+          </Grid>
+       
         </>
       )}
     </div>
