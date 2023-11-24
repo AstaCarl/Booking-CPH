@@ -17,9 +17,11 @@ export function Header() {
     <header>
       <div>
         {/*Dette er vores logo */}
+        <Link href="https://cphbusiness.mrooms.net/">
         <div>
           <img src="/cphbusiness_payoff_neg-1854815586.png" alt="Logo" />
         </div>
+        </Link>
 
         <div className="items">
           <Link
