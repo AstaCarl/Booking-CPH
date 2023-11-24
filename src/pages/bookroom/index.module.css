@@ -63,3 +63,12 @@
   flex-direction: column;
   gap: 1rem;
 }
+
+.roomItem {
+  cursor: pointer;
+
+  &[disabled] {
+    filter: grayscale(1);
+    cursor: not-allowed;
+  }
+}

@@ -143,6 +143,7 @@ export default function ChooseDate() {
       return [year, month, day].join("-");
     }
 
+    setSelectedRoomId(null);
     setValue(date);
     console.log(date);
 
@@ -243,18 +244,25 @@ export default function ChooseDate() {
                     stole.
                   </p>
                   {room.map((roomItem) => (
-                    <Button
-                      className={classes.btn}
-                      variant={
-                        selectedRoomId === roomItem.id ? "filled" : "light"
+                    <Notification
+                      title={roomItem.lokale}
+                      key={`room-${roomItem.id}`}
+                      onClick={() =>
+                        !bookings.includes(roomItem.id) &&
+                        setSelectedRoomId(roomItem.id)
                       }
-                      key={roomItem.id}
+                      withCloseButton={false}
+                      className={classes.roomItem}
                       disabled={bookings.includes(roomItem.id)}
-                      onClick={() => setSelectedRoomId(roomItem.id)}
-                      size="xs"
+                      style={{
+                        border:
+                          selectedRoomId == roomItem.id
+                            ? "2px solid #228BE5"
+                            : "2px solid transparent",
+                      }}
                     >
-                      {roomItem.lokale}
-                    </Button>
+                      {roomItem.beskrivelse}
+                    </Notification>
                   ))}
                   <div className={classes.endPlacement}>
                     <Button
