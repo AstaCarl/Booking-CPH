@@ -9,14 +9,15 @@ import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
+import { LoadingOverlay } from "@mantine/core";
 
 const Home = () => {
   const [booking, setBooking] = useState([]);
   const [room, setRoom] = useState([]);
   const router = useRouter();
-  const [userEmail, setUserEmail] = useState("");
   const [user, setUser] = useState({});
   const [opened, { open, close }] = useDisclosure(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [modalContent, setModalContent] = useState({
     title: "",
     description: "",
@@ -31,53 +32,51 @@ const Home = () => {
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
   useEffect(() => {
     const user = getUser();
-    setUser(user);
 
     // Hvis brugeren ikke er logget redirecter den til login side
     if (!user.isLoggedIn) {
       router.push("/login");
-    } else {
-      setUserEmail(user.email);
+      return;
     }
-  }, [router]);
+
+    setUser(user);
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     fetchBooking();
     fetchRoom();
-  }, [userEmail]);
+  }, [user]);
 
   const fetchBooking = async () => {
     const { data, error } = await supabase
       .from("Booking")
       .select("Email, rumId, Dato")
-      .eq("Email", userEmail);
-
-    if (userEmail && "Email") {
-      console.log(data, "booking");
-      setBooking(data);
-    }
+      .eq("Email", user.email);
 
     if (error) {
       console.error("Error fetching booking data:", error);
+      return;
     }
+
+    setBooking(data);
   };
 
   const fetchRoom = async () => {
     const { data, error } = await supabase.from("Rooms").select("*");
-    console.log(data, "rooms");
-    setRoom(data);
-
     if (error) {
       console.error("Error fetching rooms data");
     }
+
+    setRoom(data);
   };
 
   const handleDeleteBooking = async () => {
     const { data, error } = await supabase
       .from("Booking")
       .delete()
-      .eq("Email", userEmail);
-    console.log(data, "delete succesful");
+      .eq("Email", user.email);
+
     if (error) {
       console.error("error deleting data");
     }
@@ -86,7 +85,9 @@ const Home = () => {
   };
 
   const logoutUser = () => {
+    setIsLoading(true);
     localStorage.clear();
+    router.push("/login");
   };
 
   const openModal = (title, description, action) => {
@@ -101,6 +102,11 @@ const Home = () => {
     <>
       <div className={classes.container}>
         <div className={classes.box}>
+          <LoadingOverlay
+            visible={isLoading}
+            zIndex={1000}
+            overlayProps={{ radius: "sm", blur: 2 }}
+          />
           <Modal
             size="lg"
             opened={opened}
