@@ -9,6 +9,7 @@ import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
+import { LoadingOverlay } from "@mantine/core";
 
 const Home = () => {
   const [booking, setBooking] = useState([]);
@@ -16,6 +17,7 @@ const Home = () => {
   const router = useRouter();
   const [user, setUser] = useState({});
   const [opened, { open, close }] = useDisclosure(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [modalContent, setModalContent] = useState({
     title: "",
     description: "",
@@ -38,6 +40,7 @@ const Home = () => {
     }
 
     setUser(user);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -82,7 +85,9 @@ const Home = () => {
   };
 
   const logoutUser = () => {
+    setIsLoading(true);
     localStorage.clear();
+    router.push("/login");
   };
 
   const openModal = (title, description, action) => {
@@ -97,6 +102,11 @@ const Home = () => {
     <>
       <div className={classes.container}>
         <div className={classes.box}>
+          <LoadingOverlay
+            visible={isLoading}
+            zIndex={1000}
+            overlayProps={{ radius: "sm", blur: 2 }}
+          />
           <Modal
             size="lg"
             opened={opened}
