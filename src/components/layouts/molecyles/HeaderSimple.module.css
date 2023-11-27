@@ -1,3 +1,4 @@
+/*Header styling*/
 .header {
   height: rem(56px);
   background-color: #2c2e33;
@@ -5,6 +6,7 @@
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
+/*Inner container styling*/
 .inner {
   height: rem(60px);
   display: flex;
@@ -12,6 +14,7 @@
   justify-content: space-between;
 }
 
+/*Link styling*/
 .link {
   display: block;
   line-height: 1;
@@ -22,32 +25,32 @@
   font-size: var(--mantine-font-size-sm);
   font-weight: 500;
 
+  /*Hover effect mixin */
   @mixin hover {
     background-color: light-dark(
       var(--mantine-color-gray-0),
       var(--mantine-color-dark-6)
     );
   }
-
-  /* [data-mantine-color-scheme] &[data-active] {
-    background-color: var(--mantine-color-blue-filled);
-    color: var(--mantine-color-white);
-  } */
 }
 
+/*Logo styling*/
 .logo {
   display: flex;
   align-items: center;
 }
 
+/*Logo image styling*/
 .logo img {
   height: 40px;
 }
 
+/*Icon styling*/
 .icon {
   filter: brightness(0) invert(1); /* This will make the icon white */
 }
 
+/*Link styling*/
 .link {
   color: white;
   text-decoration: none;
