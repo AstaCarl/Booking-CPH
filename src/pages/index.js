@@ -1,3 +1,4 @@
+//Importere nødvendige indhold og styles.
 import React, { useEffect, useState } from "react";
 import { Notification } from "@mantine/core";
 import { Button } from "@mantine/core";
@@ -11,6 +12,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
 
+//Funktional component defineres.
 const Home = () => {
   const [booking, setBooking] = useState([]);
   const [room, setRoom] = useState([]);
@@ -24,6 +26,7 @@ const Home = () => {
     action: null,
   });
 
+  //Supabase Client.
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
@@ -43,11 +46,13 @@ const Home = () => {
     setIsLoading(false);
   }, []);
 
+  //Fetcher booking og rum data, når brugeren skifter.
   useEffect(() => {
     fetchBooking();
     fetchRoom();
   }, [user]);
 
+  //Fetcher brugerens booking data fra Supabase.
   const fetchBooking = async () => {
     const { data, error } = await supabase
       .from("Booking")
@@ -62,6 +67,7 @@ const Home = () => {
     setBooking(data);
   };
 
+  //Fetcher rum data fra Supabase.
   const fetchRoom = async () => {
     const { data, error } = await supabase.from("Rooms").select("*");
     if (error) {
@@ -71,6 +77,7 @@ const Home = () => {
     setRoom(data);
   };
 
+  //Håndterer sletning af brugerens booking.
   const handleDeleteBooking = async () => {
     const { data, error } = await supabase
       .from("Booking")
@@ -84,29 +91,38 @@ const Home = () => {
     window.location.reload();
   };
 
+  //Når brugeren logger ud.
   const logoutUser = () => {
     setIsLoading(true);
     localStorage.clear();
     router.push("/login");
   };
 
+  //Åbner modalen i en specifik handling.
   const openModal = (title, description, action) => {
     setModalContent({ title, description, action });
     open();
   };
 
+  //Chekker om brugeren har en aktive booking.
   const activeBooking = booking && booking.length > 0 && booking[0].rumId;
+
+  //Log bruger og rum til console.
   console.log(user);
   console.log(room);
+
+  //JSX gengiver.
   return (
     <>
       <div className={classes.container}>
         <div className={classes.box}>
+          {/* Loading overlay mens data bliver fetchet. */}
           <LoadingOverlay
             visible={isLoading}
             zIndex={1000}
             overlayProps={{ radius: "sm", blur: 2 }}
           />
+          {/*Modal for at sikre sletningen af booking.*/}
           <Modal
             size="lg"
             opened={opened}
@@ -126,6 +142,8 @@ const Home = () => {
                 Du er ved at afmelde din nuværende tid og frigiver lokalet.
               </p>
               <p>Er du sikker på det?</p>
+
+              {/*Notifiktion med booking informationer.*/}
               <Notification
                 className={classes.notification}
                 withCloseButton={false}
@@ -139,6 +157,8 @@ const Home = () => {
                     room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
                 </p>
               </Notification>
+
+              {/*Knapperne for at bekræfte eller slette booking.*/}
               <Button
                 onClick={handleDeleteBooking}
                 style={{ marginRight: "15px" }}
@@ -151,7 +171,8 @@ const Home = () => {
               </Button>
             </div>
           </Modal>
-
+        
+          {/*Booking status.*/}
           <h1 className={classes.firstHeading}>
             Hej, {user.firstName} {user.lastName}!
           </h1>
@@ -161,6 +182,7 @@ const Home = () => {
               ? "Du har 1 aktiv booking"
               : "Du har ingen aktive bookinger"}
           </h2>
+          {/*Viser booking detaljer og muligheder baseret på den aktive bookings status. */}
           {activeBooking ? (
             <>
               <h3>{booking.length > 0 && booking[0].Dato}</h3>
@@ -177,6 +199,8 @@ const Home = () => {
                     room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
                 </p>
               </Notification>
+
+              {/*Knapper for at afslutte eller afmelde tid. */}
               <Button
                 className={classes.btn}
                 variant="filled"
@@ -206,12 +230,15 @@ const Home = () => {
               </Button>
             </>
           ) : (
+            //Knap til at navigere til bookroom, når der ingen aktive bookinger er. 
             <Link href="/bookroom">
               <Button className={classes.btn} variant="filled">
                 Book et lokale
               </Button>
             </Link>
           )}
+
+          {/*Log ud link */}
           <div className={classes.logOut}>
             <Link
               href="#"

@@ -1,3 +1,4 @@
+/* Styling af container. */
 .container {
   width: 100%;
   height: 100vh;
@@ -6,6 +7,7 @@
   margin-top: 50px;
 }
 
+/* Styling af main box */
 .box {
   background-color: #d9d9d9;
   display: flex;
@@ -16,22 +18,26 @@
   padding: 3rem;
   gap: 1rem;
 
+  /* Styling for formen, som er inde i boksen. */
   form {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
+    /* Styling for en knap som er inde i linket. */
     a button {
       width: 100%;
     }
   }
 }
 
+/* Styling af error messages */
 .error {
   color: red;
   font-size: 0.75rem;
 }
 
+/* Styling af Margin  */
 .margin {
   margin-bottom: 30px;
 }
