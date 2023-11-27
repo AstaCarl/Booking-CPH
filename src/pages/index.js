@@ -171,7 +171,7 @@ const Home = () => {
               </Button>
             </div>
           </Modal>
-        
+
           {/*Booking status.*/}
           <h1 className={classes.firstHeading}>
             Hej, {user.firstName} {user.lastName}!
@@ -215,22 +215,9 @@ const Home = () => {
               >
                 Afmeld tid
               </Button>
-              <Button
-                onClick={() =>
-                  openModal(
-                    "Afslut tid!",
-                    "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
-                    handleDeleteBooking
-                  )
-                }
-                className={classes.btn}
-                variant="filled"
-              >
-                Afslut Tid
-              </Button>
             </>
           ) : (
-            //Knap til at navigere til bookroom, når der ingen aktive bookinger er. 
+            //Knap til at navigere til bookroom, når der ingen aktive bookinger er.
             <Link href="/bookroom">
               <Button className={classes.btn} variant="filled">
                 Book et lokale
