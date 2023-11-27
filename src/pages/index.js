@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
-import { addScaleCorrector, animate } from "framer-motion";
 
 //Funktional component defineres.
 const Home = () => {
