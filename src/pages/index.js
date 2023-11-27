@@ -1,6 +1,6 @@
 //Importere nødvendige indhold og styles.
 import React, { useEffect, useState } from "react";
-import { Notification } from "@mantine/core";
+import { Center, Notification } from "@mantine/core";
 import { Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { useRouter } from "next/router";
@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
+import {motion} from 'framer-motion'
 
 //Funktional component defineres.
 const Home = () => {
@@ -219,14 +220,33 @@ const Home = () => {
           ) : (
             //Knap til at navigere til bookroom, når der ingen aktive bookinger er.
             <Link href="/bookroom">
-              <Button className={classes.btn} variant="filled">
-                Book et lokale
-              </Button>
+              <motion.div
+                whileHover={{ 
+                  scale: 1.2,
+                  rotate: 2,
+                  translateY: -3,
+                  opacity: 2,
+                }} // Define the hover animation
+
+                whileTap={{ scale: 0.95 }}
+                transition={{duration: 0.3}}
+
+              >
+                <Button className={classes.btn} variant="filled">
+                  Book et lokale
+                </Button>
+              </motion.div>
             </Link>
           )}
 
           {/*Log ud link */}
           <div className={classes.logOut}>
+            <motion.div
+              whileHover={{ scale: 1.1, }} // Adjust hover animation
+              whileTap={{ scale: 1 }}
+              onClick={logoutUser}
+              style={{ cursor: 'pointer' }} // Add pointer cursor on hover
+            >
             <Link
               href="/login"
               style={{
@@ -237,6 +257,7 @@ const Home = () => {
             >
               Log ud <IconLogout size={24} />
             </Link>
+            </motion.div>
           </div>
         </div>
       </div>
