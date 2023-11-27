@@ -228,7 +228,7 @@ const Home = () => {
           {/*Log ud link */}
           <div className={classes.logOut}>
             <Link
-              href="#"
+              href="/login"
               style={{
                 textDecoration: "none",
                 color: "black",
