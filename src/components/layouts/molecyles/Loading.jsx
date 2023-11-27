@@ -10,7 +10,7 @@ export function Loader() {
   // Note that position: relative is required
   return (
     <>
-    {/*Container med positon realtvie for LoadingOverlay */}
+    {/*Container med positon relative for LoadingOverlay */}
       <Box pos="relative">
         {/*LoadingOverlay component */}
         <LoadingOverlay
@@ -25,6 +25,7 @@ export function Loader() {
     </>
   );
 };
+
 //Eksportere Loader components til en default export.
 export default Loader;
 
