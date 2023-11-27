@@ -24,7 +24,9 @@ export function Header() {
         {/*Logo med link til en specifik URL*/}
         <Link href="https://cphbusiness.mrooms.net/">
         <div>
-          <img src="/cphbusiness_payoff_neg-1854815586.png" alt="Logo" />
+          <img style={{
+            width:"180px",
+          }} src="/cphbusiness_payoff_neg-1854815586.png" alt="Logo" />
         </div>
         </Link>
 
