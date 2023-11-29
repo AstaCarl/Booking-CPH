@@ -60,6 +60,11 @@ const Signup = () => {
     setError("");
   };
 
+  const handleConfirmPasswordChange =(event) => {
+    setPassword(event.target.value);
+    setError("");
+  }
+
   //Funktion som håndtere ændringer på form submit.
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -232,6 +237,20 @@ const Signup = () => {
             placeholder="Kodeord"
             error={error}
           />
+
+          <label htmlFor="confirmPassword">Gentag adgangskode</label>
+          <PasswordInput
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            value={password}
+            onChange={handleConfirmPasswordChange}
+            className={styles.input}
+            placeholder="Gentag adgangskode"
+            error={error}
+          />
+
+
           {/*Submit knap*/}
           <Button
             type="submit"
