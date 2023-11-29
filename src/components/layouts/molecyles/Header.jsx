@@ -11,11 +11,6 @@ const links = [{ link: "./pages/bookroom/", label: "Book et lokale" }];
 
 /*Header component */
 export function Header() {
-  /*State and functions for at tackle menu */
-  const [opened, { toggle }] = useDisclosure(false);
-
-  /*State som holder øje med det aktive link */
-  const [active, setActive] = useState(links[0].link);
 
   return (
     <header>

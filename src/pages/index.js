@@ -11,7 +11,8 @@ import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
-import {motion} from 'framer-motion'
+import { motion } from "framer-motion";
+import Motion from "@/components/layouts/molecyles/Motion";
 
 //Funktional component defineres.
 const Home = () => {
@@ -221,16 +222,12 @@ const Home = () => {
             //Knap til at navigere til bookroom, når der ingen aktive bookinger er.
             <Link href="/bookroom">
               <motion.div
-                whileHover={{ 
-                  scale: 1.2,
-                  rotate: 2,
-                  translateY: -3,
+                whileHover={{
+                  scale: 1.02,
                   opacity: 2,
                 }} // Define the hover animation
-
                 whileTap={{ scale: 0.95 }}
-                transition={{duration: 0.3}}
-
+                transition={{ duration: 0.2 }}
               >
                 <Button className={classes.btn} variant="filled">
                   Book et lokale
@@ -242,21 +239,25 @@ const Home = () => {
           {/*Log ud link */}
           <div className={classes.logOut}>
             <motion.div
-              whileHover={{ scale: 1.1, }} // Adjust hover animation
-              whileTap={{ scale: 1 }}
+              whileHover={{
+                scale: 1.02,
+                opacity: 2,
+              }} // Define the hover animation
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
               onClick={logoutUser}
-              style={{ cursor: 'pointer' }} // Add pointer cursor on hover
+              style={{ cursor: "pointer" }} // Add pointer cursor on hover
             >
-            <Link
-              href="/login"
-              style={{
-                textDecoration: "none",
-                color: "black",
-              }}
-              onClick={logoutUser}
-            >
-              Log ud <IconLogout size={24} />
-            </Link>
+              <Link
+                href="/login"
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                onClick={logoutUser}
+              >
+                Log ud <IconLogout size={24} />
+              </Link>
             </motion.div>
           </div>
         </div>
