@@ -191,7 +191,7 @@ export default function ChooseDate() {
           >
             {value ? formatDateToDDMMYY(value) : ""}
           </Notification>
-          <p>Du får tilsendt en mail med en bekræftelse</p>
+          <p>Du får tilsendt en mail med en bekræftelse, samt en påmindelse om din booking 24 timer før.</p>
           <motion.div
             whileHover={{
               scale: 1.0,
