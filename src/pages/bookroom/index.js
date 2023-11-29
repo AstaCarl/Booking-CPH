@@ -14,7 +14,6 @@ import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
 import "@mantine/dates/styles.css";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { Container } from "@mantine/core";
 import { createClient } from "@supabase/supabase-js";
 import { Notification } from "@mantine/core";
 import { useRouter } from "next/router";
@@ -37,7 +36,6 @@ export default function ChooseDate() {
   const [room, setRoom] = useState([]);
   const [showRooms, setShowRooms] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showCalender, setShowCalendar] = useState(true);
   const [stepperIncremented, setStepperIncremented] = useState(false);
   const router = useRouter();
   const [bookings, setBookings] = useState([]);
@@ -80,6 +78,8 @@ export default function ChooseDate() {
           name: user.firstName,
           lastname: user.lastName,
           email: user.email,
+          date: formatDateToDDMMYY(value),
+          room: room[selectedRoomId].lokale,
         },
         "DHs-0RPe7FVACEeuX"
       )
@@ -106,13 +106,6 @@ export default function ChooseDate() {
 
     getDataFromSupabase();
   }, []);
-
-  const handleNextClick = () => {
-    setShowConfirm(true);
-    setActive(3);
-    setShowCalendar(false);
-    setShowRooms(false);
-  };
 
   //Fetcher ledige rum og aktive bookinger fra Supabase.
   const getDataFromSupabase = async () => {
@@ -205,16 +198,13 @@ export default function ChooseDate() {
 
       {/*Main content */}
       <div>
-        {showCalender && (
-          <h1
-            style={{
-              marginBottom: "15px",
-            }}
-          >
-            Book et lokale
-          </h1>
-        )}
-        {showConfirm && <h1>Bekræft din booking</h1>}
+        <h1
+          style={{
+            marginBottom: "15px",
+          }}
+        >
+          Book et lokale
+        </h1>
         <Stepper active={active} onStepClick={setActive}>
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step label="Step 2" description="Vælg lokale"></Stepper.Step>
@@ -225,119 +215,100 @@ export default function ChooseDate() {
       <div>
         <Grid justify="space-between">
           <div className={classes.wrapper}>
-            {showCalender && (
-              <Grid.Col span={12}>
-                {" "}
-                <h2>Vælg dato</h2>
-                <div className={classes.border}>
-                  <DatePicker
-                    value={value}
-                    size="md"
-                    onChange={handleDateChange}
-                    minDate={new Date()}
-                  />
-                </div>
-                <p className={classes.infoText}>
-                  <IconInfoCircle size={16} />
-                  Du kan maks have 1 aktiv booking pr. profil
-                </p>
-              </Grid.Col>
-            )}
+            <Grid.Col span={4}>
+              {" "}
+              <h2>Vælg dato</h2>
+              <div className={classes.border}>
+                <DatePicker
+                  value={value}
+                  size="md"
+                  onChange={handleDateChange}
+                  minDate={new Date()}
+                />
+              </div>
+              <p className={classes.infoText}>
+                <IconInfoCircle size={16} />
+                Du kan maks have 1 aktiv booking pr. profil
+              </p>
+            </Grid.Col>
           </div>
           <div className={classes.roomWrapper}>
-            <Grid.Col span={10}>
+            <Grid.Col span={4}>
               {showRooms && (
                 <Stack>
-                  <h2>Vælg lokale</h2>
-                  <p>
-                    {" "}
-                    Alle lokaler indeholder whiteboards, stikkontakter, borde og
-                    stole.
-                  </p>
-                  {room.map((roomItem) => (
-                    <Notification
-                      title={roomItem.lokale}
-                      key={`room-${roomItem.id}`}
-                      onClick={() =>
-                        !activeBookingsForDate.includes(roomItem.id) &&
-                        setSelectedRoomId(roomItem.id)
-                      }
-                      withCloseButton={false}
-                      className={classes.roomItem}
-                      disabled={activeBookingsForDate.includes(roomItem.id)}
-                      style={{
-                        border:
-                          selectedRoomId == roomItem.id
-                            ? "2px solid #228BE5"
-                            : "2px solid transparent",
-                      }}
-                    >
-                      {roomItem.beskrivelse}
-                    </Notification>
-                  ))}
-                  <div className={classes.endPlacement}>
-                    <Button
-                      className={classes.nextBtn}
-                      variant="outline"
-                      onClick={handleNextClick}
-                      disabled={selectedRoomId == null}
-                    >
-                      Videre
-                    </Button>
+                  <div className={classes.rooms}>
+                    <h2>Vælg lokale</h2>
+                    <p>
+                      {" "}
+                      Alle lokaler indeholder whiteboards, stikkontakter, borde
+                      og stole.
+                    </p>
+                    {room.map((roomItem) => (
+                      <Notification
+                        title={roomItem.lokale}
+                        key={`room-${roomItem.id}`}
+                        onClick={() => {
+                          if (!activeBookingsForDate.includes(roomItem.id)) {
+                            setSelectedRoomId(roomItem.id);
+                            setShowConfirm(true);
+                            setActive(3);
+                          }
+                        }}
+                        withCloseButton={false}
+                        className={classes.roomItem}
+                        disabled={activeBookingsForDate.includes(roomItem.id)}
+                        style={{
+                          border:
+                            selectedRoomId == roomItem.id
+                              ? "2px solid #228BE5"
+                              : "2px solid transparent",
+                        }}
+                      >
+                        {roomItem.beskrivelse}
+                      </Notification>
+                    ))}
+                    <div className={classes.endPlacement}></div>
                   </div>
                 </Stack>
               )}
             </Grid.Col>
           </div>
+
+          <div className={classes.wrapper}>
+            {showConfirm && (
+              <Grid.Col span={4}>
+                <div className={classes.confirm}>
+                  <Stack>
+                    <h2>{value ? formatDateToDDMMYY(value) : ""}</h2>
+                    <Notification
+                      withCloseButton={false}
+                      title={
+                        selectedRoomId && room.length > 0
+                          ? room.find((r) => r.id == selectedRoomId).lokale
+                          : ""
+                      }
+                    >
+                      {selectedRoomId && room.length > 0
+                        ? room.find((r) => r.id == selectedRoomId).beskrivelse
+                        : ""}
+                    </Notification>
+                    Vil du bekræfte denne booking? du kan altid afmelde den igen
+                  </Stack>
+                  <Group>
+                    <Button
+                      className={classes.nextBtn}
+                      onClick={handleCreateBooking}
+                      variant="filled"
+                    >
+                      Bekræft
+                    </Button>
+                  </Group>
+                </div>
+              </Grid.Col>
+            )}
+          </div>
         </Grid>
       </div>
-      {showConfirm && (
-        <>
-          <Grid>
-            <Grid.Col span={6}>
-              <Stack>
-                <h2>{value ? formatDateToDDMMYY(value) : ""}</h2>
-                <Notification
-                  withCloseButton={false}
-                  title={
-                    selectedRoomId && room.length > 0
-                      ? room.find((r) => r.id == selectedRoomId).lokale
-                      : ""
-                  }
-                >
-                  {selectedRoomId && room.length > 0
-                    ? room.find((r) => r.id == selectedRoomId).beskrivelse
-                    : ""}
-                </Notification>
-                Vil du bekræfte denne booking? du kan altid afmelde den igen
-              </Stack>
-              <Group>
-                <Button
-                  onClick={() => {
-                    prevStep();
-                    setShowConfirm(false);
-                    setShowCalendar(true);
-                    setShowRooms(true);
-                  }}
-                  className={classes.nextBtn}
-                  variant="outline"
-                  size="md"
-                >
-                  Tilbage
-                </Button>
-
-                <Button
-                  className={classes.nextBtn}
-                  onClick={handleCreateBooking}
-                  variant="filled"
-                >
-                  Bekræft
-                </Button>
-              </Group>
-            </Grid.Col>
-          </Grid>
-        </>
-      )}
     </div>
   );
 }

@@ -14,8 +14,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { supabase } from "@/supabase";
+import { motion } from "framer-motion";
 
-const SignUp = () => {
+const Signup = () => {
   //State variabler.
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -123,9 +124,19 @@ const SignUp = () => {
             <p className={classes.margin}>
               Du er nu oprettet som bruger, og kan nu book et lokale.
             </p>
-            <Link href="/bookroom">
-              <Button variant="outline">Book et lokale</Button>
-            </Link>
+            <motion.div
+              whileHover={{
+                scale: 1.02,
+                opacity: 2,
+              }} // Define the hover animation
+              whileTap={{ scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+              style={{ cursor: "pointer" }} // Add pointer cursor on hover
+            >
+              <Link href="/bookroom">
+                <Button variant="outline">Book et lokale</Button>
+              </Link>
+            </motion.div>
           </div>
         </Modal>
 
@@ -239,4 +250,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Signup;

@@ -13,8 +13,6 @@ import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
 import { supabase } from "@/supabase";
 import { motion } from "framer-motion";
-import Motion from "@/components/layouts/molecyles/Motion";
-
 //Funktional component defineres.
 const Home = () => {
   const [booking, setBooking] = useState([]);
@@ -201,20 +199,31 @@ const Home = () => {
               </Notification>
 
               {/*Knapper for at afslutte eller afmelde tid. */}
-              <Button
-                className={classes.btn}
-                variant="filled"
-                color="red"
-                onClick={() =>
-                  openModal(
-                    "Afmeld tid!",
-                    "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
-                    handleDeleteBooking
-                  )
-                }
+              <motion.div
+                whileHover={{
+                  scale: 1.02,
+                  opacity: 2,
+                }} // Define the hover animation
+                whileTap={{ scale: 1.01 }}
+                transition={{ duration: 0.2 }}
+                onClick={logoutUser}
+                style={{ cursor: "pointer" }} // Add pointer cursor on hover
               >
-                Afmeld tid
-              </Button>
+                <Button
+                  className={classes.btn}
+                  variant="filled"
+                  color="red"
+                  onClick={() =>
+                    openModal(
+                      "Afmeld tid!",
+                      "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
+                      handleDeleteBooking
+                    )
+                  }
+                >
+                  Afmeld tid
+                </Button>
+              </motion.div>
             </>
           ) : (
             //Knap til at navigere til bookroom, når der ingen aktive bookinger er.
@@ -224,7 +233,7 @@ const Home = () => {
                   scale: 1.02,
                   opacity: 2,
                 }} // Define the hover animation
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <Button className={classes.btn} variant="filled">
