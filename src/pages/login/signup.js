@@ -238,6 +238,7 @@ const Signup = () => {
             error={error}
           />
 
+          {/*Input felt for gentagende password*/}
           <label htmlFor="confirmPassword">Gentag adgangskode</label>
           <PasswordInput
             type="password"
