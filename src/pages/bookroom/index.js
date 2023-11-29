@@ -22,7 +22,7 @@ import emailjs from "emailjs-com";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import Link from "next/link";
-import { formatDateToDDMMYY, getUser } from "@/utils";
+import { formatDateToDDMMYY, formatDateToYYYYMMDD, getUser } from "@/utils";
 
 //ChooseDate compontent defineres.
 export default function ChooseDate() {
@@ -145,28 +145,9 @@ export default function ChooseDate() {
 
   //Håndtere data ændringer i date picker.
   const handleDateChange = async (date) => {
-    function formatDate(date) {
-      var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-
-      return [year, month, day].join("-");
-    }
-
     setSelectedRoomId(null);
     setValue(date);
-    console.log(date);
-
-    //Fetcher bookinger fra en bestem dato.
-    const { data, error } = await supabase
-      .from("Booking")
-      .select("*")
-      .eq("Dato", formatDate(date));
-    setBookings(data.map((b) => b.rumId));
+    console.log(bookings);
 
     //Viser rum og inkrement, hvis det ikke allerede er gjort.
     if (!stepperIncremented) {
@@ -176,7 +157,16 @@ export default function ChooseDate() {
     }
   };
 
+<<<<<<< HEAD
   //Gengiver componentet.
+=======
+  const activeBookingsForDate = value
+    ? bookings
+        .filter((booking) => booking.Dato == formatDateToYYYYMMDD(value))
+        .map((booking) => booking.rumId)
+    : null;
+
+>>>>>>> a85e7f76a84d16121d29c57c26659afdc45957ea
   return (
     <div
       style={{
@@ -273,12 +263,12 @@ export default function ChooseDate() {
                       title={roomItem.lokale}
                       key={`room-${roomItem.id}`}
                       onClick={() =>
-                        !bookings.includes(roomItem.id) &&
+                        !activeBookingsForDate.includes(roomItem.id) &&
                         setSelectedRoomId(roomItem.id)
                       }
                       withCloseButton={false}
                       className={classes.roomItem}
-                      disabled={bookings.includes(roomItem.id)}
+                      disabled={activeBookingsForDate.includes(roomItem.id)}
                       style={{
                         border:
                           selectedRoomId == roomItem.id
