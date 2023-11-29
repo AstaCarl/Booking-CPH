@@ -1,13 +1,5 @@
-import { useState } from "react";
-import { Container, Group, Burger } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { IconUserCircle } from "@tabler/icons-react";
 import Link from "next/link";
-
-{
-  /*Definerer navigationslink */
-}
-const links = [{ link: "./pages/bookroom/", label: "Book et lokale" }];
 
 /*Header component */
 export function Header() {

@@ -8,7 +8,6 @@ import {
   Stack,
   Grid,
   LoadingOverlay,
-  Space,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
@@ -22,6 +21,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import Link from "next/link";
 import { formatDateToDDMMYY, formatDateToYYYYMMDD, getUser } from "@/utils";
+import { motion } from "framer-motion";
+import { IconCalendar } from "@tabler/icons-react";
 
 //ChooseDate compontent defineres.
 export default function ChooseDate() {
@@ -43,6 +44,7 @@ export default function ChooseDate() {
   const [booking, setBooking] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   //Supabase client
   const supabase = createClient(
@@ -190,9 +192,17 @@ export default function ChooseDate() {
             {value ? formatDateToDDMMYY(value) : ""}
           </Notification>
           <p>Du får tilsendt en mail med en bekræftelse</p>
-          <Link href="/">
-            <Button variant="outline">Se booking</Button>
-          </Link>
+          <motion.div
+            whileHover={{
+              scale: 1.0,
+            }} // Define the hover animation
+            whileTap={{ scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/">
+              <Button variant="outline">Se booking</Button>
+            </Link>
+          </motion.div>
         </div>
       </Modal>
 
@@ -258,6 +268,7 @@ export default function ChooseDate() {
                         className={classes.roomItem}
                         disabled={activeBookingsForDate.includes(roomItem.id)}
                         style={{
+                          marginBottom: "10px",
                           border:
                             selectedRoomId == roomItem.id
                               ? "2px solid #228BE5"
@@ -267,7 +278,6 @@ export default function ChooseDate() {
                         {roomItem.beskrivelse}
                       </Notification>
                     ))}
-                    <div className={classes.endPlacement}></div>
                   </div>
                 </Stack>
               )}
@@ -279,7 +289,16 @@ export default function ChooseDate() {
               <Grid.Col span={4}>
                 <div className={classes.confirm}>
                   <Stack>
-                    <h2>{value ? formatDateToDDMMYY(value) : ""}</h2>
+                    <h2>Bekræft</h2>
+                    <h2>
+                      <IconCalendar
+                        size={20}
+                        style={{
+                          marginRight: "5px",
+                        }}
+                      />
+                      {value ? formatDateToDDMMYY(value) : ""}
+                    </h2>
                     <Notification
                       withCloseButton={false}
                       title={
@@ -295,13 +314,22 @@ export default function ChooseDate() {
                     Vil du bekræfte denne booking? du kan altid afmelde den igen
                   </Stack>
                   <Group>
-                    <Button
-                      className={classes.nextBtn}
-                      onClick={handleCreateBooking}
-                      variant="filled"
+                    <motion.div
+                      whileHover={{
+                        scale: 1.01,
+                        opacity: 2,
+                      }} // Define the hover animation
+                      whileTap={{ scale: 1 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      Bekræft
-                    </Button>
+                      <Button
+                        className={classes.nextBtn}
+                        onClick={handleCreateBooking}
+                        variant="filled"
+                      >
+                        Bekræft
+                      </Button>
+                    </motion.div>
                   </Group>
                 </div>
               </Grid.Col>
