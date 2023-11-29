@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "./Header";
-import { Loader } from "@mantine/core";
+import Footer from "./Footer";
 export default function DefaultLayout({ children }) {
   return (
     <div>
@@ -11,6 +11,7 @@ export default function DefaultLayout({ children }) {
       <main>
         <div>{children}</div>
       </main>
+      <Footer/>
     </div>
   );
 }
