@@ -157,16 +157,12 @@ export default function ChooseDate() {
     }
   };
 
-<<<<<<< HEAD
-  //Gengiver componentet.
-=======
   const activeBookingsForDate = value
     ? bookings
         .filter((booking) => booking.Dato == formatDateToYYYYMMDD(value))
         .map((booking) => booking.rumId)
     : null;
 
->>>>>>> a85e7f76a84d16121d29c57c26659afdc45957ea
   return (
     <div
       style={{
