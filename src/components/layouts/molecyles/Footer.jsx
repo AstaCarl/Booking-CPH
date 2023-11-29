@@ -9,8 +9,19 @@ export default function Footer() {
       //Når brugeren logger ud.
   const logoutUser = () => {
     localStorage.clear();
-    router.push("/login");
+    router.push("/");
   };
+
+    // Define an array of page paths where you want to hide the footer
+    const pagesWithoutFooter = ['/', '/login', '/login/signup',];
+
+    // Check if the current route is in the array of pages without the footer
+    const shouldRenderFooter = !pagesWithoutFooter.includes(router.pathname);
+  
+    if (!shouldRenderFooter) {
+      return null; // Return null if the footer should not be rendered on the current page
+    }
+
   return (
     <footer>
         <div>
@@ -41,7 +52,7 @@ export default function Footer() {
                 alignItems: "center",
                 gap: "5px",
                 fontSize: "14px",
-            }} href="/">
+            }} href="/profile">
             Profil <IconUserCircle size={18}/>
             </Link>
         </section>

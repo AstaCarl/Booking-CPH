@@ -9,7 +9,7 @@ export function Header() {
       {/*Header component container */}
       <div>
         {/*Logo med link til en specifik URL*/}
-        <Link href="https://cphbusiness.mrooms.net/">
+        <Link href="/">
         <div>
           <img style={{
             width:"180px",
@@ -33,8 +33,8 @@ export function Header() {
           </Link>
 
           {/*Link til forsiden med et ikon */}
-          <Link href="/">
-            <IconUserCircle size={40} />
+          <Link href="/profile">
+            <IconUserCircle size={30} />
           </Link>
         </div>
       </div>

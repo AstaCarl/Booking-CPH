@@ -45,6 +45,8 @@ main {
 header {
   height: 4rem;
   background-color: #2c2e33;
+  position: relative;
+  z-index: 100;
 
   > div {
     display: flex;

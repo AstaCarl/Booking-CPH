@@ -44,7 +44,6 @@ export default function ChooseDate() {
   const [booking, setBooking] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   //Supabase client
   const supabase = createClient(
@@ -191,7 +190,10 @@ export default function ChooseDate() {
           >
             {value ? formatDateToDDMMYY(value) : ""}
           </Notification>
-          <p>Du får tilsendt en mail med en bekræftelse, samt en påmindelse om din booking 24 timer før.</p>
+          <p>
+            Du får tilsendt en mail med en bekræftelse, samt en påmindelse om
+            din booking 24 timer før.
+          </p>
           <motion.div
             whileHover={{
               scale: 1.0,
@@ -199,7 +201,7 @@ export default function ChooseDate() {
             whileTap={{ scale: 1 }}
             transition={{ duration: 0.2 }}
           >
-            <Link href="/">
+            <Link href="/profile">
               <Button variant="outline">Se booking</Button>
             </Link>
           </motion.div>
