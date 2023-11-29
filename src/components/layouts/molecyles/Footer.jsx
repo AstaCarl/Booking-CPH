@@ -12,14 +12,14 @@ export default function Footer() {
     router.push("/");
   };
 
-    // Define an array of page paths where you want to hide the footer
+    //Array der definerer de sidder hvor footeren ikke skal være
     const pagesWithoutFooter = ['/', '/login', '/login/signup',];
 
-    // Check if the current route is in the array of pages without the footer
+    //Checker om den nuværende route er i det ovenstående array
     const shouldRenderFooter = !pagesWithoutFooter.includes(router.pathname);
   
     if (!shouldRenderFooter) {
-      return null; // Return null if the footer should not be rendered on the current page
+      return null; // Return "null" hvis footeren ikke skal renderes på den nuværende route
     }
 
   return (
