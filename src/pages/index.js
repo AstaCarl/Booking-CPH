@@ -170,10 +170,10 @@ const Home = () => {
           </Modal>
 
           {/*Booking status.*/}
-          <h1 className={classes.firstHeading}>
+          <h1>
             Hej, {user.firstName} {user.lastName}!
           </h1>
-          <h2 className={classes.secondHeading}>
+          <h2>
             {booking.Dato}
             {activeBooking
               ? "Du har 1 aktiv booking"
@@ -221,7 +221,7 @@ const Home = () => {
                   scale: 1.02,
                   opacity: 2,
                 }} // Define the hover animation
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.2 }}
               >
                 <Button className={classes.btn} variant="filled">
