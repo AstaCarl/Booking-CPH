@@ -1,8 +1,10 @@
+/*Styling for first heading.*/
 .firstHeading {
   font-size: 32px;
   margin-bottom: 2rem;
 }
 
+/*Styling for informations teksten.*/
 .infoText {
   font-size: 12px;
   width: max-content;
@@ -11,11 +13,13 @@
   gap: 5px;
 }
 
+/*Styling for wrapper sektionen.*/
 .wrapper {
   margin-left: 0.5rem;
   margin-top: 3rem;
 }
 
+/*Styling for rum wrapper sektionen.*/
 .roomWrapper {
   margin-left: 0.5rem;
   margin-top: 3rem;
@@ -24,6 +28,7 @@
   align-items: end;
 }
 
+/*Styling for border sektionen.*/
 .border {
   width: 100%;
   border: 1px solid #e9ecef;
@@ -34,39 +39,47 @@
   margin-top: 1.5rem;
 }
 
+/*Stylingen for knappen*/
 .btn {
   width: 448px;
   height: 40px;
 }
 
+/*Styling for second Heading*/
 .secondHeading {
   font-size: 20px;
 }
 
+/*Styling for næste knappen.*/
 .nextBtn {
   width: fit-content;
   height: 40px;
   margin: 20px 0px 20px 0px;
 }
 
+/*Styling for placement, som er slutningen af sektionen.*/
 .endPlacement {
   display: flex;
   justify-content: end;
 }
 
+/*Styling for third heading.*/
 .thirdHeading {
   font-size: 30px;
 }
 
+/*Styling for modal content.*/
 .modal {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
+/*Styling for room item.*/
 .roomItem {
   cursor: pointer;
 
+  /*Styling for disabled state.*/
   &[disabled] {
     filter: grayscale(1);
     cursor: not-allowed;

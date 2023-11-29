@@ -1,3 +1,4 @@
+//Importere nødvendige indhold og styles.
 import React from "react";
 import { useState } from "react";
 import { TextInput } from "@mantine/core";
@@ -15,6 +16,7 @@ import classes from "./index.module.css";
 import { supabase } from "@/supabase";
 
 const SignUp = () => {
+  //State variabler.
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [phone, setPhone] = useState("");
@@ -24,49 +26,54 @@ const SignUp = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState();
 
+  //Next.js router.
+  const router = useRouter();
+
+  //Funktion som håndtere ændringer på firstname input.
   const handleFirstnameChange = (event) => {
     setFirstname(event.target.value);
     setError("");
   };
 
+  //Funktion som håndtere ændringer på lastname input.
   const handleLastnameChange = (event) => {
     setLastname(event.target.value);
     setError("");
   };
 
+  //Funktion som håndtere ændringer på phone input.
   const handlePhoneChange = (event) => {
     setPhone(event.target.value);
     setError("");
   };
 
+  //Funktion som håndtere ændringer på email input.
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     setError("");
   };
 
+  //Funktion som håndtere ændringer på password input.
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     setError("");
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   signUpNewUser();
-  //   setError("Invalid Username or Password");
-  // };
-
+  //Funktion som håndtere ændringer på form submit.
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Check if all fields are filled
+    // Checker om alle felterne er fyldte.
     if (!firstname || !lastname || !phone || !email || !password) {
       setError("Please fill in all fields");
       return;
     }
 
+    //Kalder denne funktion for at sign up en ny bruger.
     signUpNewUser();
   };
 
+  //Funktion som sign up en ny bruger med Supabase.
   async function signUpNewUser() {
     setIsLoading(true);
     const { data, error } = await supabase.auth.signUp({
@@ -86,6 +93,7 @@ const SignUp = () => {
       return;
     }
 
+    //Hvis sign up er en succes, åbner modalen og logger bruger ind.
     open();
     await supabase.auth.signInWithPassword({
       email,
@@ -96,6 +104,7 @@ const SignUp = () => {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
+        {/*Modal */}
         <Modal
           size="lg"
           opened={opened}
@@ -121,6 +130,7 @@ const SignUp = () => {
         </Modal>
 
         <h1>Opret bruger</h1>
+        {/*Link til login for eksisterende medlemmer. */}
         <div
           style={{
             display: "flex",
@@ -144,7 +154,9 @@ const SignUp = () => {
             <span>Login</span>
           </Link>
         </div>
+        {/*Sign up formen */}
         <form onSubmit={handleSubmit}>
+          {/*Input felt for firstname*/}
           <label htmlFor="firstname">Fornavn</label>
           <TextInput
             type="firstname"
@@ -157,6 +169,7 @@ const SignUp = () => {
             leftSection={<IconUser size={16} />}
             error={error}
           />
+          {/*Input felt for lastname*/}
           <label htmlFor="lastname">Efternavn</label>
           <TextInput
             type="lastname"
@@ -169,6 +182,7 @@ const SignUp = () => {
             leftSection={<IconUser size={16} />}
             error={error}
           />
+          {/*Input felt for email*/}
           <label htmlFor="email">Email</label>
           <TextInput
             type="email"
@@ -182,6 +196,7 @@ const SignUp = () => {
             leftSection={<IconAt size={16} />}
             error={error}
           />
+          {/*Input felt for phone*/}
           <label htmlFor="phone">Telefon</label>
           <TextInput
             type="phone"
@@ -194,6 +209,7 @@ const SignUp = () => {
             leftSection={<IconPhone size={16} />}
             error={error}
           />
+          {/*Input felt for password*/}
           <label htmlFor="password">Adgangskode</label>
           <PasswordInput
             type="password"
@@ -205,6 +221,7 @@ const SignUp = () => {
             placeholder="Kodeord"
             error={error}
           />
+          {/*Submit knap*/}
           <Button
             type="submit"
             variant="filled"

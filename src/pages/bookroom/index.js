@@ -1,3 +1,4 @@
+//Importere nødvendige indhold og styles
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -23,7 +24,9 @@ import { Modal } from "@mantine/core";
 import Link from "next/link";
 import { formatDateToDDMMYY, formatDateToYYYYMMDD, getUser } from "@/utils";
 
+//ChooseDate compontent defineres.
 export default function ChooseDate() {
+  //State og funktioner er for at håndtere staten.
   const [active, setActive] = useState(1);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
@@ -43,12 +46,15 @@ export default function ChooseDate() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
 
+  //Supabase client
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
   );
 
+  //Håndtere boookingen
   const handleCreateBooking = async () => {
+    //Objekter som er i Create booking
     const booking = {
       Email: user.email,
       Dato: value,
@@ -57,12 +63,14 @@ export default function ChooseDate() {
       efternavn: user.lastname,
     };
 
+    //Indsætter booking data i vores database som er i Supbase.
     const { data, error } = await supabase.from("Booking").insert(booking);
     if (error) {
       console.error("Error inserting data:", error);
       return;
     }
 
+    //Her logger vi den indsatte data og sender en bekræftelses email med at bruge emailjs.
     console.log("Data inserted:", data);
     emailjs
       .send(
@@ -83,9 +91,10 @@ export default function ChooseDate() {
           console.log("FAILED...", error);
         }
       );
-    open();
+    open(); //Åbner modalen.
   };
 
+  //Fetcher bruger data og data i componentet.
   useEffect(() => {
     const user = getUser();
     if (!user.isLoggedIn) {
@@ -105,12 +114,14 @@ export default function ChooseDate() {
     setShowRooms(false);
   };
 
+  //Fetcher ledige rum og aktive bookinger fra Supabase.
   const getDataFromSupabase = async () => {
     await getAvailableRooms();
     await getActiveBookings();
     setIsLoading(false);
   };
 
+  //Fetcher ledige room fra Supabase
   const getAvailableRooms = async () => {
     const { data, error } = await supabase.from("Rooms").select("*");
     if (error) {
@@ -121,6 +132,7 @@ export default function ChooseDate() {
     setRoom(data);
   };
 
+  //Fetcher aktive booking fra Supbase.
   const getActiveBookings = async () => {
     const { data, error } = await supabase.from("Booking").select("*");
     if (error) {
@@ -131,11 +143,13 @@ export default function ChooseDate() {
     setBookings(data);
   };
 
+  //Håndtere data ændringer i date picker.
   const handleDateChange = async (date) => {
     setSelectedRoomId(null);
     setValue(date);
     console.log(bookings);
 
+    //Viser rum og inkrement, hvis det ikke allerede er gjort.
     if (!stepperIncremented) {
       setShowRooms(true);
       nextStep();
@@ -155,12 +169,14 @@ export default function ChooseDate() {
         position: "relative",
       }}
     >
+      {/*Loading overlay */}
       <LoadingOverlay
         visible={isLoading}
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
       />
 
+      {/*Modal*/}
       <Modal
         size="lg"
         opened={opened}
@@ -186,6 +202,8 @@ export default function ChooseDate() {
           </Link>
         </div>
       </Modal>
+
+      {/*Main content */}
       <div>
         {showCalender && (
           <h1 className={classes.firstHeading}>Book et lokale</h1>

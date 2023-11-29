@@ -5,18 +5,18 @@ import { IconUserCircle } from "@tabler/icons-react";
 import Link from "next/link";
 
 {
-  /*Links */
+  /*Definerer navigationslink */
 }
 const links = [{ link: "./pages/bookroom/", label: "Book et lokale" }];
 
+/*Header component */
 export function Header() {
-  const [opened, { toggle }] = useDisclosure(false);
-  const [active, setActive] = useState(links[0].link);
 
   return (
     <header>
+      {/*Header component container */}
       <div>
-        {/*Dette er vores logo */}
+        {/*Logo med link til en specifik URL*/}
         <Link href="https://cphbusiness.mrooms.net/">
         <div>
           <img style={{
@@ -25,7 +25,10 @@ export function Header() {
         </div>
         </Link>
 
+        {/*Navigation items container */}
         <div className="items">
+
+          {/*Link til bookroom med styles */}
           <Link
             href="/bookroom"
             style={{
@@ -36,6 +39,8 @@ export function Header() {
           >
             Book et lokale
           </Link>
+
+          {/*Link til forsiden med et ikon */}
           <Link href="/">
             <IconUserCircle size={40} />
           </Link>
