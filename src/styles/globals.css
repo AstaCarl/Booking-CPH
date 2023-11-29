@@ -14,6 +14,8 @@ h1 {
 h2 {
   font-weight: 400;
   font-size: 20px;
+  display: flex;
+  align-items: center;
 }
 
 h3{
@@ -31,11 +33,15 @@ main {
 
   > div {
     max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
+/*Header*/
 header {
   height: 4rem;
   background-color: #2c2e33;
@@ -64,4 +70,39 @@ header {
       }
     }
   }
+}
+
+/*Footer*/
+footer{
+  /*Lavet position til fixed, da footeren så bliver i bunden af siden.*/
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  height: 4rem;
+  background-color: #2c2e33;
+  color: white;
+
+  > div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+      }
+
+    .links{
+      display: flex;
+      gap: 15px;
+
+      > p {
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+
 }
