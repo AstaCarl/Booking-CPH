@@ -15,8 +15,8 @@ import { supabase } from "@/supabase";
 import { motion } from "framer-motion";
 //Funktional component defineres.
 const Home = () => {
-  const [booking, setBooking] = useState([]);
-  const [room, setRoom] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const router = useRouter();
   const [user, setUser] = useState({});
   const [opened, { open, close }] = useDisclosure(false);
@@ -26,6 +26,7 @@ const Home = () => {
     description: "",
     action: null,
   });
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
   useEffect(() => {
@@ -38,20 +39,26 @@ const Home = () => {
     }
 
     setUser(user);
-    setIsLoading(false);
   }, []);
 
   //Fetcher booking og rum data, når brugeren skifter.
   useEffect(() => {
-    fetchBooking();
-    fetchRoom();
+    if (user !== null && Object.keys(user).length > 0) {
+      fetchData();
+    }
   }, [user]);
+
+  const fetchData = async () => {
+    await fetchBooking();
+    await fetchRoom();
+    setIsLoading(false);
+  };
 
   //Fetcher brugerens booking data fra Supabase.
   const fetchBooking = async () => {
     const { data, error } = await supabase
       .from("Booking")
-      .select("Email, rumId, Dato")
+      .select("*")
       .eq("Email", user.email);
 
     if (error) {
@@ -59,7 +66,7 @@ const Home = () => {
       return;
     }
 
-    setBooking(data);
+    setBookings(data);
   };
 
   //Fetcher rum data fra Supabase.
@@ -69,21 +76,27 @@ const Home = () => {
       console.error("Error fetching rooms data");
     }
 
-    setRoom(data);
+    setRooms(data);
   };
 
   //Håndterer sletning af brugerens booking.
   const handleDeleteBooking = async () => {
-    const { data, error } = await supabase
+    const { _, error } = await supabase
       .from("Booking")
       .delete()
-      .eq("Email", user.email);
+      .eq("id", selectedBooking.id);
 
     if (error) {
       console.error("error deleting data");
+      return;
     }
+
+    setBookings((bookings) =>
+      bookings.filter((booking) => booking.id !== selectedBooking.id)
+    );
+
+    setSelectedBooking(null);
     close();
-    window.location.reload();
   };
 
   //Når brugeren logger ud.
@@ -99,24 +112,17 @@ const Home = () => {
     open();
   };
 
-  //Chekker om brugeren har en aktive booking.
-  const activeBooking = booking && booking.length > 0 && booking[0].rumId;
-
-  //Log bruger og rum til console.
-  console.log(user);
-  console.log(room);
-
   //JSX gengiver.
   return (
     <>
       <div className={classes.container}>
+        {/* Loading overlay mens data bliver fetchet. */}
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
         <div className={classes.box}>
-          {/* Loading overlay mens data bliver fetchet. */}
-          <LoadingOverlay
-            visible={isLoading}
-            zIndex={1000}
-            overlayProps={{ radius: "sm", blur: 2 }}
-          />
           {/*Modal for at sikre sletningen af booking.*/}
           <Modal
             size="lg"
@@ -138,18 +144,26 @@ const Home = () => {
               </p>
               <p>Er du sikker på det?</p>
 
-              {/*Notifiktion med booking informationer.*/}
+              {/* Notifiktion med booking informationer. */}
               <Notification
                 className={classes.notification}
                 withCloseButton={false}
                 title={
-                  booking.length > 0 &&
-                  room.find((r) => r.id === booking[0]?.rumId)?.lokale
+                  selectedBooking !== null
+                    ? `${formatDateToDDMMYY(
+                        new Date(selectedBooking.Dato)
+                      )} - ${
+                        rooms.find((room) => room.id === selectedBooking.rumId)
+                          ?.lokale ?? "Ukendt"
+                      }`
+                    : ""
                 }
               >
                 <p>
-                  {booking.length > 0 &&
-                    room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
+                  {selectedBooking !== null
+                    ? rooms.find((room) => room.id === selectedBooking.rumId)
+                        ?.beskrivelse ?? "Ukendt"
+                    : ""}
                 </p>
               </Notification>
 
@@ -172,76 +186,54 @@ const Home = () => {
             Hej, {user.firstName} {user.lastName}!
           </h1>
           <h2>
-            {booking.Dato}
-            {activeBooking
-              ? "Du har 1 aktiv booking"
-              : "Du har ingen aktive bookinger"}
+            {bookings.Dato}
+            {bookings.length == 1
+              ? "Du har 1 aktiv booking."
+              : `Du har ${
+                  bookings.length > 0 ? bookings.length : "ingen"
+                } aktive bookinger.`}
           </h2>
           {/*Viser booking detaljer og muligheder baseret på den aktive bookings status. */}
-          {activeBooking ? (
-            <>
-              <h3>
-                {booking.length > 0 &&
-                  formatDateToDDMMYY(new Date(booking[0].Dato))}
-              </h3>
+
+          {bookings.map((booking) => (
+            <div key={`booking-${booking.id}`}>
               <Notification
                 className={classes.notification}
-                withCloseButton={false}
-                title={
-                  booking.length > 0 &&
-                  room.find((r) => r.id === booking[0]?.rumId)?.lokale
-                }
+                withCloseButton={true}
+                onClose={() => {
+                  setSelectedBooking(booking);
+                  openModal(
+                    "Afmeld tid!",
+                    "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
+                    handleDeleteBooking
+                  );
+                }}
+                title={`${formatDateToDDMMYY(new Date(booking.Dato))} - ${
+                  rooms.find((r) => r.id === booking.rumId)?.lokale ?? ""
+                }`}
               >
                 <p className={classes.notificationText}>
-                  {booking.length > 0 &&
-                    room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
+                  {rooms.length > 0 &&
+                    rooms.find((r) => r.id === booking.rumId)?.beskrivelse}
                 </p>
               </Notification>
+            </div>
+          ))}
 
-              {/*Knapper for at afslutte eller afmelde tid. */}
-              <motion.div
-                whileHover={{
-                  scale: 1.02,
-                  opacity: 2,
-                }} // Define the hover animation
-                whileTap={{ scale: 1.01 }}
-                transition={{ duration: 0.2 }}
-                onClick={logoutUser}
-                style={{ cursor: "pointer" }} // Add pointer cursor on hover
-              >
-                <Button
-                  className={classes.btn}
-                  variant="filled"
-                  color="red"
-                  onClick={() =>
-                    openModal(
-                      "Afmeld tid!",
-                      "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
-                      handleDeleteBooking
-                    )
-                  }
-                >
-                  Afmeld tid
-                </Button>
-              </motion.div>
-            </>
-          ) : (
-            //Knap til at navigere til bookroom, når der ingen aktive bookinger er.
-            <Link href="/bookroom">
-              <motion.div
-                whileHover={{
-                  scale: 1.02,
-                  opacity: 2,
-                }} // Define the hover animation
-                whileTap={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Button className={classes.btn} variant="filled">
-                  Book et lokale
-                </Button>
-              </motion.div>
-            </Link>
-          )}
+          <Link href="/bookroom">
+            <motion.div
+              whileHover={{
+                scale: 1.02,
+                opacity: 2,
+              }} // Define the hover animation
+              whileTap={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Button className={classes.btn} variant="filled">
+                Book et lokale
+              </Button>
+            </motion.div>
+          </Link>
 
           {/*Log ud link */}
           <div className={classes.logOut}>
