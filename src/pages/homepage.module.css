@@ -1,0 +1,40 @@
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(/image17.jpg);
+    
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    z-index: 1;
+    position: relative;
+}
+  
+.title {
+    color: var(--mantine-color-white);
+    font-size: rem(60px);
+    font-weight: 900;
+    line-height: 1.1;
+  
+}
+  
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: var(--mantine-spacing-xl); /* Adjust the gap as needed */
+    margin-left: 2px;
+}
+
+.control {
+    margin-top: calc(var(--mantine-spacing-xl) * 1.5);
+
+}
