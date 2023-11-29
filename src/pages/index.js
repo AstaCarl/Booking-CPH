@@ -149,7 +149,7 @@ const Home = () => {
                   room.find((r) => r.id === booking[0]?.rumId)?.lokale
                 }
               >
-                <p className={classes.notificationText}>
+                <p>
                   {booking.length > 0 &&
                     room.find((r) => r.id === booking[0]?.rumId)?.beskrivelse}
                 </p>

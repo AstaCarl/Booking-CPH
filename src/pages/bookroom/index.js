@@ -157,12 +157,16 @@ export default function ChooseDate() {
     }
   };
 
+<<<<<<< HEAD
+  //Gengiver componentet.
+=======
   const activeBookingsForDate = value
     ? bookings
         .filter((booking) => booking.Dato == formatDateToYYYYMMDD(value))
         .map((booking) => booking.rumId)
     : null;
 
+>>>>>>> a85e7f76a84d16121d29c57c26659afdc45957ea
   return (
     <div
       style={{
@@ -206,11 +210,15 @@ export default function ChooseDate() {
       {/*Main content */}
       <div>
         {showCalender && (
-          <h1 className={classes.firstHeading}>Book et lokale</h1>
+          <h1
+            style={{
+              marginBottom: "15px",
+            }}
+          >
+            Book et lokale
+          </h1>
         )}
-        {showConfirm && (
-          <h1 className={classes.firstHeading}>Bekræft din booking</h1>
-        )}
+        {showConfirm && <h1>Bekræft din booking</h1>}
         <Stepper active={active} onStepClick={setActive}>
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step label="Step 2" description="Vælg lokale"></Stepper.Step>
@@ -224,7 +232,7 @@ export default function ChooseDate() {
             {showCalender && (
               <Grid.Col span={12}>
                 {" "}
-                <h2 className={classes.secondHeading}>Vælg dato</h2>
+                <h2>Vælg dato</h2>
                 <div className={classes.border}>
                   <DatePicker
                     value={value}
@@ -244,8 +252,8 @@ export default function ChooseDate() {
             <Grid.Col span={10}>
               {showRooms && (
                 <Stack>
-                  <h2 className={classes.secondHeading}>Vælg lokale</h2>
-                  <p className={classes.roomDescription}>
+                  <h2>Vælg lokale</h2>
+                  <p>
                     {" "}
                     Alle lokaler indeholder whiteboards, stikkontakter, borde og
                     stole.
@@ -292,9 +300,7 @@ export default function ChooseDate() {
           <Grid>
             <Grid.Col span={6}>
               <Stack>
-                <h2 className={classes.thirdHeading}>
-                  {value ? formatDateToDDMMYY(value) : ""}
-                </h2>
+                <h2>{value ? formatDateToDDMMYY(value) : ""}</h2>
                 <Notification
                   withCloseButton={false}
                   title={

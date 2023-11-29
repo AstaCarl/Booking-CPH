@@ -13,22 +13,6 @@
   flex-direction: column;
 }
 
-/*Styling på first heading*/
-.firstHeading {
-  font-size: 48px;
-  margin-bottom: 3rem;
-}
-
-/*Styling på second heading*/
-.secondHeading {
-  font-size: 24px;
-}
-
-/*Style på notifikationsteksten*/
-.notificationText {
-  margin: 0;
-  font-size: 14px;
-}
 
 /*Styling på notifikationen.*/
 .notification {
