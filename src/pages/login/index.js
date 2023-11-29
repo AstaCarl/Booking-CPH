@@ -5,11 +5,11 @@ import { IconAt } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
 import { Button } from "@mantine/core";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
 import styles from "./index.module.css";
 import { getUser } from "@/utils";
+import { supabase } from "@/supabase";
 
 //Login component defineres.
 const Login = () => {
