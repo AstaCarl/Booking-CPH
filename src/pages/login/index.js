@@ -22,17 +22,12 @@ const Login = () => {
     // Tjekker om brugeren er logget ind allerede
     const user = getUser();
     if (user.isLoggedIn) {
-      router.push("./bookroom");
+      router.push("/");
       return;
     }
 
     setIsLoading(false);
   }, []);
-
-  const supabase = createClient(
-    "https://ofbgpdhnblfmpijyknvf.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
-  );
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);

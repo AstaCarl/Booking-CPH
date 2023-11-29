@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
+import { supabase } from "@/supabase";
 
 const Home = () => {
   const [booking, setBooking] = useState([]);
@@ -23,11 +24,6 @@ const Home = () => {
     description: "",
     action: null,
   });
-
-  const supabase = createClient(
-    "https://ofbgpdhnblfmpijyknvf.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
-  );
 
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
   useEffect(() => {

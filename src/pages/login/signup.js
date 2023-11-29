@@ -12,11 +12,7 @@ import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
 import classes from "./index.module.css";
-
-const supabase = createClient(
-  "https://ofbgpdhnblfmpijyknvf.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
-);
+import { supabase } from "@/supabase";
 
 const SignUp = () => {
   const [firstname, setFirstname] = useState("");
@@ -27,8 +23,6 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState();
-
-  const router = useRouter();
 
   const handleFirstnameChange = (event) => {
     setFirstname(event.target.value);
