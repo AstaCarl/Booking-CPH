@@ -26,7 +26,7 @@ import { formatDateToDDMMYY, getUser } from "@/utils";
 
 //ChooseDate compontent defineres.
 export default function ChooseDate() {
-  //State og funktioner er for at håndtere staten. 
+  //State og funktioner er for at håndtere staten.
   const [active, setActive] = useState(1);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
@@ -46,13 +46,13 @@ export default function ChooseDate() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  //Supabase client 
+  //Supabase client
   const supabase = createClient(
     "https://ofbgpdhnblfmpijyknvf.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
   );
 
-  //Håndtere boookingen 
+  //Håndtere boookingen
   const handleCreateBooking = async () => {
     //Objekter som er i Create booking
     const booking = {
@@ -175,7 +175,7 @@ export default function ChooseDate() {
       setStepperIncremented(true);
     }
   };
-  
+
   //Gengiver componentet.
   return (
     <div
@@ -220,11 +220,15 @@ export default function ChooseDate() {
       {/*Main content */}
       <div>
         {showCalender && (
-          <h1 className={classes.firstHeading}>Book et lokale</h1>
+          <h1
+            style={{
+              marginBottom: "15px",
+            }}
+          >
+            Book et lokale
+          </h1>
         )}
-        {showConfirm && (
-          <h1 className={classes.firstHeading}>Bekræft din booking</h1>
-        )}
+        {showConfirm && <h1>Bekræft din booking</h1>}
         <Stepper active={active} onStepClick={setActive}>
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step label="Step 2" description="Vælg lokale"></Stepper.Step>
@@ -238,7 +242,7 @@ export default function ChooseDate() {
             {showCalender && (
               <Grid.Col span={12}>
                 {" "}
-                <h2 className={classes.secondHeading}>Vælg dato</h2>
+                <h2>Vælg dato</h2>
                 <div className={classes.border}>
                   <DatePicker
                     value={value}
@@ -258,8 +262,8 @@ export default function ChooseDate() {
             <Grid.Col span={10}>
               {showRooms && (
                 <Stack>
-                  <h2 className={classes.secondHeading}>Vælg lokale</h2>
-                  <p className={classes.roomDescription}>
+                  <h2>Vælg lokale</h2>
+                  <p>
                     {" "}
                     Alle lokaler indeholder whiteboards, stikkontakter, borde og
                     stole.
@@ -306,9 +310,7 @@ export default function ChooseDate() {
           <Grid>
             <Grid.Col span={6}>
               <Stack>
-                <h2 className={classes.thirdHeading}>
-                  {value ? formatDateToDDMMYY(value) : ""}
-                </h2>
+                <h2>{value ? formatDateToDDMMYY(value) : ""}</h2>
                 <Notification
                   withCloseButton={false}
                   title={

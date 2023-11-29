@@ -201,7 +201,7 @@ const SignUp = () => {
             leftSection={<IconAt size={16} />}
             error={error}
           />
-          {/*Input felt for phone*/}          
+          {/*Input felt for phone*/}
           <label htmlFor="phone">Telefon</label>
           <TextInput
             type="phone"

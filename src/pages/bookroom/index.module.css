@@ -1,8 +1,3 @@
-/*Styling for first heading.*/
-.firstHeading {
-  font-size: 32px;
-  margin-bottom: 2rem;
-}
 
 /*Styling for informations teksten.*/
 .infoText {
@@ -45,11 +40,6 @@
   height: 40px;
 }
 
-/*Styling for second Heading*/
-.secondHeading {
-  font-size: 20px;
-}
-
 /*Styling for næste knappen.*/
 .nextBtn {
   width: fit-content;
@@ -61,11 +51,6 @@
 .endPlacement {
   display: flex;
   justify-content: end;
-}
-
-/*Styling for third heading.*/
-.thirdHeading {
-  font-size: 30px;
 }
 
 /*Styling for modal content.*/
