@@ -5,7 +5,7 @@ import { Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
-import { getUser } from "@/utils";
+import { formatDateToDDMMYY, getUser } from "@/utils";
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
@@ -182,7 +182,10 @@ const Home = () => {
           {/*Viser booking detaljer og muligheder baseret på den aktive bookings status. */}
           {activeBooking ? (
             <>
-              <h3>{booking.length > 0 && booking[0].Dato}</h3>
+              <h3>
+                {booking.length > 0 &&
+                  formatDateToDDMMYY(new Date(booking[0].Dato))}
+              </h3>
               <Notification
                 className={classes.notification}
                 withCloseButton={false}
