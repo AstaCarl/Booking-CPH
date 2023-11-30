@@ -1,3 +1,4 @@
+//Importere nødvendige indhold og styles
 import { Title, Button } from "@mantine/core";
 import classes from "./index.module.css";
 import React from "react";
@@ -19,6 +20,7 @@ export function Homepage() {
             whileTap={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
+            {/*Link til login siden og knappen som hører til. */}
             <Link href="/login">
               <Button variant="outline" size="md" className={classes.control}>
                 Log på
@@ -33,6 +35,7 @@ export function Homepage() {
             whileTap={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
+            {/*Link til signup siden og knappen som hører til. */}
             <Link href="/login/signup">
               <Button variant="filled" size="md" className={classes.control}>
                 Opret profil

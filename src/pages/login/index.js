@@ -1,3 +1,4 @@
+//Importere nødvendige indhold og styles
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Loader, LoadingOverlay, TextInput } from "@mantine/core";
