@@ -1,3 +1,4 @@
+/*Styling på hero sektionen på forsiden*/
 .hero {
     display: flex;
     justify-content: center;
@@ -13,10 +14,12 @@
     background-image: url(/image17.jpg);
 }
 
+/*Styling på titlen på forsiden*/
 .title{
     font-weight: 400;
 }
 
+/*Styling på container med indholdet */
 .container {
     display: flex;
     flex-direction: column;
