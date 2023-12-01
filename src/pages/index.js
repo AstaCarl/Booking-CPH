@@ -12,6 +12,7 @@ export function Homepage() {
         <Title className={classes.title}>Book lokaler hos Cph Business</Title>
 
         <div className={classes.buttons}>
+          {/*Motion.div er til at skabe animation */}
           <motion.div
             whileHover={{
               scale: 1.02,
@@ -20,8 +21,10 @@ export function Homepage() {
             whileTap={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            {/*Link til login siden og knappen som hører til. */}
+            {/*Link til login siden-*/}
             <Link href="/login">
+
+              {/*Knappen til opret Log på  */}
               <Button variant="outline" size="md" className={classes.control}>
                 Log på
               </Button>
@@ -35,8 +38,10 @@ export function Homepage() {
             whileTap={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            {/*Link til signup siden og knappen som hører til. */}
+            {/*Link til signup siden */}
             <Link href="/login/signup">
+
+            {/*Knappen til opret profil */}
               <Button variant="filled" size="md" className={classes.control}>
                 Opret profil
               </Button>
