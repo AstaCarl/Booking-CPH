@@ -8,7 +8,6 @@ import styles from "./index.module.css";
 import Link from "next/link";
 import { IconUser } from "@tabler/icons-react";
 import { IconPhone } from "@tabler/icons-react";
-import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
@@ -24,8 +23,10 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState();
+  const [passwordError, setPasswordError] = useState();
 
   //Next.js router.
   const router = useRouter();
@@ -60,18 +61,31 @@ const Signup = () => {
     setError("");
   };
 
-  const handleConfirmPasswordChange =(event) => {
-    setPassword(event.target.value);
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
     setError("");
-  }
+  };
 
   //Funktion som håndtere ændringer på form submit.
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Checker om alle felterne er fyldte.
-    if (!firstname || !lastname || !phone || !email || !password) {
-      setError("Please fill in all fields");
+    if (
+      !firstname ||
+      !lastname ||
+      !phone ||
+      !email ||
+      !password ||
+      !confirmPassword
+    ) {
+      setError("Udfyld alle felter");
+      return;
+    }
+
+    //tjekker om kodeordne matcher, hvis ikke kommer der en error message
+    if (password !== confirmPassword) {
+      setPasswordError("Kodeordne matcher ikke");
       return;
     }
 
@@ -133,10 +147,10 @@ const Signup = () => {
               whileHover={{
                 scale: 1.02,
                 opacity: 2,
-              }} // Define the hover animation
+              }}
               whileTap={{ scale: 1.01 }}
               transition={{ duration: 0.2 }}
-              style={{ cursor: "pointer" }} // Add pointer cursor on hover
+              style={{ cursor: "pointer", width: "fir-content" }} // Add pointer cursor on hover
             >
               <Link href="/bookroom">
                 <Button variant="outline">Book et lokale</Button>
@@ -235,35 +249,43 @@ const Signup = () => {
             onChange={handlePasswordChange}
             className={styles.input}
             placeholder="Kodeord"
-            error={error}
+            error={error || passwordError}
           />
 
           {/*Input felt for gentagende password*/}
           <label htmlFor="confirmPassword">Gentag adgangskode</label>
           <PasswordInput
-            type="password"
+            type="confirmPassword"
             name="confirmPassword"
             id="confirmPassword"
-            value={password}
+            value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             className={styles.input}
-            placeholder="Gentag adgangskode"
-            error={error}
+            placeholder="Gentag kodeord"
+            error={error || passwordError}
           />
-
-
-          {/*Submit knap*/}
-          <Button
-            type="submit"
-            variant="filled"
-            disabled={isLoading}
-            style={{
-              width: "80px",
-              marginTop: "1rem",
+          <motion.div
+            whileHover={{
+              scale: 1.02,
+              opacity: 2,
             }}
+            whileTap={{ scale: 1.01 }}
+            transition={{ duration: 0.2 }}
+            style={{ cursor: "pointer", width: "fit-content" }} // Add pointer cursor on hover
           >
-            Opret
-          </Button>
+            {/*Submit knap*/}
+            <Button
+              type="submit"
+              variant="filled"
+              disabled={isLoading}
+              style={{
+                width: "80px",
+                marginTop: "1rem",
+              }}
+            >
+              Opret
+            </Button>
+          </motion.div>
         </form>
       </div>
     </div>

@@ -12,7 +12,6 @@ import {
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
 import "@mantine/dates/styles.css";
-import { IconInfoCircle } from "@tabler/icons-react";
 import { createClient } from "@supabase/supabase-js";
 import { Notification } from "@mantine/core";
 import { useRouter } from "next/router";
@@ -27,17 +26,14 @@ import { IconCalendar } from "@tabler/icons-react";
 //ChooseDate compontent defineres.
 export default function ChooseDate() {
   //State og funktioner er for at håndtere staten.
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
-  const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
   const [value, setValue] = useState(Date | (null > null));
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [room, setRoom] = useState([]);
   const [showRooms, setShowRooms] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [stepperIncremented, setStepperIncremented] = useState(false);
   const router = useRouter();
   const [bookings, setBookings] = useState([]);
   const [opened, { open, close }] = useDisclosure(false);
@@ -92,6 +88,7 @@ export default function ChooseDate() {
           console.log("FAILED...", error);
         }
       );
+    setActive(3); //sætter stepperen til 3
     open(); //Åbner modalen.
   };
 
@@ -142,13 +139,8 @@ export default function ChooseDate() {
     setSelectedRoomId(null);
     setValue(date);
     console.log(bookings);
-
-    //Viser rum og inkrement, hvis det ikke allerede er gjort.
-    if (!stepperIncremented) {
-      setShowRooms(true);
-      nextStep();
-      setStepperIncremented(true);
-    }
+    setShowRooms(true); //viser lokale sektionen
+    setActive(1); //sætter stepperen til step 1
   };
 
   const activeBookingsForDate = value
@@ -197,7 +189,7 @@ export default function ChooseDate() {
           <motion.div
             whileHover={{
               scale: 1.0,
-            }} // Define the hover animation
+            }}
             whileTap={{ scale: 1 }}
             transition={{ duration: 0.2 }}
           >
@@ -217,11 +209,10 @@ export default function ChooseDate() {
         >
           Book et lokale
         </h1>
-        <Stepper active={active} onStepClick={setActive}>
+        <Stepper active={active} onStepClick={setActive} size="xs">
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step label="Step 2" description="Vælg lokale"></Stepper.Step>
           <Stepper.Step label="Step 3" description="Bekræft"></Stepper.Step>
-          <Stepper.Completed></Stepper.Completed>
         </Stepper>
       </div>
       <div>
@@ -238,10 +229,6 @@ export default function ChooseDate() {
                   minDate={new Date()}
                 />
               </div>
-              <p className={classes.infoText}>
-                <IconInfoCircle size={16} />
-                Du kan maks have 1 aktiv booking pr. profil
-              </p>
             </Grid.Col>
           </div>
           <div className={classes.roomWrapper}>
@@ -262,8 +249,8 @@ export default function ChooseDate() {
                         onClick={() => {
                           if (!activeBookingsForDate.includes(roomItem.id)) {
                             setSelectedRoomId(roomItem.id);
-                            setShowConfirm(true);
-                            setActive(3);
+                            setShowConfirm(true); //viser bekræft sektionen
+                            setActive(2); //sætter stepperen til 2
                           }
                         }}
                         withCloseButton={false}
@@ -318,14 +305,14 @@ export default function ChooseDate() {
                   <Group>
                     <motion.div
                       whileHover={{
-                        scale: 1.01,
+                        scale: 1.02,
                         opacity: 2,
-                      }} // Define the hover animation
+                      }}
                       whileTap={{ scale: 1 }}
                       transition={{ duration: 0.2 }}
                     >
                       <Button
-                        className={classes.nextBtn}
+                        className={classes.btn}
                         onClick={handleCreateBooking}
                         variant="filled"
                       >

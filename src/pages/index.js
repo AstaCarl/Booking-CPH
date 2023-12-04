@@ -17,15 +17,14 @@ export function Homepage() {
             whileHover={{
               scale: 1.02,
               opacity: 2,
-            }} // Define the hover animation
+            }}
             whileTap={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             {/*Link til login siden-*/}
             <Link href="/login">
-
               {/*Knappen til opret Log på  */}
-              <Button variant="outline" size="md" className={classes.control}>
+              <Button variant="outline" size="sm">
                 Log på
               </Button>
             </Link>
@@ -34,15 +33,14 @@ export function Homepage() {
             whileHover={{
               scale: 1.02,
               opacity: 2,
-            }} // Define the hover animation
+            }}
             whileTap={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             {/*Link til signup siden */}
             <Link href="/login/signup">
-
-            {/*Knappen til opret profil */}
-              <Button variant="filled" size="md" className={classes.control}>
+              {/*Knappen til opret profil */}
+              <Button variant="filled" size="sm">
                 Opret profil
               </Button>
             </Link>

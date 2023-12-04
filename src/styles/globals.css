@@ -5,17 +5,15 @@
   font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
+  font-weight: 400;
 }
 /*Styling h1 på alle siderne*/
 h1 {
-  font-weight: 400;
   font-size: 32px;
-  margin: 0;
 }
 
 /*Styling h2 på alle siderne*/
 h2 {
-  font-weight: 400;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -23,9 +21,7 @@ h2 {
 
 /*Styling h3 på alle siderne*/
 h3{
-  font-weight: 400;
   font-size: 32px;
-  margin: 0;
 }
 
 /*Styling p på alle siderne*/
@@ -75,6 +71,8 @@ header {
 
       svg {
         color: white;
+        display: flex;
+        align-items: end;
       }
     }
   }
@@ -88,7 +86,7 @@ footer{
   bottom: 0;
   height: 4rem;
   background-color: #2c2e33;
-  color: white;
+  color: #C4C4C4;
 
   > div {
     height: 100%;
@@ -104,13 +102,5 @@ footer{
     .links{
       display: flex;
       gap: 15px;
-
-      > p {
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
     }
-
 }

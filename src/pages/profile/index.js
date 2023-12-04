@@ -1,10 +1,9 @@
 //Importere nødvendige indhold og styles.
 import React, { useEffect, useState } from "react";
-import { Center, Notification } from "@mantine/core";
+import { Notification } from "@mantine/core";
 import { Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { useRouter } from "next/router";
-import { createClient } from "@supabase/supabase-js";
 import { formatDateToDDMMYY, getUser } from "@/utils";
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
@@ -13,6 +12,7 @@ import { Modal } from "@mantine/core";
 import { LoadingOverlay } from "@mantine/core";
 import { supabase } from "@/supabase";
 import { motion } from "framer-motion";
+
 //Funktional component defineres.
 const Home = () => {
   const [bookings, setBookings] = useState([]);
@@ -220,20 +220,22 @@ const Home = () => {
             </div>
           ))}
 
-          <Link href="/bookroom">
-            <motion.div
-              whileHover={{
-                scale: 1.02,
-                opacity: 2,
-              }} // Define the hover animation
-              whileTap={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Button className={classes.btn} variant="filled">
-                Book et lokale
-              </Button>
-            </motion.div>
-          </Link>
+          <motion.div
+            whileHover={{
+              scale: 1.02,
+              opacity: 2,
+            }}
+            whileTap={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              width: "fit-content",
+              marginTop: "1rem",
+            }}
+          >
+            <Link href="/bookroom">
+              <Button variant="filled">Book et lokale</Button>
+            </Link>
+          </motion.div>
 
           {/*Log ud link */}
           <div className={classes.logOut}>
@@ -241,11 +243,11 @@ const Home = () => {
               whileHover={{
                 scale: 1.02,
                 opacity: 2,
-              }} // Define the hover animation
+              }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
               onClick={logoutUser}
-              style={{ cursor: "pointer" }} // Add pointer cursor on hover
+              style={{ width: "fit-content" }} // Add pointer cursor on hover
             >
               <Link
                 href="/"

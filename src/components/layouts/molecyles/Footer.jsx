@@ -1,7 +1,8 @@
 import { IconLogout, IconUserCircle } from '@tabler/icons-react'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 
 export default function Footer() {
     const router = useRouter();
@@ -13,7 +14,7 @@ export default function Footer() {
   };
 
     //Array der definerer de sidder hvor footeren ikke skal være
-    const pagesWithoutFooter = ['/', '/login', '/login/signup',];
+    const pagesWithoutFooter = ['/', '/login', '/login/signup', '/404'];
 
     //Checker om den nuværende route er i det ovenstående array
     const shouldRenderFooter = !pagesWithoutFooter.includes(router.pathname);
@@ -32,9 +33,18 @@ export default function Footer() {
             <p>Cphbusiness@lokaler.dk</p>
         </section>
         <section className='links'>
+            <motion.div
+            whileHover={{
+              opacity: 0.8,
+            }}
+            transition={{ duration: 0.2 }}
+            style={{
+              width: "fit-content"
+            }}
+          >
             <Link
             style={{
-                color: "white",
+                color: "#C4C4C4",
                 textDecoration: "none",
                 display: "flex",
                 alignItems: "center",
@@ -45,8 +55,19 @@ export default function Footer() {
             >
             Log ud <IconLogout size={18}/>
             </Link>
+          </motion.div>
+
+            <motion.div
+            whileHover={{
+              opacity: 0.8,
+            }}
+            transition={{ duration: 0.2 }}
+            style={{
+              width: "fit-content"
+            }}
+          >
             <Link style={{
-                color: "white",
+                color: "#C4C4C4",
                 textDecoration: "none",
                 display: "flex",
                 alignItems: "center",
@@ -55,6 +76,7 @@ export default function Footer() {
             }} href="/profile">
             Profil <IconUserCircle size={18}/>
             </Link>
+          </motion.div>
         </section>
         </div>
     </footer>

@@ -1,13 +1,13 @@
 //Importere nødvendige indhold og styles
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Loader, LoadingOverlay, TextInput } from "@mantine/core";
+import { LoadingOverlay, TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
 import { Button } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { motion } from "framer-motion";
 import styles from "./index.module.css";
 import { getUser } from "@/utils";
 import { supabase } from "@/supabase";
@@ -106,18 +106,29 @@ const Login = () => {
           {error && (
             <div className={styles.error}>Ugyldig Email eller Kodeord</div>
           )}
-          {/*Submit knap. */}
-          <Button
-            type="submit"
-            variant="filled"
+          <motion.div
+            whileHover={{
+              scale: 1.02,
+            }}
+            whileTap={{ scale: 1 }}
+            transition={{ duration: 0.2 }}
             style={{
-              width: "80px",
-              marginTop: "1rem",
               width: "fit-content",
             }}
           >
-            Log på
-          </Button>
+            {/*Link til bookroom med styles */}
+            {/*Submit knap. */}
+            <Button
+              type="submit"
+              variant="filled"
+              style={{
+                marginTop: "1rem",
+                width: "fit-content",
+              }}
+            >
+              Log på
+            </Button>
+          </motion.div>
           {/*Link til signup siden.*/}
           <div>
             Har du ikke en profil?{" "}

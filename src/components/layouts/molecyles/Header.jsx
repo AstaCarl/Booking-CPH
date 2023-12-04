@@ -1,5 +1,6 @@
 import { IconUserCircle } from "@tabler/icons-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 /*Header component */
 export function Header() {
@@ -19,7 +20,15 @@ export function Header() {
 
         {/*Navigation items container */}
         <div className="items">
-
+          <motion.div
+            whileHover={{
+              opacity: 0.8,
+            }} // Define the hover animation
+            transition={{ duration: 0.2 }}
+            style={{
+              width: "fit-content"
+            }}
+          >
           {/*Link til bookroom med styles */}
           <Link
             href="/bookroom"
@@ -31,11 +40,21 @@ export function Header() {
           >
             Book et lokale
           </Link>
-
-          {/*Link til forsiden med et ikon */}
+          </motion.div>
+          <motion.div
+            whileHover={{
+              opacity: 0.8,
+            }}
+            transition={{ duration: 0.2 }}
+            style={{
+              width: "fit-content"
+            }}
+          >
+          {/*Link til profilsiden */}
           <Link href="/profile">
             <IconUserCircle size={30} />
           </Link>
+          </motion.div>
         </div>
       </div>
     </header>
