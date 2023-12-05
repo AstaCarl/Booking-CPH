@@ -4,7 +4,12 @@ import { Notification } from "@mantine/core";
 import { Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { useRouter } from "next/router";
-import { formatDateToDDMMYY, getTimeSlots, getUser } from "@/utils";
+import {
+  formatDateToDDMMYY,
+  formatDateToYYYYMMDD,
+  getTimeSlots,
+  getUser,
+} from "@/utils";
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
@@ -56,7 +61,17 @@ const Home = () => {
     const { data, error } = await supabase
       .from("Booking")
       .select("*")
-      .eq("Email", user.email);
+      .eq("Email", user.email)
+      // Vælg alle bookinger, hvor datoen er højere end dagen før (så man kan se bookinger man har på dagen også)
+      .gt(
+        "Dato",
+        formatDateToYYYYMMDD(
+          new Date(new Date().setDate(new Date().getDate() - 1)) // Laver en nyt Date objekt, og sætter datoen en dag tilbage
+        )
+      )
+      .order("Dato", {
+        ascending: true,
+      });
 
     if (error) {
       console.error("Error fetching booking data:", error);
