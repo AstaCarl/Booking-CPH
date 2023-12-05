@@ -19,9 +19,14 @@ import emailjs from "emailjs-com";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import Link from "next/link";
-import { formatDateToDDMMYY, formatDateToYYYYMMDD, getUser } from "@/utils";
+import {
+  formatDateToDDMMYY,
+  formatDateToYYYYMMDD,
+  getTimeSlots,
+  getUser,
+} from "@/utils";
 import { motion } from "framer-motion";
-import { IconCalendar } from "@tabler/icons-react";
+import { IconCalendar, IconClock } from "@tabler/icons-react";
 
 //ChooseDate compontent defineres.
 export default function ChooseDate() {
@@ -29,7 +34,7 @@ export default function ChooseDate() {
   const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
-  const [value, setValue] = useState(Date | (null > null));
+  const [selectedDate, setSelectedDate] = useState(Date | (null > null));
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [room, setRoom] = useState([]);
   const [showRooms, setShowRooms] = useState(false);
@@ -40,6 +45,10 @@ export default function ChooseDate() {
   const [booking, setBooking] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+
+  const timeSlots = getTimeSlots();
 
   //Supabase client
   const supabase = createClient(
@@ -49,13 +58,14 @@ export default function ChooseDate() {
 
   //Håndtere boookingen
   const handleCreateBooking = async () => {
+    setIsLoading(true);
+
     //Objekter som er i Create booking
     const booking = {
       Email: user.email,
-      Dato: value,
+      Dato: selectedDate,
       rumId: selectedRoomId,
-      fornavn: user.firstname,
-      efternavn: user.lastname,
+      timeSlot: selectedTimeSlot,
     };
 
     //Indsætter booking data i vores database som er i Supbase.
@@ -75,7 +85,7 @@ export default function ChooseDate() {
           name: user.firstName,
           lastname: user.lastName,
           email: user.email,
-          date: formatDateToDDMMYY(value),
+          date: formatDateToDDMMYY(selectedDate),
           room: room[selectedRoomId].lokale,
         },
         "DHs-0RPe7FVACEeuX"
@@ -88,8 +98,9 @@ export default function ChooseDate() {
           console.log("FAILED...", error);
         }
       );
-    setActive(3); //sætter stepperen til 3
-    open(); //Åbner modalen.
+
+    setIsLoading(false);
+    setBookingConfirmed(true);
   };
 
   //Fetcher bruger data og data i componentet.
@@ -137,17 +148,17 @@ export default function ChooseDate() {
   //Håndtere data ændringer i date picker.
   const handleDateChange = async (date) => {
     setSelectedRoomId(null);
-    setValue(date);
-    console.log(bookings);
-    setShowRooms(true); //viser lokale sektionen
+    setSelectedDate(date);
     setActive(1); //sætter stepperen til step 1
   };
 
-  const activeBookingsForDate = value
-    ? bookings
-        .filter((booking) => booking.Dato == formatDateToYYYYMMDD(value))
-        .map((booking) => booking.rumId)
+  const activeBookingsForDate = selectedDate
+    ? bookings.filter(
+        (booking) => booking.Dato == formatDateToYYYYMMDD(selectedDate)
+      )
     : null;
+
+  console.log(selectedDate);
 
   return (
     <div
@@ -167,37 +178,98 @@ export default function ChooseDate() {
         size="lg"
         opened={opened}
         onClose={close}
+        withCloseButton={true}
+        centered
+      ></Modal>
+
+      <Modal
+        size="lg"
+        opened={selectedRoomId !== null}
+        onClose={() => {
+          !bookingConfirmed ? setSelectedRoomId(null) : router.push("/profile");
+        }}
         withCloseButton={false}
         centered
       >
-        <div className={classes.modal}>
-          <h1 className={classes.margin}>Tak for din booking!</h1>
-          <Notification
-            withCloseButton={false}
-            title={
-              selectedRoomId && room.length > 0
-                ? room.find((r) => r.id == selectedRoomId).lokale
-                : ""
-            }
-          >
-            {value ? formatDateToDDMMYY(value) : ""}
-          </Notification>
-          <p>
-            Du får tilsendt en mail med en bekræftelse, samt en påmindelse om
-            din booking 24 timer før.
-          </p>
-          <motion.div
-            whileHover={{
-              scale: 1.0,
-            }}
-            whileTap={{ scale: 1 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/profile">
-              <Button variant="outline">Se booking</Button>
-            </Link>
-          </motion.div>
-        </div>
+        {bookingConfirmed ? (
+          <div className={classes.modal}>
+            <h1 className={classes.margin}>Tak for din booking!</h1>
+            <Notification
+              withCloseButton={false}
+              title={
+                selectedRoomId && room.length > 0
+                  ? room.find((r) => r.id == selectedRoomId).lokale
+                  : ""
+              }
+            >
+              {selectedDate ? formatDateToDDMMYY(selectedDate) : ""}
+            </Notification>
+            <p>
+              Du får tilsendt en mail med en bekræftelse, samt en påmindelse om
+              din booking 24 timer før.
+            </p>
+            <motion.div
+              whileHover={{
+                scale: 1.0,
+              }}
+              whileTap={{ scale: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link href="/profile">
+                <Button variant="outline">Se booking</Button>
+              </Link>
+            </motion.div>
+          </div>
+        ) : (
+          <div className={classes.modal}>
+            <div className={classes.confirm}>
+              <Stack>
+                <h2>Bekræft</h2>
+                <h2>
+                  <IconCalendar
+                    size={20}
+                    style={{
+                      marginRight: "5px",
+                    }}
+                  />
+                  {selectedDate ? formatDateToDDMMYY(selectedDate) : ""} kl.{" "}
+                  {timeSlots[selectedTimeSlot] ?? ""}
+                </h2>
+                <Notification
+                  withCloseButton={false}
+                  title={
+                    selectedRoomId && room.length > 0
+                      ? room.find((r) => r.id == selectedRoomId).lokale
+                      : ""
+                  }
+                >
+                  {selectedRoomId && room.length > 0
+                    ? room.find((r) => r.id == selectedRoomId).beskrivelse
+                    : ""}
+                </Notification>
+                Vil du bekræfte denne booking? du kan altid afmelde den igen
+              </Stack>
+              <Group>
+                <motion.div
+                  whileHover={{
+                    scale: 1.02,
+                    opacity: 2,
+                  }}
+                  whileTap={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Button
+                    className={classes.btn}
+                    onClick={handleCreateBooking}
+                    variant="filled"
+                  >
+                    Bekræft
+                  </Button>
+                </motion.div>
+              </Group>
+            </div>
+          </div>
+        )}
       </Modal>
 
       {/*Main content */}
@@ -211,29 +283,62 @@ export default function ChooseDate() {
         </h1>
         <Stepper active={active} onStepClick={setActive} size="xs">
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
-          <Stepper.Step label="Step 2" description="Vælg lokale"></Stepper.Step>
-          <Stepper.Step label="Step 3" description="Bekræft"></Stepper.Step>
+          <Stepper.Step
+            label="Step 2"
+            description="Vælg tidspunkt"
+          ></Stepper.Step>
+          <Stepper.Step label="Step 3" description="Vælg lokale"></Stepper.Step>
         </Stepper>
       </div>
       <div>
         <Grid justify="space-between">
-          <div className={classes.wrapper}>
-            <Grid.Col span={4}>
-              {" "}
-              <h2>Vælg dato</h2>
-              <div className={classes.border}>
-                <DatePicker
-                  value={value}
-                  size="md"
-                  onChange={handleDateChange}
-                  minDate={new Date()}
-                />
-              </div>
-            </Grid.Col>
-          </div>
-          <div className={classes.roomWrapper}>
-            <Grid.Col span={4}>
-              {showRooms && (
+          {/* Step 1 - vælg dato */}
+          <Grid.Col span={4}>
+            {" "}
+            <h2>Vælg dato</h2>
+            <div className={classes.border}>
+              <DatePicker
+                value={selectedDate}
+                size="md"
+                onChange={handleDateChange}
+                minDate={new Date()}
+              />
+            </div>
+          </Grid.Col>
+
+          <Grid.Col span={4}>
+            {selectedDate !== null && selectedDate !== 0 && (
+              <>
+                <h2>Vælg tidspunkt</h2>
+                <ul className={classes.timeSlots}>
+                  {timeSlots.map((timeSlot, i) => (
+                    <li
+                      key={`timeSlot-${i}`}
+                      style={
+                        selectedTimeSlot == i
+                          ? { color: "#228BE5", fontWeight: 700 }
+                          : {}
+                      }
+                      onClick={() => {
+                        setSelectedTimeSlot(i);
+                        setSelectedRoomId(null);
+                      }}
+                    >
+                      <div>
+                        <IconClock size={20} /> {timeSlot}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </Grid.Col>
+
+          {/* Step 3 - vælg rum */}
+          <Grid.Col span={4}>
+            {selectedDate !== null &&
+              selectedDate !== 0 &&
+              selectedTimeSlot !== null && (
                 <Stack>
                   <div className={classes.rooms}>
                     <h2>Vælg lokale</h2>
@@ -247,15 +352,27 @@ export default function ChooseDate() {
                         title={roomItem.lokale}
                         key={`room-${roomItem.id}`}
                         onClick={() => {
-                          if (!activeBookingsForDate.includes(roomItem.id)) {
-                            setSelectedRoomId(roomItem.id);
-                            setShowConfirm(true); //viser bekræft sektionen
-                            setActive(2); //sætter stepperen til 2
+                          const isDisabled = activeBookingsForDate.find(
+                            (booking) =>
+                              booking.rumId == roomItem.id &&
+                              booking.timeSlot == selectedTimeSlot
+                          );
+
+                          if (isDisabled) {
+                            return;
                           }
+
+                          setSelectedRoomId(roomItem.id);
+                          setShowConfirm(true); //viser bekræft sektionen
+                          setActive(2); //sætter stepperen til 2
                         }}
                         withCloseButton={false}
                         className={classes.roomItem}
-                        disabled={activeBookingsForDate.includes(roomItem.id)}
+                        disabled={activeBookingsForDate.find(
+                          (booking) =>
+                            booking.rumId == roomItem.id &&
+                            booking.timeSlot == selectedTimeSlot
+                        )}
                         style={{
                           marginBottom: "10px",
                           border:
@@ -270,60 +387,7 @@ export default function ChooseDate() {
                   </div>
                 </Stack>
               )}
-            </Grid.Col>
-          </div>
-
-          <div className={classes.wrapper}>
-            {showConfirm && (
-              <Grid.Col span={4}>
-                <div className={classes.confirm}>
-                  <Stack>
-                    <h2>Bekræft</h2>
-                    <h2>
-                      <IconCalendar
-                        size={20}
-                        style={{
-                          marginRight: "5px",
-                        }}
-                      />
-                      {value ? formatDateToDDMMYY(value) : ""}
-                    </h2>
-                    <Notification
-                      withCloseButton={false}
-                      title={
-                        selectedRoomId && room.length > 0
-                          ? room.find((r) => r.id == selectedRoomId).lokale
-                          : ""
-                      }
-                    >
-                      {selectedRoomId && room.length > 0
-                        ? room.find((r) => r.id == selectedRoomId).beskrivelse
-                        : ""}
-                    </Notification>
-                    Vil du bekræfte denne booking? du kan altid afmelde den igen
-                  </Stack>
-                  <Group>
-                    <motion.div
-                      whileHover={{
-                        scale: 1.02,
-                        opacity: 2,
-                      }}
-                      whileTap={{ scale: 1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Button
-                        className={classes.btn}
-                        onClick={handleCreateBooking}
-                        variant="filled"
-                      >
-                        Bekræft
-                      </Button>
-                    </motion.div>
-                  </Group>
-                </div>
-              </Grid.Col>
-            )}
-          </div>
+          </Grid.Col>
         </Grid>
       </div>
     </div>

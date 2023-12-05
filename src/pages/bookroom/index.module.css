@@ -1,25 +1,6 @@
 /*Styling for wrapper sektionen.*/
 .wrapper {
   margin-top: 3rem;
-  width: fit-content;
-}
-
-/*Styling for rum wrapper sektionen.*/
-.roomWrapper {
-  width: fit-content;
-  margin-top: 3rem;
-}
-
-.rooms{
-  position: absolute;
-  left: 39%;
-  width: 300px;
-}
-
-.confirm{
-  position: absolute;
-  right: 0;
-  width: 300px;
 }
 
 /*Styling for border sektionen.*/
@@ -38,7 +19,6 @@
   width: fit-content;
   margin-top: 1rem;
 }
-
 
 /*Styling for placement, som er slutningen af sektionen.*/
 .endPlacement {
@@ -62,5 +42,29 @@
   &[disabled] {
     filter: grayscale(1);
     cursor: not-allowed;
+  }
+}
+
+.timeSlots {
+  border: 1px solid #ced4da;
+  list-style-type: none;
+
+  > li {
+    cursor: pointer;
+
+    > div {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.75rem;
+    }
+
+    &.selected > div {
+      border: 2px solid rgb(34, 139, 229);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #ced4da;
+    }
   }
 }
