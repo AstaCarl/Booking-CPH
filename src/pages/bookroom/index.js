@@ -286,7 +286,13 @@ export default function ChooseDate() {
         >
           Book et lokale
         </h1>
-        <Stepper active={active} size="xs">
+        <Stepper
+          active={active}
+          size="xs"
+          style={{
+            marginBottom: "2rem",
+          }}
+        >
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step
             label="Step 2"
@@ -349,7 +355,13 @@ export default function ChooseDate() {
               selectedTimeSlot !== null && (
                 <Stack>
                   <div className={classes.rooms}>
-                    <h2>Vælg lokale</h2>
+                    <h2
+                      style={{
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      Vælg lokale
+                    </h2>
                     <p>
                       {" "}
                       Alle lokaler indeholder whiteboards, stikkontakter, borde

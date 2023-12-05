@@ -55,7 +55,7 @@
 .timeSlots {
   border: 1px solid #ced4da;
   list-style-type: none;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   width: 350px;
 
   > li {
