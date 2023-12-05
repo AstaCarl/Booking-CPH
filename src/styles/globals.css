@@ -32,6 +32,7 @@ p{
 /*Styling main på alle siderne*/
 main {
   padding: 2rem;
+  min-height: calc(100vh - 8rem);
 
   > div {
     max-width: 1280px;
@@ -80,8 +81,6 @@ header {
 
 /*Footer*/
 footer{
-  /*Lavet position til fixed, da footeren så bliver i bunden af siden.*/
-  position: fixed;
   width: 100%;
   bottom: 0;
   height: 4rem;
@@ -102,5 +101,12 @@ footer{
     .links{
       display: flex;
       gap: 15px;
+    }
+
+    a {
+      cursor: pointer;
+      color: #C4C4C4;
+      text-decoration: none;
+      font-size: 14px;
     }
 }

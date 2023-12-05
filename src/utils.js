@@ -1,14 +1,19 @@
+// Funktion til at hente brugeroplysninger fra local storage
 export const getUser = () => {
+  // Tjek om authenticationtoken er til stede i lokal lagring
   if (!localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]) {
+    // Returner objekt der angiver, at brugeren ikke er logget ind
     return {
       isLoggedIn: false,
     };
   }
 
+  // Laver JSON string om til JSON objekt af brugeroplysninger fra authenticationtoken i local storage
   const user = JSON.parse(
     localStorage["sb-ofbgpdhnblfmpijyknvf-auth-token"]
   )?.user;
 
+  // Returner brugeroplysninger
   return {
     isLoggedIn: true,
     userId: user.id,
@@ -18,31 +23,40 @@ export const getUser = () => {
   };
 };
 
+// Funktion til at formatere dato til DD/MM-ÅÅ, som skal vises på siden
 export const formatDateToDDMMYY = (date) => {
-  // Get day, month, and year components from the date
+  // Få dag, måned og årskomponenter fra datoen
   let day = date.getDate();
-  let month = date.getMonth() + 1; // Months are zero-based
-  let year = date.getFullYear() % 100; // Get last two digits of the year
+  let month = date.getMonth() + 1; // Måneder er nulbaserede, derfor +1
+  let year = date.getFullYear() % 100; // Få de sidste to cifre i året
 
-  // Add leading zeros if needed
+  // Tilføj førende nuller hvis dag, måned og år er mindre end 10.
   day = day < 10 ? "0" + day : day;
   month = month < 10 ? "0" + month : month;
   year = year < 10 ? "0" + year : year;
 
-  // Combine components into the desired format
+  // Tilføjer / og - imellem dag, måned og år
   const formattedDate = day + "/" + month + "-" + year;
 
+  // Returner den formaterede dato
   return formattedDate;
 };
 
+// Funktion til at formatere dato til ÅÅÅÅ-MM-DD, for at databasen, kan tage imod den.
 export const formatDateToYYYYMMDD = (date) => {
+  // Udtræk måneds-, dags- og års komponenter fra datoen
   var d = new Date(date),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
     year = d.getFullYear();
 
+  // Tilføj foranstående nuller
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join("-");
+  // Tilføjer - i det ønskede format
+  const formattedDate = [year, month, day].join("-");
+
+  // Returner den formaterede dato
+  return formattedDate;
 };

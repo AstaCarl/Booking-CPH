@@ -30,7 +30,8 @@ export default function Footer() {
             <p>CPH Business Lokaler ©</p>
         </section>
         <section>
-            <p>Cphbusiness@lokaler.dk</p>
+          {/* Mailto åbner mailprogram og udfylder modtager til mailen */}
+            <a href="mailto:Cphbusiness@lokaler.dk">Cphbusiness@lokaler.dk</a>
         </section>
         <section className='links'>
             <motion.div

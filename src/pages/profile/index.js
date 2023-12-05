@@ -21,11 +21,6 @@ const Home = () => {
   const [user, setUser] = useState({});
   const [opened, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [modalContent, setModalContent] = useState({
-    title: "",
-    description: "",
-    action: null,
-  });
   const [selectedBooking, setSelectedBooking] = useState(null);
 
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
@@ -106,12 +101,6 @@ const Home = () => {
     router.push("/");
   };
 
-  //Åbner modalen i en specifik handling.
-  const openModal = (title, description, action) => {
-    setModalContent({ title, description, action });
-    open();
-  };
-
   //JSX gengiver.
   return (
     <>
@@ -138,7 +127,7 @@ const Home = () => {
                 padding: "40px",
               }}
             >
-              <h1 className={classes.margin}>{modalContent.title}</h1>
+              <h1 className={classes.margin}>Afmeld tid</h1>
               <p className={classes.margin}>
                 Du er ved at afmelde din nuværende tid og frigiver lokalet.
               </p>
@@ -202,11 +191,7 @@ const Home = () => {
                 withCloseButton={true}
                 onClose={() => {
                   setSelectedBooking(booking);
-                  openModal(
-                    "Afmeld tid!",
-                    "Du er ved at afmelde din nuværende tid og frigiver lokalet. Er du sikker på det?",
-                    handleDeleteBooking
-                  );
+                  open();
                 }}
                 title={`${formatDateToDDMMYY(new Date(booking.Dato))} - ${
                   rooms.find((r) => r.id === booking.rumId)?.lokale ?? ""
