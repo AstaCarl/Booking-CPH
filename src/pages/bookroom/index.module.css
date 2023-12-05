@@ -45,9 +45,17 @@
   }
 }
 
+.timeslotWrapper{
+  display: flex;
+  flex-direction: column;
+
+}
+
 .timeSlots {
   border: 1px solid #ced4da;
   list-style-type: none;
+  margin-top: 0.5rem;
+  width: 350px;
 
   > li {
     cursor: pointer;
