@@ -58,6 +58,7 @@ const Home = () => {
 
   //Fetcher brugerens booking data fra Supabase.
   const fetchBooking = async () => {
+    // SELECT * FROM `Booking` WHERE `Email` = user.email AND `Dato` > i går ORDER BY `Dato` ASC
     const { data, error } = await supabase
       .from("Booking")
       .select("*")
@@ -83,6 +84,7 @@ const Home = () => {
 
   //Fetcher rum data fra Supabase.
   const fetchRoom = async () => {
+    // SELECT * FROM `Rooms`
     const { data, error } = await supabase.from("Rooms").select("*");
     if (error) {
       console.error("Error fetching rooms data");
