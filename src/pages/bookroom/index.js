@@ -202,7 +202,8 @@ export default function ChooseDate() {
                   : ""
               }
             >
-              {selectedDate ? formatDateToDDMMYY(selectedDate) : ""}
+              {selectedDate ? formatDateToDDMMYY(selectedDate) : ""}{" "}
+              {timeSlots[selectedTimeSlot] ?? ""}
             </Notification>
             <p>
               Du får tilsendt en mail med en bekræftelse, samt en påmindelse om
@@ -222,10 +223,14 @@ export default function ChooseDate() {
           </div>
         ) : (
           <div className={classes.modal}>
-            <div className={classes.confirm}>
+            <div>
               <Stack>
-                <h2>Bekræft</h2>
-                <h2>
+                <h1>Bekræft</h1>
+                <h2
+                  style={{
+                    margin: "0",
+                  }}
+                >
                   <IconCalendar
                     size={20}
                     style={{
@@ -307,31 +312,33 @@ export default function ChooseDate() {
           </Grid.Col>
 
           <Grid.Col span={4}>
-            {selectedDate !== null && selectedDate !== 0 && (
-              <>
-                <h2>Vælg tidspunkt</h2>
-                <ul className={classes.timeSlots}>
-                  {timeSlots.map((timeSlot, i) => (
-                    <li
-                      key={`timeSlot-${i}`}
-                      style={
-                        selectedTimeSlot == i
-                          ? { color: "#228BE5", fontWeight: 700 }
-                          : {}
-                      }
-                      onClick={() => {
-                        setSelectedTimeSlot(i);
-                        setSelectedRoomId(null);
-                      }}
-                    >
-                      <div>
-                        <IconClock size={20} /> {timeSlot}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+            <div className={classes.timeslotWrapper}>
+              {selectedDate !== null && selectedDate !== 0 && (
+                <>
+                  <h2>Vælg tidspunkt</h2>
+                  <ul className={classes.timeSlots}>
+                    {timeSlots.map((timeSlot, i) => (
+                      <li
+                        key={`timeSlot-${i}`}
+                        style={
+                          selectedTimeSlot == i
+                            ? { color: "#228BE5", fontWeight: 700 }
+                            : {}
+                        }
+                        onClick={() => {
+                          setSelectedTimeSlot(i);
+                          setSelectedRoomId(null);
+                        }}
+                      >
+                        <div>
+                          <IconClock size={20} /> {timeSlot}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
           </Grid.Col>
 
           {/* Step 3 - vælg rum */}

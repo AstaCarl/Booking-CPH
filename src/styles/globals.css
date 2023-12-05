@@ -17,6 +17,8 @@ h2 {
   font-size: 20px;
   display: flex;
   align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 /*Styling h3 på alle siderne*/
