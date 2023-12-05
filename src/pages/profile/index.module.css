@@ -23,13 +23,13 @@
 
 /*Styling på log ud.*/
 .logOut {
-  margin-top: 5rem;
+  margin-top: 1rem;
   /*Styling på links i log ud.*/
   a {
     display: flex;
     align-items: center;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 16px;
     gap: 10px;
   }
 }
