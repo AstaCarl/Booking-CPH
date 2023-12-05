@@ -12,7 +12,6 @@ import {
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
 import "@mantine/dates/styles.css";
-import { createClient } from "@supabase/supabase-js";
 import { Notification } from "@mantine/core";
 import { useRouter } from "next/router";
 import emailjs from "emailjs-com";
@@ -27,34 +26,24 @@ import {
 } from "@/utils";
 import { motion } from "framer-motion";
 import { IconCalendar, IconClock } from "@tabler/icons-react";
+import { supabase } from "@/supabase";
 
 //ChooseDate compontent defineres.
 export default function ChooseDate() {
   //State og funktioner er for at håndtere staten.
   const [active, setActive] = useState(0);
-  const nextStep = () =>
-    setActive((current) => (current < 3 ? current + 1 : current));
   const [selectedDate, setSelectedDate] = useState(Date | (null > null));
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [room, setRoom] = useState([]);
-  const [showRooms, setShowRooms] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
   const [bookings, setBookings] = useState([]);
   const [opened, { open, close }] = useDisclosure(false);
-  const [booking, setBooking] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
 
   const timeSlots = getTimeSlots();
-
-  //Supabase client
-  const supabase = createClient(
-    "https://ofbgpdhnblfmpijyknvf.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9mYmdwZGhuYmxmbXBpanlrbnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk4ODE2NzUsImV4cCI6MjAxNTQ1NzY3NX0.JEBSQ54CakHRdnzkLjcFiPXZaHmPnrriN2qEOpGyCl0"
-  );
 
   //Håndtere boookingen
   const handleCreateBooking = async () => {
