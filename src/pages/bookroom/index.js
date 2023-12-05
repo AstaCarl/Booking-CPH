@@ -101,6 +101,7 @@ export default function ChooseDate() {
 
     setIsLoading(false);
     setBookingConfirmed(true);
+    setActive(3);
   };
 
   //Fetcher bruger data og data i componentet.
@@ -276,7 +277,6 @@ export default function ChooseDate() {
           </div>
         )}
       </Modal>
-
       {/*Main content */}
       <div>
         <h1
@@ -286,7 +286,7 @@ export default function ChooseDate() {
         >
           Book et lokale
         </h1>
-        <Stepper active={active} onStepClick={setActive} size="xs">
+        <Stepper active={active} size="xs">
           <Stepper.Step label="Step 1" description="Vælg dato"></Stepper.Step>
           <Stepper.Step
             label="Step 2"
@@ -328,6 +328,7 @@ export default function ChooseDate() {
                         onClick={() => {
                           setSelectedTimeSlot(i);
                           setSelectedRoomId(null);
+                          setActive(2);
                         }}
                       >
                         <div>
