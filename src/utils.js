@@ -46,3 +46,11 @@ export const formatDateToYYYYMMDD = (date) => {
 
   return [year, month, day].join("-");
 };
+
+export const getTimeSlots = () =>
+  Array.from({ length: 8 }, (_, i) => i + 8).map(
+    (hour) =>
+      `${hour.toString().padStart(2, "0")}:00 — ${(hour + 1)
+        .toString()
+        .padStart(2, "0")}:00`
+  );
