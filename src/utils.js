@@ -62,6 +62,14 @@ export const formatDateToYYYYMMDD = (date) => {
 };
 
 export const getTimeSlots = () =>
+  /*
+  Array.from({ length: 8 } opretter en ny array med 8 entries (alle undefined)
+  Bagefter looper vi igennem alle entries, men definerer entrien som `_`, da vi ikke skal bruge den
+  I stedet for bruger vi `i`, som er vores nuværende index. Vi tilføjer 8 til den, da vi starter fra kl. 8
+  Da vores array er 8 entries langt, vil vi derfor få tallene 8 til 15, som vi formaterer til en læsbar string.
+
+  Returns: [08:00 - 09:00, ..., 15:00 - 16:00]
+  */
   Array.from({ length: 8 }, (_, i) => i + 8).map(
     (hour) =>
       `${hour.toString().padStart(2, "0")}:00 — ${(hour + 1)
