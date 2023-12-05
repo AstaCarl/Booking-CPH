@@ -1,11 +1,23 @@
 //Importere nødvendige indhold og styles
 import { Title, Button } from "@mantine/core";
 import classes from "./index.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { getUser } from "@/utils";
+import { useRouter } from "next/router";
 
 export function Homepage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = getUser();
+    if (user.isLoggedIn) {
+      router.push("/profile");
+      return;
+    }
+  }, []);
+
   return (
     <div className={classes.hero}>
       <section className={classes.container}>
