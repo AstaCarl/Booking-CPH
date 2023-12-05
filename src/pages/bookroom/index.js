@@ -372,7 +372,6 @@ export default function ChooseDate() {
                           }
 
                           setSelectedRoomId(roomItem.id);
-                          setShowConfirm(true); //viser bekræft sektionen
                           setActive(2); //sætter stepperen til 2
                         }}
                         withCloseButton={false}
