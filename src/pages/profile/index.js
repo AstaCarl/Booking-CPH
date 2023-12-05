@@ -4,7 +4,7 @@ import { Notification } from "@mantine/core";
 import { Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { useRouter } from "next/router";
-import { formatDateToDDMMYY, getUser } from "@/utils";
+import { formatDateToDDMMYY, getTimeSlots, getUser } from "@/utils";
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
@@ -22,6 +22,8 @@ const Home = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState(null);
+
+  const timeSlots = getTimeSlots();
 
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
   useEffect(() => {
@@ -141,7 +143,7 @@ const Home = () => {
                   selectedBooking !== null
                     ? `${formatDateToDDMMYY(
                         new Date(selectedBooking.Dato)
-                      )} - ${
+                      )} kl. ${timeSlots[selectedBooking.timeSlot]} - ${
                         rooms.find((room) => room.id === selectedBooking.rumId)
                           ?.lokale ?? "Ukendt"
                       }`
@@ -193,9 +195,9 @@ const Home = () => {
                   setSelectedBooking(booking);
                   open();
                 }}
-                title={`${formatDateToDDMMYY(new Date(booking.Dato))} - ${
-                  rooms.find((r) => r.id === booking.rumId)?.lokale ?? ""
-                }`}
+                title={`${formatDateToDDMMYY(new Date(booking.Dato))} kl. ${
+                  timeSlots[booking.timeSlot]
+                } - ${rooms.find((r) => r.id === booking.rumId)?.lokale ?? ""}`}
               >
                 <p className={classes.notificationText}>
                   {rooms.length > 0 &&
