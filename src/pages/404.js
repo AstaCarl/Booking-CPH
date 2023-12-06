@@ -16,6 +16,8 @@ export default function Error() {
       <Title className={classes.title}>Noget er gået galt</Title>
       {/* Gruppe component og gør at knappen navigere til forsiden. */}
       <Group justify="center">
+        
+        {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
         <motion.div
           whileHover={{
             scale: 1.02,
