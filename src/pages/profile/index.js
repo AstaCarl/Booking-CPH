@@ -261,6 +261,7 @@ const Home = () => {
               onClick={logoutUser}
               style={{ width: "fit-content" }} // Add pointer cursor on hover
             >
+              {/* Linker til forsiden, når man logger ud. */}
               <Link
                 href="/"
                 style={{
