@@ -60,7 +60,7 @@ const Signup = () => {
     setPassword(event.target.value);
     setError("");
   };
-
+  //Funktion som håndtere ændringer på gentag password input
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
     setError("");
@@ -143,6 +143,7 @@ const Signup = () => {
             <p className={classes.margin}>
               Du er nu oprettet som bruger, og kan nu book et lokale.
             </p>
+            {/* Animation på knapperne. */}
             <motion.div
               whileHover={{
                 scale: 1.02,
@@ -152,6 +153,7 @@ const Signup = () => {
               transition={{ duration: 0.2 }}
               style={{ cursor: "pointer", width: "fir-content" }} // Add pointer cursor on hover
             >
+              {/* Link som sender videre til bookroom */}
               <Link href="/bookroom">
                 <Button variant="outline">Book et lokale</Button>
               </Link>
@@ -186,6 +188,7 @@ const Signup = () => {
         </div>
         {/*Sign up formen */}
         <form onSubmit={handleSubmit}>
+
           {/*Input felt for firstname*/}
           <label htmlFor="firstname">Fornavn</label>
           <TextInput
@@ -264,6 +267,7 @@ const Signup = () => {
             placeholder="Gentag kodeord"
             error={error || passwordError}
           />
+          {/* Animation på knapperne */}
           <motion.div
             whileHover={{
               scale: 1.02,

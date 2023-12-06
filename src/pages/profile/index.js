@@ -22,8 +22,10 @@ import { motion } from "framer-motion";
 const Home = () => {
   const [bookings, setBookings] = useState([]);
   const [rooms, setRooms] = useState([]);
+  //Router bruges til at linke videre til andre sider. 
   const router = useRouter();
   const [user, setUser] = useState({});
+  //Modalen
   const [opened, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState(null);
