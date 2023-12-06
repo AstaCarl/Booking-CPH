@@ -41,12 +41,14 @@ export function Homepage() {
           >
             {/*Link til login siden-*/}
             <Link href="/login">
+              
               {/*Knappen til opret Log på  */}
               <Button variant="outline" size="sm">
                 Log på
               </Button>
             </Link>
           </motion.div>
+
           <motion.div
             whileHover={{
               scale: 1.02,
