@@ -210,14 +210,17 @@ const Home = () => {
               <Notification
                 className={classes.notification}
                 withCloseButton={true}
+                // Når notifikation lukkes, opdaterer vi den valgte bookingen og åbner notifikationsvinduet igen.
                 onClose={() => {
-                  setSelectedBooking(booking);
-                  open();
+                  setSelectedBooking(booking); //Sætter den valgte booking i komponentens tilstand. 
+                  open(); //Åbner notifikationsvinduet.
                 }}
+                //Sætter title for notifikationen baseret på bookingsinformationen.
                 title={`${formatDateToDDMMYY(new Date(booking.Dato))} kl. ${
                   timeSlots[booking.timeSlot]
                 } - ${rooms.find((r) => r.id === booking.rumId)?.lokale ?? ""}`}
               >
+                {/* Viser beskrivelsen af rummet som er knyttet til bookingen hvis rummet er tilgængelig. */}
                 <p className={classes.notificationText}>
                   {rooms.length > 0 &&
                     rooms.find((r) => r.id === booking.rumId)?.beskrivelse}
@@ -226,6 +229,7 @@ const Home = () => {
             </div>
           ))}
 
+          {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
           <motion.div
             whileHover={{
               scale: 1.02,
@@ -238,6 +242,7 @@ const Home = () => {
               marginTop: "1rem",
             }}
           >
+            {/* Link til bookroom */}
             <Link href="/bookroom">
               <Button variant="filled">Book et lokale</Button>
             </Link>
@@ -245,6 +250,7 @@ const Home = () => {
 
           {/*Log ud link */}
           <div className={classes.logOut}>
+            {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
             <motion.div
               whileHover={{
                 scale: 1.02,

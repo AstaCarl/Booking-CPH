@@ -24,8 +24,8 @@ export function Homepage() {
         <Title className={classes.title}>Book lokaler hos Cph Business</Title>
 
         <div className={classes.buttons}>
-          {/*Motion.div er til at skabe animation */}
-          <motion.div
+          {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
+            <motion.div
             whileHover={{
               scale: 1.02,
               opacity: 2,

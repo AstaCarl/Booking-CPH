@@ -163,14 +163,6 @@ export default function Bookroom() {
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
       />
-      {/*Modal*/}
-      <Modal
-        size="lg"
-        opened={opened}
-        onClose={close}
-        withCloseButton={true}
-        centered
-      ></Modal>
 
       <Modal
         size="lg"
