@@ -163,7 +163,6 @@ export default function Bookroom() {
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
       />
-
       {/*Modal*/}
       <Modal
         size="lg"
@@ -272,8 +271,8 @@ export default function Bookroom() {
                 >
                   <Button
                     className={classes.btn}
-                    onClick={close}
-                    variant="filled"
+                    onClick={() => setSelectedRoomId(null)}
+                    variant="outline"
                   >
                     Tilbage
                   </Button>
