@@ -167,7 +167,9 @@ export default function Bookroom() {
       <Modal
         size="lg"
         opened={selectedRoomId !== null}
+        //Bekræft modalen åbner hvis selectedRoomId ikke er null, skifter modalen til "tak for din booking" modal når bookingen er gået igennem.
         onClose={() => {
+          //når modalen lukker, altså hvis man trykker på vinduet sætter den selectedRoomId til null og redirceter til profile.
           !bookingConfirmed ? setSelectedRoomId(null) : router.push("/profile");
         }}
         withCloseButton={false}
