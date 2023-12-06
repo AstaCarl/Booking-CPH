@@ -18,7 +18,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //Router bruges til at linke til en anden side. 
+  //Router bruges til at linke til en anden side.
   const router = useRouter();
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(true);

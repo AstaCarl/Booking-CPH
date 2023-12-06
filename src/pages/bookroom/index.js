@@ -162,12 +162,11 @@ export default function Bookroom() {
         visible={isLoading}
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
-      />
-
+      />{" "}
       <Modal
         size="lg"
-        opened={selectedRoomId !== null}
         //Bekræft modalen åbner hvis selectedRoomId ikke er null, skifter modalen til "tak for din booking" modal når bookingen er gået igennem.
+        opened={selectedRoomId !== null}
         onClose={() => {
           //når modalen lukker, altså hvis man trykker på vinduet sætter den selectedRoomId til null og redirceter til profile.
           !bookingConfirmed ? setSelectedRoomId(null) : router.push("/profile");
@@ -193,6 +192,7 @@ export default function Bookroom() {
               Du får tilsendt en mail med en bekræftelse, samt en påmindelse om
               din booking 24 timer før.
             </p>
+
             <motion.div
               whileHover={{
                 scale: 1.0,
@@ -255,6 +255,7 @@ export default function Bookroom() {
                     Bekræft
                   </Button>
                 </motion.div>
+
                 <motion.div
                   whileHover={{
                     scale: 1.02,
@@ -285,6 +286,7 @@ export default function Bookroom() {
         >
           Book et lokale
         </h1>
+        {/* Mantine stepper */}
         <Stepper
           active={activeStepper}
           size="xs"
@@ -306,6 +308,7 @@ export default function Bookroom() {
           <Grid.Col span={4}>
             {" "}
             <h2>Vælg dato</h2>
+            {/* Mantine kalender */}
             <div className={classes.border}>
               <DatePicker
                 value={selectedDate}
@@ -322,6 +325,7 @@ export default function Bookroom() {
                 <>
                   <h2>Vælg tidspunkt</h2>
                   <ul className={classes.timeSlots}>
+                    {/* Looper og retunerer timeslots fra databasen */}
                     {timeSlots.map((timeSlot, i) => (
                       <li
                         key={`timeSlot-${i}`}
@@ -333,7 +337,7 @@ export default function Bookroom() {
                         onClick={() => {
                           setSelectedTimeSlot(i);
                           setSelectedRoomId(null);
-                          setActiveStepper(2);
+                          setActiveStepper(2); //sætter Stepperen til 2
                         }}
                       >
                         <div>
