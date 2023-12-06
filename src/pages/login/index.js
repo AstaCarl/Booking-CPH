@@ -109,6 +109,7 @@ const Login = () => {
           {error && (
             <div className={styles.error}>Ugyldig Email eller Kodeord</div>
           )}
+          {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
           <motion.div
             whileHover={{
               scale: 1.02,
@@ -132,7 +133,7 @@ const Login = () => {
               Log på
             </Button>
           </motion.div>
-          
+
           {/*Link til signup siden.*/}
           <div>
             Har du ikke en profil?{" "}

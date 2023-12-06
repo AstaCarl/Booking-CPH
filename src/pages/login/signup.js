@@ -267,7 +267,7 @@ const Signup = () => {
             placeholder="Gentag kodeord"
             error={error || passwordError}
           />
-          {/* Animation på knapperne */}
+          {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
           <motion.div
             whileHover={{
               scale: 1.02,
