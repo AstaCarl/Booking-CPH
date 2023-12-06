@@ -1,4 +1,4 @@
-//Importere nødvendige indhold og styles
+//Importere nødvendigt indhold og styles
 import React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -28,28 +28,28 @@ import { motion } from "framer-motion";
 import { IconCalendar, IconClock } from "@tabler/icons-react";
 import { supabase } from "@/supabase";
 
-//ChooseDate compontent defineres.
-export default function ChooseDate() {
+//Bookroom compontent defineres.
+export default function Bookroom() {
   //State og funktioner er for at håndtere staten.
-  const [active, setActive] = useState(0);
+  const [activeStepper, setActiveStepper] = useState(0);
   const [selectedDate, setSelectedDate] = useState(Date | (null > null));
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [room, setRoom] = useState([]);
   const router = useRouter();
   const [bookings, setBookings] = useState([]);
+  //Modal state
   const [opened, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
-
   const timeSlots = getTimeSlots();
 
-  //Håndtere boookingen
+  //Funktion der håndterer bookingen
   const handleCreateBooking = async () => {
     setIsLoading(true);
 
-    //Objekter som er i Create booking
+    //Objekter som er i booking
     const booking = {
       Email: user.email,
       Dato: selectedDate,
@@ -64,7 +64,7 @@ export default function ChooseDate() {
       return;
     }
 
-    //Her logger vi den indsatte data og sender en bekræftelses email med at bruge emailjs.
+    //Her logger vi den indsatte data og sender en bekræftelses email med emailjs.
     console.log("Data inserted:", data);
     emailjs
       .send(
@@ -90,17 +90,17 @@ export default function ChooseDate() {
 
     setIsLoading(false);
     setBookingConfirmed(true);
-    setActive(3);
+    setActiveStepper(3);
   };
 
-  //Fetcher bruger data og data i componentet.
+  //Fetcher bruger data og data i componentet, hvis brugeren ikke er logget ind redirecter siden til login siden.
   useEffect(() => {
     const user = getUser();
     if (!user.isLoggedIn) {
       router.push("./login");
       return;
     }
-
+    //hvis brugeren er logget ind sættes user objektet ind i state.
     setUser(user);
 
     getDataFromSupabase();
@@ -113,7 +113,7 @@ export default function ChooseDate() {
     setIsLoading(false);
   };
 
-  //Fetcher ledige room fra Supabase
+  //Fetcher ledige rum fra Supabase, henter alt data med select *
   const getAvailableRooms = async () => {
     const { data, error } = await supabase.from("Rooms").select("*");
     if (error) {
@@ -124,7 +124,7 @@ export default function ChooseDate() {
     setRoom(data);
   };
 
-  //Fetcher aktive booking fra Supbase.
+  //Fetcher aktive bookinger fra Supbase, henter alt data med select *
   const getActiveBookings = async () => {
     const { data, error } = await supabase.from("Booking").select("*");
     if (error) {
@@ -135,18 +135,19 @@ export default function ChooseDate() {
     setBookings(data);
   };
 
-  //Håndtere data ændringer i date picker.
+  //Håndterer data ændringer i date picker.
   const handleDateChange = async (date) => {
     setSelectedRoomId(null);
     setSelectedDate(date);
-    setActive(1); //sætter stepperen til step 1
+    setActiveStepper(1); //sætter stepperen til step 1
   };
 
+  //Filtrer booking array i forhold til selectedDate.
   const activeBookingsForDate = selectedDate
     ? bookings.filter(
-        (booking) => booking.Dato == formatDateToYYYYMMDD(selectedDate)
+        (booking) => booking.Dato == formatDateToYYYYMMDD(selectedDate) //tjekker om Dato for hvert booking objekt er lig med den formatterede dato, hvis dette matcher inkluderes den i det filtrerede resultat.
       )
-    : null;
+    : null; // retunerer null hvis ingen dato er valgt
 
   console.log(selectedDate);
 
@@ -261,6 +262,22 @@ export default function ChooseDate() {
                     Bekræft
                   </Button>
                 </motion.div>
+                <motion.div
+                  whileHover={{
+                    scale: 1.02,
+                    opacity: 2,
+                  }}
+                  whileTap={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Button
+                    className={classes.btn}
+                    onClick={close}
+                    variant="filled"
+                  >
+                    Tilbage
+                  </Button>
+                </motion.div>
               </Group>
             </div>
           </div>
@@ -276,7 +293,7 @@ export default function ChooseDate() {
           Book et lokale
         </h1>
         <Stepper
-          active={active}
+          active={activeStepper}
           size="xs"
           style={{
             marginBottom: "2rem",
@@ -323,7 +340,7 @@ export default function ChooseDate() {
                         onClick={() => {
                           setSelectedTimeSlot(i);
                           setSelectedRoomId(null);
-                          setActive(2);
+                          setActiveStepper(2);
                         }}
                       >
                         <div>
@@ -372,7 +389,7 @@ export default function ChooseDate() {
                           }
 
                           setSelectedRoomId(roomItem.id);
-                          setActive(2); //sætter stepperen til 2
+                          setActiveStepper(2); //sætter stepperen til 2
                         }}
                         withCloseButton={false}
                         className={classes.roomItem}
