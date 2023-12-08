@@ -23,7 +23,7 @@ const Login = () => {
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  // Tjekker om brugeren er logget ind allerede.
+  // Tjekker om brugeren er logget ind.
   useEffect(() => {
     const user = getUser();
     if (user.isLoggedIn) {
@@ -49,8 +49,6 @@ const Login = () => {
   //Håndtere form submit.
   const handleSubmit = (event) => {
     event.preventDefault();
-    // setIsLoading(true);
-    // Here you can call your signup API or method
     console.log("Logging in with", email, password);
     loginNewUser();
   };
@@ -74,7 +72,6 @@ const Login = () => {
     setIsLoading(false);
   }
 
-  //Gengiver login form.
   return (
     <div className={styles.container}>
       <div className={styles.box}>

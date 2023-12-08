@@ -76,6 +76,7 @@ export default function Bookroom() {
           email: user.email,
           date: formatDateToDDMMYY(selectedDate),
           room: room[selectedRoomId].lokale,
+          timeslot: timeSlots[booking.timeSlot],
         },
         "DHs-0RPe7FVACEeuX"
       )
@@ -266,6 +267,7 @@ export default function Bookroom() {
                 >
                   <Button
                     className={classes.btn}
+                    //for at lukke modal sættes setSelectedRoomId til null
                     onClick={() => setSelectedRoomId(null)}
                     variant="outline"
                   >

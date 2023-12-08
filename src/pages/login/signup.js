@@ -7,7 +7,6 @@ import { PasswordInput } from "@mantine/core";
 import styles from "./index.module.css";
 import Link from "next/link";
 import { IconUser } from "@tabler/icons-react";
-import { IconPhone } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
