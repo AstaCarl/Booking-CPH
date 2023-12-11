@@ -22,7 +22,7 @@ import { motion } from "framer-motion";
 const Home = () => {
   const [bookings, setBookings] = useState([]);
   const [rooms, setRooms] = useState([]);
-  //Router bruges til at linke videre til andre sider. 
+  //Router bruges til at linke videre til andre sider.
   const router = useRouter();
   const [user, setUser] = useState({});
   //Modalen
@@ -97,7 +97,6 @@ const Home = () => {
 
   //Håndterer sletning af brugerens booking.
   const handleDeleteBooking = async () => {
-
     // Sletter bookingen fra Supabase-databasen ved at matche id'et.
     const { _, error } = await supabase
       .from("Booking")
@@ -164,6 +163,7 @@ const Home = () => {
                 className={classes.notification}
                 withCloseButton={false}
                 title={
+                  //String interpolation, ``, i JavaScript gøt det muligt at indlejre variabler eller udtryk direkte i en streng, med ${variabel}.
                   selectedBooking !== null
                     ? `${formatDateToDDMMYY(
                         new Date(selectedBooking.Dato)
@@ -217,7 +217,7 @@ const Home = () => {
                 withCloseButton={true}
                 // Når notifikation lukkes, opdaterer vi den valgte bookingen og åbner notifikationsvinduet igen.
                 onClose={() => {
-                  setSelectedBooking(booking); //Sætter den valgte booking i komponentens tilstand. 
+                  setSelectedBooking(booking); //Sætter den valgte booking i komponentens tilstand.
                   open(); //Åbner notifikationsvinduet.
                 }}
                 //Sætter title for notifikationen baseret på bookingsinformationen.

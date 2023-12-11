@@ -63,6 +63,7 @@ const Signup = () => {
     event.preventDefault();
 
     // Checker om alle felterne er fyldte.
+    // ||, betyder eller, hvis en af dem fejler setError
     if (!firstname || !lastname || !email || !password || !confirmPassword) {
       setError("Udfyld alle felter");
       return;
@@ -224,6 +225,7 @@ const Signup = () => {
             onChange={handlePasswordChange}
             className={styles.input}
             placeholder="Kodeord"
+            // returnerer error eller (||) passwordError hvis error er falsy
             error={error || passwordError}
           />
 

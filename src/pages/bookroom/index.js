@@ -181,12 +181,15 @@ export default function Bookroom() {
             <Notification
               withCloseButton={false}
               title={
+                //bruger find() istedet for filter() for kun at returnere en istedet for et array
                 selectedRoomId && room.length > 0
                   ? room.find((r) => r.id == selectedRoomId).lokale
                   : ""
               }
             >
+              {/* Ternary operator, if else one liner */}
               {selectedDate ? formatDateToDDMMYY(selectedDate) : ""}{" "}
+              {/* Nullish coalescing operator, returnerer det til højre hvis det til venstre er null eller undefined, eller returnerer den det til venstre */}
               {timeSlots[selectedTimeSlot] ?? ""}
             </Notification>
             <p>
