@@ -1,14 +1,17 @@
 //Importere nødvendige indhold og styles.
 import React from "react";
 import { useState } from "react";
-import { TextInput } from "@mantine/core";
-import { PasswordInput } from "@mantine/core";
+import { 
+  TextInput,
+  PasswordInput,
+  Modal,
+  Button,
+} from "@mantine/core";
 import styles from "./index.module.css";
 import Link from "next/link";
 import { IconUser, IconLock, IconAt } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { supabase } from "@/supabase";
 import { motion } from "framer-motion";
