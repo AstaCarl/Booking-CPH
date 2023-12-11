@@ -1,10 +1,9 @@
 //Importere nødvendige indhold og styles
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { LoadingOverlay, TextInput } from "@mantine/core";
-import { IconAt } from "@tabler/icons-react";
+import { LoadingOverlay, TextInput, Button } from "@mantine/core";
+import { IconAt, IconLock } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
-import { Button } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
@@ -101,6 +100,7 @@ const Login = () => {
             placeholder="Kodeord"
             error={error}
             value={password}
+            leftSection={<IconLock size={16} />}
           />
           {/*Viser en error besked, hvis der er en error. */}
           {error && (
