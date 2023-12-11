@@ -8,15 +8,15 @@ import {
   Stack,
   Grid,
   LoadingOverlay,
+  Notification,
+  Modal,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import classes from "./index.module.css";
 import "@mantine/dates/styles.css";
-import { Notification } from "@mantine/core";
 import { useRouter } from "next/router";
 import emailjs from "emailjs-com";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
 import Link from "next/link";
 import {
   formatDateToDDMMYY,
