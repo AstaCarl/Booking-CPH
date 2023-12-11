@@ -2,11 +2,10 @@
 import React from "react";
 import { useState } from "react";
 import { TextInput } from "@mantine/core";
-import { IconAt } from "@tabler/icons-react";
 import { PasswordInput } from "@mantine/core";
 import styles from "./index.module.css";
 import Link from "next/link";
-import { IconUser } from "@tabler/icons-react";
+import { IconUser, IconLock, IconAt } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button } from "@mantine/core";
@@ -115,7 +114,9 @@ const Signup = () => {
           size="lg"
           opened={opened}
           //Det er lukningen af modalen.
-          onClose={() => {}}
+          onClose={() => {
+            router.push("/profile");
+          }}
           withCloseButton={false}
           centered
         >
@@ -225,6 +226,7 @@ const Signup = () => {
             onChange={handlePasswordChange}
             className={styles.input}
             placeholder="Kodeord"
+            leftSection={<IconLock size={16} />}
             // returnerer error eller (||) passwordError hvis error er falsy
             error={error || passwordError}
           />
@@ -238,6 +240,7 @@ const Signup = () => {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             className={styles.input}
+            leftSection={<IconLock size={16} />}
             placeholder="Gentag kodeord"
             error={error || passwordError}
           />
