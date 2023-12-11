@@ -49,7 +49,7 @@ const Login = () => {
   //Håndtere form submit.
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Logging in with", email, password);
+    console.log("Logging in with", email);
     loginNewUser();
   };
 
