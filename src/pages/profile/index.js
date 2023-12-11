@@ -1,7 +1,6 @@
 //Importere nødvendige indhold og styles.
 import React, { useEffect, useState } from "react";
-import { Notification } from "@mantine/core";
-import { Button } from "@mantine/core";
+import { Notification, LoadingOverlay, Modal, Button } from "@mantine/core";
 import classes from "./index.module.css";
 import { useRouter } from "next/router";
 import {
@@ -13,8 +12,6 @@ import {
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
-import { LoadingOverlay } from "@mantine/core";
 import { supabase } from "@/supabase";
 import { motion } from "framer-motion";
 
