@@ -13,7 +13,6 @@ export default async function handler(request, response) {
     const { data, error } = await supabase
       .from("Booking")
       .select("*")
-      .eq("notified", false)
       .eq("Dato", formatDateToYYYYMMDD(date));
 
     if (error) {
