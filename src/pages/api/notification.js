@@ -1,3 +1,4 @@
+//Importer nødvendige moduler og funktioner
 import { supabase } from "@/supabase";
 import {
   formatDateToDDMMYY,
@@ -6,9 +7,12 @@ import {
 } from "@/utils";
 import emailjs from "@emailjs/nodejs";
 
+//Hovedfunktionen, der håndterer forespørgslen
 export default async function handler(request, response) {
+  //Beregn datoen for i morgen
   const date = new Date(new Date().setDate(new Date().getDate() + 1));
 
+  //Funktion til at hente bookinger for notifikation baseret på dato
   const getBookingsForNotification = async () => {
     const { data, error } = await supabase
       .from("Booking")
@@ -22,6 +26,7 @@ export default async function handler(request, response) {
     return data;
   };
 
+  //Funktion til at hente alle lokaler
   const getRooms = async () => {
     const { data, error } = await supabase.from("Rooms").select("*");
 
@@ -32,18 +37,22 @@ export default async function handler(request, response) {
     return data;
   };
 
+  //Henter bookinger for notifikation
   const bookings = await getBookingsForNotification(date);
   if (bookings === false) {
     return response.json({ success: false, error: "Couldn't fetch bookings!" });
   }
 
+  //Henter alle lokaler
   const rooms = await getRooms();
   if (rooms === false) {
     return response.json({ success: false, error: "Couldn't fetch rooms!" });
   }
 
+  //Henter tidsslots
   const timeSlots = getTimeSlots();
 
+  //Gruppe data efter e-mail
   const groupedData = bookings.reduce((acc, current) => {
     const email = current.Email;
     if (!acc[email]) {
@@ -53,6 +62,7 @@ export default async function handler(request, response) {
     return acc;
   }, {});
 
+  //Loop gennem grupperet data og send e-mails
   for (const [email, value] of Object.entries(groupedData)) {
     const bookingsMessage = value.reduce(
       (accumulator, booking) =>
@@ -62,6 +72,7 @@ export default async function handler(request, response) {
       ""
     );
 
+    //Send e-mails med EmailJS
     emailjs
       .send(
         "service_ambw8nr",
@@ -84,5 +95,6 @@ export default async function handler(request, response) {
       });
   }
 
+  //Sender svar tilbage med grupperet data
   return response.json({ success: groupedData });
 }
