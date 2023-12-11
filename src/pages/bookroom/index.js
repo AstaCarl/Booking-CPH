@@ -52,7 +52,7 @@ export default function Bookroom() {
     //Objekter som er i booking
     const booking = {
       Email: user.email,
-      Dato: selectedDate,
+      Dato: formatDateToYYYYMMDD(selectedDate),
       rumId: selectedRoomId,
       timeSlot: selectedTimeSlot,
     };
