@@ -18,7 +18,6 @@ const Signup = () => {
   //State variabler.
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -39,12 +38,6 @@ const Signup = () => {
   //Funktion som håndtere ændringer på lastname input.
   const handleLastnameChange = (event) => {
     setLastname(event.target.value);
-    setError("");
-  };
-
-  //Funktion som håndtere ændringer på phone input.
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
     setError("");
   };
 
@@ -70,14 +63,7 @@ const Signup = () => {
     event.preventDefault();
 
     // Checker om alle felterne er fyldte.
-    if (
-      !firstname ||
-      !lastname ||
-      !phone ||
-      !email ||
-      !password ||
-      !confirmPassword
-    ) {
+    if (!firstname || !lastname || !email || !password || !confirmPassword) {
       setError("Udfyld alle felter");
       return;
     }
