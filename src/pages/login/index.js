@@ -81,6 +81,7 @@ const Login = () => {
 
         <h1>EFIF</h1>
         <h2>Log På</h2>
+        
         <form onSubmit={handleSubmit}>
           {/*Input felt for email. */}
           <TextInput
