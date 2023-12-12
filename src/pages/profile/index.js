@@ -40,14 +40,14 @@ const Home = () => {
     }
 
     setUser(user);
-  }, []);
+  }, [user]);
 
   //Fetcher booking og rum data, når brugeren skifter.
   useEffect(() => {
     if (user !== null && Object.keys(user).length > 0 && user.isLoggedIn) {
       fetchData();
     }
-  }, [user]);
+  }, []);
 
   const fetchData = async () => {
     await fetchBooking();
@@ -111,7 +111,7 @@ const Home = () => {
       bookings.filter((booking) => booking.id !== selectedBooking.id)
     );
 
-    // Nulstiller den valgte booking og lukker eventuelt et modalt vindue eller lignende.
+    // Nulstiller den valgte booking og lukker modalen.
     setSelectedBooking(null);
     close();
   };

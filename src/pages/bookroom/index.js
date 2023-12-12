@@ -36,7 +36,6 @@ export default function Bookroom() {
   const [room, setRoom] = useState([]);
   const router = useRouter();
   const [bookings, setBookings] = useState([]);
-  //Modal state
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
