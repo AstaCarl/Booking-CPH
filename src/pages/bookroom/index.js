@@ -225,6 +225,8 @@ export default function Bookroom() {
                         marginRight: "5px",
                       }}
                     />
+                    {/* Vis valgt dato i formatet DDMMYY, hvis der er valgt en dato ellers vis en tom string */}
+                    {/* Derefter vis tidspunkt for det valgte tidspunkt ellers vi en tom string, hvis tidspunktet ikke er valgt */}
                     {selectedDate ? formatDateToDDMMYY(selectedDate) : ""} kl.{" "}
                     {timeSlots[selectedTimeSlot] ?? ""}
                   </h2>

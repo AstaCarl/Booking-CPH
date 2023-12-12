@@ -41,6 +41,7 @@ export function Header() {
             Book et lokale
           </Link>
           </motion.div>
+
           <motion.div
             whileHover={{
               opacity: 0.8,
@@ -55,6 +56,7 @@ export function Header() {
             <IconUserCircle size={30} />
           </Link>
           </motion.div>
+          
         </div>
       </div>
     </header>

@@ -1,9 +1,8 @@
 //Importere nødvendige indhold og styles
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { LoadingOverlay, TextInput, Button } from "@mantine/core";
+import { LoadingOverlay, TextInput, Button, PasswordInput } from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
-import { PasswordInput } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
@@ -82,6 +81,7 @@ const Login = () => {
 
         <h1>EFIF</h1>
         <h2>Log På</h2>
+        
         <form onSubmit={handleSubmit}>
           {/*Input felt for email. */}
           <TextInput
