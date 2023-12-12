@@ -212,17 +212,17 @@ const Home = () => {
               <Notification
                 className={classes.notification}
                 withCloseButton={true}
-                // Når notifikation lukkes, opdaterer vi den valgte bookingen og åbner notifikationsvinduet igen.
+                // Når notifikation lukkes, opdaterer vi den valgte booking og åbner modalen
                 onClose={() => {
                   setSelectedBooking(booking); //Sætter den valgte booking i komponentens tilstand.
-                  open(); //Åbner notifikationsvinduet.
+                  open();
                 }}
                 //Sætter title for notifikationen baseret på bookingsinformationen.
                 title={`${formatDateToDDMMYY(new Date(booking.Dato))} kl. ${
                   timeSlots[booking.timeSlot]
                 } - ${rooms.find((r) => r.id === booking.rumId)?.lokale ?? ""}`}
               >
-                {/* Viser beskrivelsen af rummet som er knyttet til bookingen hvis rummet er tilgængelig. */}
+                {/* Viser beskrivelsen af rummet som er knyttet til bookingen */}
                 <p className={classes.notificationText}>
                   {rooms.length > 0 &&
                     rooms.find((r) => r.id === booking.rumId)?.beskrivelse}
