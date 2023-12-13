@@ -1,12 +1,7 @@
 //Importere nødvendige indhold og styles.
 import React from "react";
 import { useState } from "react";
-import { 
-  TextInput,
-  PasswordInput,
-  Modal,
-  Button,
-} from "@mantine/core";
+import { TextInput, PasswordInput, Modal, Button } from "@mantine/core";
 import styles from "./index.module.css";
 import Link from "next/link";
 import { IconUser, IconLock, IconAt } from "@tabler/icons-react";
@@ -82,9 +77,9 @@ const Signup = () => {
   };
 
   //Funktion som sign up en ny bruger med Supabase.
-  async function signUpNewUser() {
+  const signUpNewUser = async () => {
     setIsLoading(true);
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
@@ -107,7 +102,7 @@ const Signup = () => {
       email,
       password,
     });
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -118,7 +113,7 @@ const Signup = () => {
           opened={opened}
           //Det er lukningen af modalen.
           onClose={() => {
-            router.push("/profile");
+            router.push("/bookroom");
           }}
           withCloseButton={false}
           centered
@@ -158,15 +153,10 @@ const Signup = () => {
           style={{
             display: "flex",
             alignItems: "center",
+            gap: "0.5rem",
           }}
         >
-          <h2
-            style={{
-              marginRight: "5px",
-            }}
-          >
-            Allerede medlem?
-          </h2>
+          <h2>Allerede medlem?</h2>
           <Link
             style={{
               textDecoration: "none",

@@ -32,16 +32,20 @@ const Home = () => {
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
   useEffect(() => {
     const user = getUser();
+
+    if (!user.isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+
     setUser(user);
   }, []);
 
   //Fetcher booking og rum data, når brugeren skifter.
+  // Da setUser() er async, bruger vi en useEffect(), som lytter på user, for at sikre os, at user er sat ordentligt
   useEffect(() => {
     if (user.isLoggedIn) {
       fetchData();
-    } else {
-      // Hvis brugeren ikke er logget redirecter den til login side
-      router.push("/login");
     }
   }, [user]);
 
@@ -54,6 +58,7 @@ const Home = () => {
   //Fetcher brugerens booking data fra Supabase.
   const fetchBooking = async () => {
     // SELECT * FROM `Booking` WHERE `Email` = user.email AND `Dato` > i går ORDER BY `Dato` ASC
+    // For omvendt rækkefølge, brug descending (DESC)
     const { data, error } = await supabase
       .from("Booking")
       .select("*")
@@ -66,7 +71,7 @@ const Home = () => {
         )
       )
       .order("Dato", {
-        ascending: true,
+        ascending: true, // ASC
       });
 
     if (error) {
@@ -92,7 +97,7 @@ const Home = () => {
   const handleDeleteBooking = async () => {
     // Sletter bookingen fra Supabase-databasen ved at matche id'et.
     // DELETE FROM `Booking` WHERE `id` = ?
-    const { _, error } = await supabase
+    const { error } = await supabase
       .from("Booking")
       .delete()
       .eq("id", selectedBooking.id);

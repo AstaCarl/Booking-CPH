@@ -1,7 +1,12 @@
 //Importere nødvendige indhold og styles
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { LoadingOverlay, TextInput, Button, PasswordInput } from "@mantine/core";
+import {
+  LoadingOverlay,
+  TextInput,
+  Button,
+  PasswordInput,
+} from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -52,15 +57,16 @@ const Login = () => {
   };
 
   //Async funktion for at håndtere user login.
-  async function loginNewUser() {
+  const loginNewUser = async () => {
     setIsLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
+    const { data } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
       password: password,
     });
 
+    console.log(data);
+    // Hvis Supabase returnerer data.user objekt
     if (data && data.user) {
-      // Gemme user info i context.
       console.log("Successful login, email is", data.user.email);
       router.push("./bookroom");
       return;
@@ -68,7 +74,7 @@ const Login = () => {
 
     setError("Invalid Username or Password");
     setIsLoading(false);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -81,7 +87,7 @@ const Login = () => {
 
         <h1>EFIF</h1>
         <h2>Log På</h2>
-        
+
         <form onSubmit={handleSubmit}>
           {/*Input felt for email. */}
           <TextInput
@@ -90,6 +96,8 @@ const Login = () => {
             onChange={handleEmailChange}
             error={error}
             value={email}
+            autoComplete="email"
+            name="email"
             leftSection={<IconAt size={16} />}
           />
           {/*Input felt for password. */}
@@ -100,6 +108,8 @@ const Login = () => {
             placeholder="Kodeord"
             error={error}
             value={password}
+            autoComplete="current-password"
+            name="password"
             leftSection={<IconLock size={16} />}
           />
           {/*Viser en error besked, hvis der er en error. */}

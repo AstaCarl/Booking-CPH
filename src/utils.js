@@ -76,3 +76,6 @@ export const getTimeSlots = () =>
         .toString()
         .padStart(2, "0")}:00`
   );
+
+// 8  => "8"  => "08"
+// 10 => "10" => "10"

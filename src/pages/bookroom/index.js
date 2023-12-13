@@ -55,6 +55,7 @@ export default function Bookroom() {
     };
 
     //Indsætter booking data i vores database som er i Supbase.
+    // INSERT INTO `Booking` (`Email`, `Dato`, `rumId`, `timeSlot`) VALUES (?, ?, ?, ?)
     const { data, error } = await supabase.from("Booking").insert(booking);
     if (error) {
       console.error("Error inserting data:", error);
@@ -65,8 +66,8 @@ export default function Bookroom() {
     console.log("Data inserted:", data);
     emailjs
       .send(
-        "service_ambw8nr",
-        "template_vle6iha",
+        "service_ambw8nr", // service id
+        "template_vle6iha", // template id
         {
           name: user.firstName,
           lastname: user.lastName,
@@ -75,7 +76,7 @@ export default function Bookroom() {
           room: room[selectedRoomId].lokale,
           timeslot: timeSlots[booking.timeSlot],
         },
-        "DHs-0RPe7FVACEeuX"
+        "DHs-0RPe7FVACEeuX" // public key
       )
       .then(
         function (response) {
@@ -113,6 +114,7 @@ export default function Bookroom() {
 
   //Fetcher ledige rum fra Supabase, henter alt data med select *
   const getAvailableRooms = async () => {
+    // SELECT * FROM `Rooms`
     const { data, error } = await supabase.from("Rooms").select("*");
     if (error) {
       console.error("No data");
@@ -124,6 +126,7 @@ export default function Bookroom() {
 
   //Fetcher aktive bookinger fra Supbase, henter alt data med select *
   const getActiveBookings = async () => {
+    // SELECT * FROM `Booking`
     const { data, error } = await supabase.from("Booking").select("*");
     if (error) {
       console.error("No data");
@@ -187,10 +190,7 @@ export default function Bookroom() {
                     : ""
                 }
               >
-                {/* Ternary operator, if else one liner */}
-                {selectedDate ? formatDateToDDMMYY(selectedDate) : ""}{" "}
-                {/* Nullish coalescing operator, returnerer det til højre hvis det til venstre er null eller undefined, ellers returnerer den det til venstre */}
-                {timeSlots[selectedTimeSlot] ?? ""}
+                {formatDateToDDMMYY(selectedDate)} {timeSlots[selectedTimeSlot]}
               </Notification>
               <p>
                 Du får tilsendt en mail med en bekræftelse, samt en påmindelse
@@ -228,6 +228,7 @@ export default function Bookroom() {
                     {/* Vis valgt dato i formatet DDMMYY, hvis der er valgt en dato ellers vis en tom string */}
                     {/* Derefter vis tidspunkt for det valgte tidspunkt ellers vi en tom string, hvis tidspunktet ikke er valgt */}
                     {selectedDate ? formatDateToDDMMYY(selectedDate) : ""} kl.{" "}
+                    {/* Nullish coalescing operator, returnerer det til højre hvis det til venstre er null eller undefined, ellers returnerer den det til venstre */}
                     {timeSlots[selectedTimeSlot] ?? ""}
                   </h2>
                   <Notification
@@ -400,6 +401,7 @@ export default function Bookroom() {
                           }}
                           withCloseButton={false}
                           className={classes.roomItem}
+                          // Håndterer om objektet er disabled (grå) eller ej
                           disabled={activeBookingsForDate.find(
                             (booking) =>
                               booking.rumId == roomItem.id &&

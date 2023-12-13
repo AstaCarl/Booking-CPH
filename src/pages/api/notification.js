@@ -79,7 +79,7 @@ export default async function handler(request, response) {
         "template_6xbafdq",
         {
           email, //Modtagerens email
-          date: formatDateToDDMMYY(date), 
+          date: formatDateToDDMMYY(date),
           bookinger: bookingsMessage,
         },
         {
