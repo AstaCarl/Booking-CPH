@@ -97,25 +97,20 @@ const Home = () => {
 
   //Håndterer sletning af brugerens booking.
   const handleDeleteBooking = async () => {
-
-    // Sletter bookingen fra Supabase-databasen ved at matche id'et.
     const { _, error } = await supabase
       .from("Booking")
       .delete()
       .eq("id", selectedBooking.id);
 
-    // Hvis der opstår en fejl under sletningen, udskrives en fejlbesked, og funktionen afsluttes.
     if (error) {
       console.error("error deleting data");
       return;
     }
 
-    // Opdaterer den lokale tilstand 'bookings' ved at filtrere ud den slettede booking.
     setBookings((bookings) =>
       bookings.filter((booking) => booking.id !== selectedBooking.id)
     );
 
-    // Nulstiller den valgte booking og lukker eventuelt et modalt vindue eller lignende.
     setSelectedBooking(null);
     close();
   };
@@ -266,7 +261,6 @@ const Home = () => {
               onClick={logoutUser}
               style={{ width: "fit-content" }} // Add pointer cursor on hover
             >
-              {/* Linker til forsiden, når man logger ud. */}
               <Link
                 href="/"
                 style={{

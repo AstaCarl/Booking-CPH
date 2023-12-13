@@ -128,7 +128,6 @@ const Signup = () => {
         <Modal
           size="lg"
           opened={opened}
-          //Det er lukningen af modalen. 
           onClose={() => {}}
           withCloseButton={false}
           centered
@@ -144,7 +143,7 @@ const Signup = () => {
             <p className={classes.margin}>
               Du er nu oprettet som bruger, og kan nu book et lokale.
             </p>
-            {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
+            {/* Animation på knapperne. */}
             <motion.div
               whileHover={{
                 scale: 1.02,

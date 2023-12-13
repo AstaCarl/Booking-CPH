@@ -14,7 +14,6 @@ export default function Document() {
         color scheme baseret på brugerens præference. */}
         <ColorSchemeScript defaultColorScheme="auto" />
       </Head>
-      
       {/*Body af dokumentet. */}
       <body>
         {/*Main content af applikationen. */}

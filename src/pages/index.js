@@ -7,18 +7,12 @@ import { motion } from "framer-motion";
 import { getUser } from "@/utils";
 import { useRouter } from "next/router";
 
-// Eksporterer en funktionelt React-komponent ved navn Homepage.
 export function Homepage() {
-  // Henter router-objektet fra Next.js til navigation mellem sider.
   const router = useRouter();
 
-  // useEffect hook, der kører, når komponenten er blevet monteret.
   useEffect(() => {
-    // Henter brugeroplysninger fra en funktion kaldet getUser().
     const user = getUser();
-    // Tjekker om brugeren er logget ind baseret på brugeroplysningerne.
     if (user.isLoggedIn) {
-    // Hvis brugeren er logget ind, omdirigeres de til profilsiden.
       router.push("/profile");
       return;
     }
@@ -41,14 +35,12 @@ export function Homepage() {
           >
             {/*Link til login siden-*/}
             <Link href="/login">
-              
               {/*Knappen til opret Log på  */}
               <Button variant="outline" size="sm">
                 Log på
               </Button>
             </Link>
           </motion.div>
-
           <motion.div
             whileHover={{
               scale: 1.02,
