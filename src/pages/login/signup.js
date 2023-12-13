@@ -128,7 +128,7 @@ const Signup = () => {
         <Modal
           size="lg"
           opened={opened}
-          //Det er lukningen af modalen.
+          //Det er lukningen af modalen. 
           onClose={() => {}}
           withCloseButton={false}
           centered
@@ -189,6 +189,7 @@ const Signup = () => {
         </div>
         {/*Sign up formen */}
         <form onSubmit={handleSubmit}>
+
           {/*Input felt for firstname*/}
           <label htmlFor="firstname">Fornavn</label>
           <TextInput
@@ -227,6 +228,19 @@ const Signup = () => {
             className={styles.input}
             placeholder="nogen@example.com"
             leftSection={<IconAt size={16} />}
+            error={error}
+          />
+          {/*Input felt for phone*/}
+          <label htmlFor="phone">Telefon</label>
+          <TextInput
+            type="phone"
+            name="phone"
+            id="phone"
+            value={phone}
+            onChange={handlePhoneChange}
+            className={styles.input}
+            placeholder="12345678"
+            leftSection={<IconPhone size={16} />}
             error={error}
           />
           {/*Input felt for password*/}
