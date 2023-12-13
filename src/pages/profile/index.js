@@ -40,14 +40,14 @@ const Home = () => {
     }
 
     setUser(user);
-  }, [user]);
+  }, []);
 
   //Fetcher booking og rum data, når brugeren skifter.
   useEffect(() => {
     if (Object.keys(user).length > 0 && user.isLoggedIn) {
       fetchData();
     }
-  }, []);
+  }, [user]);
 
   const fetchData = async () => {
     await fetchBooking();
