@@ -44,7 +44,7 @@ const Home = () => {
 
   //Fetcher booking og rum data, når brugeren skifter.
   useEffect(() => {
-    if (user !== null && Object.keys(user).length > 0 && user.isLoggedIn) {
+    if (Object.keys(user).length > 0 && user.isLoggedIn) {
       fetchData();
     }
   }, []);
@@ -95,6 +95,7 @@ const Home = () => {
   //Håndterer sletning af brugerens booking.
   const handleDeleteBooking = async () => {
     // Sletter bookingen fra Supabase-databasen ved at matche id'et.
+    // DELETE FROM `Booking` WHERE `id` = ?
     const { _, error } = await supabase
       .from("Booking")
       .delete()
