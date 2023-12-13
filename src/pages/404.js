@@ -10,14 +10,9 @@ import { motion } from "framer-motion";
 export default function Error() {
   return (
     <div className={classes.notFound}>
-      {/* Viser 404 error med ikonet. */}
       <IconError404 size={512} stroke={1} />
-      {/* Viser titlen. */}
       <Title className={classes.title}>Noget er gået galt</Title>
-      {/* Gruppe component og gør at knappen navigere til forsiden. */}
       <Group justify="center">
-        
-        {/* En motion.div tilføjer bevægelseseffekter ved hover og tryk */}
         <motion.div
           whileHover={{
             scale: 1.02,
@@ -30,7 +25,6 @@ export default function Error() {
         >
           {/*Link til forsiden */}
           <Link href="/">
-            {/* Knappen som linker til forsiden.*/}
             <Button size="md">Tilbage til forsiden</Button>
           </Link>
         </motion.div>

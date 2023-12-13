@@ -189,7 +189,7 @@ export default function Bookroom() {
               >
                 {/* Ternary operator, if else one liner */}
                 {selectedDate ? formatDateToDDMMYY(selectedDate) : ""}{" "}
-                {/* Nullish coalescing operator, returnerer det til højre hvis det til venstre er null eller undefined, eller returnerer den det til venstre */}
+                {/* Nullish coalescing operator, returnerer det til højre hvis det til venstre er null eller undefined, ellers returnerer den det til venstre */}
                 {timeSlots[selectedTimeSlot] ?? ""}
               </Notification>
               <p>
