@@ -32,13 +32,6 @@ const Home = () => {
   //Tjekker om brugeren er logget ind, med authtoken som er gemt i local storage
   useEffect(() => {
     const user = getUser();
-
-    // Hvis brugeren ikke er logget redirecter den til login side
-    if (!user.isLoggedIn) {
-      router.push("/login");
-      return;
-    }
-
     setUser(user);
   }, []);
 
@@ -46,6 +39,9 @@ const Home = () => {
   useEffect(() => {
     if (user.isLoggedIn) {
       fetchData();
+    } else {
+      // Hvis brugeren ikke er logget redirecter den til login side
+      router.push("/login");
     }
   }, [user]);
 
